@@ -1,2 +1,12 @@
 # Project-Protectors
-A turn-based RPG game in the making. I don't yet know what I am supposed to write here. If anyone has an idea, feel free to let me know.
+Feladataink:
+
+[ ] A repo a célnak megfelelően struktúrált.
+
+[ ] A repo minden szükséges fájlt tartalmaz, de csak a szükségeseket.
+
+[ ] A repo-t hatékonyan használják.
+
+[ ] A fejlesztést a verziókezelő eszközeivel megfelelően támogatják.
+
+[ ] A tervezett projekten való érdemi munka (azaz nem két hordónyi szemét commit!) található a projektben.
