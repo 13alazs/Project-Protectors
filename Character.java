@@ -9,7 +9,7 @@ import java.util.ArrayList;
     @author Bíró Benjámin
 */
 
-public class Player extends Sprite{
+public class Character extends Sprite{
     
     private final String name;
     
@@ -42,7 +42,7 @@ public class Player extends Sprite{
      * @param height    The height of the image.
      * @param image     The sprite for the image.
      */
-    public Player(int x, int y, int width, int height, BufferedImage image, String name, String resourceName){
+    public Character(int x, int y, int width, int height, BufferedImage image, String name, String resourceName){
         super(x, y, width, height, image);
         this.name = name;
         this.level = 1;
