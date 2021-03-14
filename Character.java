@@ -25,7 +25,7 @@ public class Character extends Sprite{
     private double currResource;            //Current resource points.
     
     private double armor;
-    //private ArrayList<???> resistances;   //Now idea how resistances should be done, if we even need it..
+    //private ArrayList<???> resistances;   //No idea how resistances should be done, if we even need it.
     
     private double attackDamage;            //Only used if Basic Attack is not a seperate ability.
     private String attackType;              //e.g.: Fire, Ice, Physical...
@@ -34,20 +34,24 @@ public class Character extends Sprite{
     
     private ClassType type;                 //Waiting for class ideas.
     
+    private boolean alive = true;           //Tracks if the character is alive or dead.
+    
     /**
      * Constructor that calls the Sprite parent class' constructor.
-     * @param x         The x coord for the image.
-     * @param y         The y coord for the image.
-     * @param width     The width of the image.
-     * @param height    The height of the image.
-     * @param image     The sprite for the image.
+     * @param x             The x coord for the image.
+     * @param y             The y coord for the image.
+     * @param width         The width of the image.
+     * @param height        The height of the image.
+     * @param image         The sprite for the image.
+     * @param name          Name of the character.
+     * @param level         Level the character starts on.
+     * @param maxHealth     The max health points the character starts with.
+     * @param currHealth    The current health points the character starts with. (= maxHealth)
+     * @param resourceName  Resource the character uses.
      */
     public Character(int x, int y, int width, int height, BufferedImage image, String name, String resourceName){
         super(x, y, width, height, image);
         this.name = name;
-        this.level = 1;
-        this.maxHealth = 100;             //If it needs to be set.
-        this.currHealth = maxHealth;      //If it needs to be set.
         this.resourceName = resourceName;
     }
 
@@ -174,6 +178,13 @@ public class Character extends Sprite{
     public ClassType getClassType(){
         return type;
     }
+    /**
+     * Returns if the character is alive or not.
+     * @return          Alive or not.
+     */
+    public boolean isAlive() {
+        return alive;
+    }
     
     
     /**
@@ -262,6 +273,13 @@ public class Character extends Sprite{
      */
     public void setClassType(ClassType type) {
         this.type = type;
+    }
+    /**
+     * Sets the character dead or alive.
+     * @param alive         
+     */
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
     
     
