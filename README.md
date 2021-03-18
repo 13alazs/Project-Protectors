@@ -26,3 +26,8 @@ Ha egy ticket-en valaki dolgozni kezd, az alábbi lépéseket kövesse:
 -Az egyes commit-ok lehetőleg ne törtjék a build-et és a teszteket, ha valaki mégis félkész munkát commit-ol jelezze a message végén (--WIP, vagyis work in progress) és később squash-olja ezeket a commit-okat az átláthatóság kedvéért.
 -Ha két fejlesztő párhuzamosan dolgozik ugyanazon a kódrészen, a később befejezett feladat branch-ét rebase-elni kell a frissebb verzióra, a konfliktusok feloldásához pedig érdemes a másik fejlesztő segítségét kérni. A rebase-elt branch-et mindenképpen tesztelni kell!
 -A commit-olt munkát érdemes mindig rögtön fel is pusholni átláthatóság és biztonság okán.
+
+# Software Versions
+-Netbeans:  12.3
+-Maven:     3.6.3
+-Java:      1.8
