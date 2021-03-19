@@ -1,4 +1,4 @@
-package com.mycompany.protectors;
+package protectors;
 
 import javax.swing.*;
 
