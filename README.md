@@ -31,3 +31,76 @@ Ha egy ticket-en valaki dolgozni kezd, az alábbi lépéseket kövesse:
 -Netbeans:  12.3  
 -Maven:     3.6.3  
 -Java:      1.8  
+
+# Maven projekt importálása NetBeansbe
+1. Klónozd le a repót egy erre a célra létrehozott folderbe  
+```
+cd app-folder  
+git clone https://github.com/FodorAdam/Project-Protectors.git
+```
+2. NetBeansben: New Project -> Java with Maven -> Select Project with Existing Pom -> Finish -> Tallózd ki a projekt mappáját  
+Miután megnyílt a projekt a `Run Project` gombbal (zöld háromszög) tudod futtatni.
+
+# Maven telepítése, projekt futtatása cmd-ből (Windows)
+Feltételezem, hogy a java már telepítve van a gépedre.  
+
+1. Töltsd le a maven-t zip-ként becsomagolva innen: https://maven.apache.org/download.cgi  
+2. A zip-et csomagold ki, és a tartalmát másold át egy fix helyre, pl: `C:\Program Files\apache-maven-3.6.3\ ` 
+3. Adj hozzá egy környzeti változót `M3_HOME` néven, a tartalma a kicsomagolt fájlok helye legyen, pl: `C:\Program Files\apache-maven-3.6.3\`  
+4. a `PATH` környezeti változóhoz add hozzá az ezen belüli bin foldert: `C:\Program Files\apache-maven-3.6.3\bin`  
+5. cmd-ben győződj meg róla, hogy a maven helyesen telepítve lett:  
+```
+mvn -v  
+```
+Ha mindent jól van beállítva, akkor egy ehhez hasonló outputot kell kapnod:  
+```
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+Maven home: C:\Program Files\apache-maven-3.6.3\bin\..
+Java version: 1.8.0_281, vendor: Oracle Corporation, runtime: C:\Program Files (x86)\Java\jre1.8.0_281
+Default locale: hu_HU, platform encoding: Cp1250
+OS name: "windows 10", version: "10.0", arch: "x86", family: "windows"
+```
+
+Ezen a linken találsz bővebb infót a telepítéshez:
+https://maven.apache.org/install.html
+
+6. Ellenőrizd, hogy a `JAVA_HOME` környezeti változód megfelelően van beállítva.  
+Ha nincs, akkor hozd létre, a jdk-ra kell, hogy mutasson. Ha java telepítés közben nem változtattad meg a helyét, akkor valami ilyesmi kell, hogy legyen: `C:\Program Files\Java\jdk1.8.0_191`  
+
+## Projekt futtatása cmd-ből
+1. Klónozd le a repót egy erre a célra létrehozott folderbe  
+```
+cd app-folder  
+git clone https://github.com/FodorAdam/Project-Protectors.git
+```
+
+2. fordítsd le a projectet maven-el:  
+```
+mvn package
+```
+
+3. ha a build sikeres volt, futtasd a projectet a következő paranccsal:  
+```
+java -cp target/my-app-1.0-SNAPSHOT.jar protectors.RPG
+```
+
+#  Maven telepítése, projekt futtatása cmd-ből (Ubuntu)
+```
+apt-cache search maven
+sudo apt-get install maven
+```
+ellenőrizheted a telepítés sikerességét:  
+```
+mvn -v
+```
+
+Klónozd a projectet:  
+```
+git clone https://github.com/FodorAdam/Project-Protectors.git
+```
+
+Build, run:  
+```
+mvn package
+java -cp target/my-app-1.0-SNAPSHOT.jar protectors.RPG
+```
