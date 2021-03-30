@@ -1,6 +1,9 @@
 package protectors;
 
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 /*
     Project Name: Project Protectors

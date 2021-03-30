@@ -3,17 +3,20 @@ package protectors;
 /*
     Project Name: Project Protectors
     Members: Árvai Balázs, Bíró Benjámin, Fodor Ádám, Zászlós Dorottya Beáta
-    @author Bíró Benjámin
+    @author Bíró Benjámin and Fodor Ádám
 */
 public class Ability{
     private final String name;
     
-    private final double cost;              //The resource it requires to fire the spell.
+    private final int cost;                 //The resource it requires to fire the spell.
     private final int cooldown;             //The turns it takes untill it can be used again.
     private int cooldownRem;                //The remaining cooldown on the ability.
     
-    private final double attackDamage;      //How much damage it deals.
-    private final String attackType;        //eg.:Fire, Ice, Physical...
+    private final double attackDamage;      //How much damage it deals (or heals) (use positive numbers for damage, negative for healing)
+    private final String attackType;        //eg.:Fire, Ice, Dull, Piercing...
+    private final String targetType;        //Whom does this target (self / enemy / ally)
+    private final int targetCount;          //How many units does it effect (1-10)
+    private final String abilityType;       //What type of ability is it (attack / heal / buff / debuff / resurrect)
     
     /**
      * Constructor for the Ability class.
@@ -22,13 +25,20 @@ public class Ability{
      * @param cooldown      Cooldown of the ability.
      * @param attackDamage  How much damage it deals.
      * @param attackType    The type of the damage.
+     * @param targetType    Whom does this target 
+     * @param targetCount   How many units does it effect 
+     * @param abilityType   What type of ability is it
      */
-    public Ability(String name, double cost, int cooldown, double attackDamage, String attackType){
+    
+    public Ability(String name, int cost, int cooldown, double attackDamage, String attackType, String targetType, int targetCount, String abilityType){
         this.name = name;
         this.cost = cost;
         this.cooldown = cooldown;
         this.attackDamage = attackDamage;
         this.attackType = attackType;
+        this.targetType = targetType;
+        this.targetCount = targetCount;
+        this.abilityType = abilityType;
     }
 
     /**
@@ -43,7 +53,7 @@ public class Ability{
      * Returns the cost of the ability.
      * @return          Cost of the ability.
      */
-    public double getCost() {
+    public int getCost() {
         return cost;
     }
 
@@ -79,6 +89,17 @@ public class Ability{
         return attackType;
     }
 
+    public String getTargetType() {
+        return targetType;
+    }
+
+    public int getTargetCount() {
+        return targetCount;
+    }
+
+    public String getAbilityType() {
+        return abilityType;
+    }
     
     /**
      * Sets the remaining cooldown on the ability.
