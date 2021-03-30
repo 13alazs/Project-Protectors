@@ -13,28 +13,22 @@ public class Character extends Sprite{
     
     private final String name;
     
-    private double currExperience;          //If used.
-    private double maxExperience;           //If used.
-    private int level;                      //If used.
+    private final double maxHealth;                     //Maximum health points.
+    private double currHealth;                          //Current health points.
     
-    private double maxHealth;
-    private double currHealth;              //Current health points.
+    private final String resourceName;                  //If we plan on using anything other than mana.
+    private final int maxResource;                      //Maximum resource points.
+    private int currResource;                           //Current resource points.
     
-    private final String resourceName;      //If we plan on using anything other than mana.
-    private double maxResource;             //Mana or something.
-    private double currResource;            //Current resource points.
+    private final double armor;                         //Reduces damage taken.
+    //private final ArrayList<String> resistances;        //Also reduces damage taken, but only from certain abilities.
+    //private final ArrayList<String> vulnerabilities;    //Increases damage taken, but only from certain abilities.
     
-    private double armor;
-    //private ArrayList<???> resistances;   //No idea how resistances should be done, if we even need it.
+    private final Ability ability1;
+    private final Ability ability2;
+    private final Ability ability3;
     
-    private double attackDamage;            //Only used if Basic Attack is not a seperate ability.
-    private String attackType;              //e.g.: Fire, Ice, Physical...
-    
-    private ArrayList<Ability> abilities;   //Skills the chracter has.
-    
-    private ClassType type;                 //Waiting for class ideas.
-    
-    private boolean alive = true;           //Tracks if the character is alive or dead.
+    private boolean alive;                              //Tracks if the character is alive or dead.
     
     /**
      * Constructor that calls the Sprite parent class' constructor.
@@ -44,27 +38,81 @@ public class Character extends Sprite{
      * @param height        The height of the image.
      * @param image         The sprite for the image.
      * @param name          Name of the character.
-     * @param level         Level the character starts on.
      * @param maxHealth     The max health points the character starts with.
-     * @param currHealth    The current health points the character starts with. (= maxHealth)
      * @param resourceName  Resource the character uses.
      */
-    public Character(int x, int y, int width, int height, BufferedImage image, String name, String resourceName){
+    public Character(int x, int y, int width, int height, BufferedImage image, String name, int maxHealth, String resourceName, int maxResource, double armor, Ability ability1, Ability ability2, Ability ability3){
         super(x, y, width, height, image);
         this.name = name;
+        this.maxHealth = maxHealth;
+        this.currHealth = maxHealth;
         this.resourceName = resourceName;
+        this.maxResource = maxResource;
+        this.currResource = 5;
+        this.armor = armor;
+        this.ability1 = ability1;
+        this.ability2 = ability2;
+        this.ability3 = ability3;
+        this.alive = true;
     }
 
     /**
-     * Player casts the choosen ability, if has enough resource. Then the players
-     * resource points decreases as much as the ability costs.
+     * Player casts the choosen ability, if has enough resource.Then the players resource points decreases as much as the ability costs.
      * @param ab        The ability to cast.
+     * @param targets   The targets to cast it on.
+     * @return          Can the ability be cast (will be used to determine if the character's turn is over)
      */
-    public void castAbility(Ability ab){
+    public boolean castAbility(Ability ab, ArrayList<Character> targets){
         if(currResource >= ab.getCost()){
             setCurrResource(getCurrResource() - ab.getCost());
-            //...
+            for(Character target : targets){
+                if(ab.getAbilityType()=="attack"){
+                    target.healthChange(ab.getAttackDamage()-armor);
+                }
+                else if(ab.getAbilityType()=="heal"){
+                    target.healthChange(ab.getAttackDamage());
+                }
+                else if(ab.getAbilityType()=="resurrect"){
+                    target.resurrect();
+                } //TODO: buffs and debuffs (maybe)
+            }
+            return true;
         }
+        return false;
+    }
+    
+    public void healthChange(double amount){
+        if(alive){
+            if(currHealth-amount<=0){
+                currHealth=0;
+                alive=false;
+            }
+            else
+            {
+                currHealth-=amount;
+            }
+        }
+    } //Used for both taking damage and healing
+    
+    public void resurrect(){
+        if(!alive){
+            alive=true;
+        }
+        else{
+            currHealth=maxHealth;
+        }
+    } //Used resurrecting characters, but if they are already alive, this works as a full heal instead
+
+    public Ability getAbility1() {
+        return ability1;
+    }
+
+    public Ability getAbility2() {
+        return ability2;
+    }
+
+    public Ability getAbility3() {
+        return ability3;
     }
     
     /**
@@ -73,30 +121,6 @@ public class Character extends Sprite{
      */
     public String getName() {
         return name;
-    }
-    
-    /**
-     * Returns the current experience points the character has.
-     * @return          Current experience points.
-     */
-    public double getCurrExperience() {
-        return currExperience;
-    }
-    
-    /**
-     * Returns the max experience points the character can acquire this level.
-     * @return          Max ecperience points.
-     */
-    public double getMaxExperience() {
-        return maxExperience;
-    }
-    
-    /**
-     * Returns the level of the character.
-     * @return          Level of the character.
-     */
-    public int getLevel() {
-        return level;
     }
     
     /**
@@ -127,7 +151,7 @@ public class Character extends Sprite{
      * Returns the max resource points the character has.
      * @return          Max resource points.
      */
-    public double getMaxResource() {
+    public int getMaxResource() {
         return maxResource;
     }
     
@@ -135,7 +159,7 @@ public class Character extends Sprite{
      * Returns the current resource points the character has.
      * @return          Current resource points.
      */
-    public double getCurrResource() {
+    public int getCurrResource() {
         return currResource;
     }
     
@@ -148,75 +172,11 @@ public class Character extends Sprite{
     }
     
     /**
-     * Returns how much damage the character deals.
-     * @return          Attack rating.
-     */
-    public double getAttackDamage() {
-        return attackDamage;
-    }
-    
-    /**
-     * Returns the attack type the character has.
-     * @return          Attack type.
-     */
-    public String getAttackType() {
-        return attackType;
-    }
-    
-    /**
-     * Returns the abilities the character has.
-     * @return          Abilities.
-     */
-    public ArrayList<Ability> getAbilities() {
-        return abilities;
-    }
-    
-    /**
-     * Returns the class type of the character.
-     * @return          Class type.
-     */
-    public ClassType getClassType(){
-        return type;
-    }
-    /**
      * Returns if the character is alive or not.
      * @return          Alive or not.
      */
     public boolean isAlive() {
         return alive;
-    }
-    
-    
-    /**
-     * Sets the current experience the character has.
-     * @param currExperience    Current experience points.
-     */
-    public void setCurrExperience(double currExperience) {
-        this.currExperience = currExperience;
-    }
-    
-    /**
-     * Sets the max experience needed for the next level.
-     * @param maxExperience     Max experience.
-     */
-    public void setMaxExperience(double maxExperience) {
-        this.maxExperience = maxExperience;
-    }
-    
-    /**
-     * Sets the characters level.
-     * @param level     Level.
-     */
-    public void setLevel(int level) {
-        this.level = level;
-    }
-    
-    /**
-     * Sets the max health points the character has.
-     * @param maxHealth     Max health points.
-     */
-    public void setMaxHealth(double maxHealth) {
-        this.maxHealth = maxHealth;
     }
     
     /**
@@ -228,74 +188,18 @@ public class Character extends Sprite{
     }
     
     /**
-     * Sets the max resource points the character has.
-     * @param maxResource   Max resource points.
-     */
-    public void setMaxResource(double maxResource) {
-        this.maxResource = maxResource;
-    }
-    
-    /**
      * Sets the current resource points the character has.
      * @param currResource  Current resource points.
      */
-    public void setCurrResource(double currResource) {
+    public void setCurrResource(int currResource) {
         this.currResource = currResource;
     }
     
-    /**
-     * Sets the armor rating the character has.
-     * @param armor     Armor rating.
-     */
-    public void setArmor(double armor) {
-        this.armor = armor;
-    }
-    
-    /**
-     * Sets the how much damage the character deals.
-     * @param attackDamage  Attack rating.
-     */
-    public void setAttackDamage(double attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-    
-    /**
-     * Sets the attack type of the character.
-     * @param attackType    Attack type.
-     */
-    public void setAttackType(String attackType) {
-        this.attackType = attackType;
-    }
-    
-    /**
-     * Sets the class type of the character.
-     * @param classType     Class type.
-     */
-    public void setClassType(ClassType type) {
-        this.type = type;
-    }
     /**
      * Sets the character dead or alive.
      * @param alive         
      */
     public void setAlive(boolean alive) {
         this.alive = alive;
-    }
-    
-    
-    /**
-     * Adds an ability to the ability list of the character.
-     * @param ab            Ability to add.
-     */
-    public void addAbility(Ability ab){
-        abilities.add(ab);
-    }
-    
-    /**
-     * Removes an ability from the ability list of the character.
-     * @param ab            Ability to remove.
-     */
-    public void remAbility(Ability ab){
-        abilities.remove(ab);
     }
 }
