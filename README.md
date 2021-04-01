@@ -61,7 +61,7 @@ Ha nincs, akkor hozd létre, a jdk-ra kell, hogy mutasson. Ha java telepítés k
 1. Klónozd le a repót egy erre a célra létrehozott folderbe  
 ```
 cd app-folder  
-git clone https://github.com/FodorAdam/Project-Protectors.git
+git clone https://github.com/13alazs/Project-Protectors.git
 ```
 
 2. fordítsd le a projectet maven-el:  
@@ -86,7 +86,7 @@ mvn -v
 
 Klónozd a projectet:  
 ```
-git clone https://github.com/FodorAdam/Project-Protectors.git
+git clone https://github.com/13alazs/Project-Protectors.git
 ```
 
 Build, run:  
