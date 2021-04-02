@@ -71,7 +71,7 @@ mvn package
 
 3. ha a build sikeres volt, futtasd a projectet a következő paranccsal:  
 ```
-java -cp target/my-app-1.0-SNAPSHOT.jar protectors.RPG
+java -cp target/app-1.0-SNAPSHOT.jar protectors.RPG
 ```
 
 4. A teszteket így tudod futtatni:  
@@ -97,5 +97,5 @@ git clone https://github.com/13alazs/Project-Protectors.git
 Build, run:  
 ```
 mvn package
-java -cp target/my-app-1.0-SNAPSHOT.jar protectors.RPG
+java -cp target/app-1.0-SNAPSHOT.jar protectors.RPG
 ```
