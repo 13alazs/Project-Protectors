@@ -67,7 +67,7 @@ public class Character extends Sprite{
             setCurrResource(getCurrResource() - ab.getCost());
             for(Character target : targets){
                 if(ab.getAbilityType()=="attack"){
-                    target.healthChange(ab.getAttackDamage()-armor);
+                    target.healthChange(ab.getAttackDamage()-target.getArmor());
                 }
                 else if(ab.getAbilityType()=="heal"){
                     target.healthChange(ab.getAttackDamage());
@@ -81,7 +81,7 @@ public class Character extends Sprite{
         return false;
     }
     
-    public void healthChange(double amount){
+    private void healthChange(double amount){
         if(alive){
             if(currHealth-amount<=0){
                 currHealth=0;
@@ -94,7 +94,7 @@ public class Character extends Sprite{
         }
     } //Used for both taking damage and healing
     
-    public void resurrect(){
+    private void resurrect(){
         if(!alive){
             alive=true;
         }

@@ -74,6 +74,11 @@ mvn package
 java -cp target/my-app-1.0-SNAPSHOT.jar protectors.RPG
 ```
 
+4. A teszteket így tudod futtatni:  
+```
+mvn test
+```
+
 #  Maven telepítése, projekt futtatása cmd-ből (Ubuntu)
 ```
 apt-cache search maven

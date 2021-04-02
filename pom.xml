@@ -5,12 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>protectors</groupId>
-  <artifactId>my-app</artifactId>
+  <artifactId>app</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>my-app</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Project-Protectors</name>
+  <url>https://github.com/13alazs/Project-Protectors</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
