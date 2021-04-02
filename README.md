@@ -28,18 +28,8 @@ Ha egy ticket-en valaki dolgozni kezd, az alábbi lépéseket kövesse:
 -A commit-olt munkát érdemes mindig rögtön fel is pusholni átláthatóság és biztonság okán.  
 
 # Software Versions
--Netbeans:  12.3  
 -Maven:     3.6.3  
 -Java:      1.8  
-
-# Maven projekt importálása NetBeansbe
-1. Klónozd le a repót egy erre a célra létrehozott folderbe  
-```
-cd app-folder  
-git clone https://github.com/FodorAdam/Project-Protectors.git
-```
-2. NetBeansben: New Project -> Java with Maven -> Select Project with Existing Pom -> Finish -> Tallózd ki a projekt mappáját  
-Miután megnyílt a projekt a `Run Project` gombbal (zöld háromszög) tudod futtatni.
 
 # Maven telepítése, projekt futtatása cmd-ből (Windows)
 Feltételezem, hogy a java már telepítve van a gépedre.  
@@ -71,7 +61,7 @@ Ha nincs, akkor hozd létre, a jdk-ra kell, hogy mutasson. Ha java telepítés k
 1. Klónozd le a repót egy erre a célra létrehozott folderbe  
 ```
 cd app-folder  
-git clone https://github.com/FodorAdam/Project-Protectors.git
+git clone https://github.com/13alazs/Project-Protectors.git
 ```
 
 2. fordítsd le a projectet maven-el:  
@@ -96,7 +86,7 @@ mvn -v
 
 Klónozd a projectet:  
 ```
-git clone https://github.com/FodorAdam/Project-Protectors.git
+git clone https://github.com/13alazs/Project-Protectors.git
 ```
 
 Build, run:  
