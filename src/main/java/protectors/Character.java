@@ -28,6 +28,8 @@ public class Character extends Sprite{
     private final Ability ability2;
     private final Ability ability3;
     
+    private final int initiative;                       //Determines when the character gets to go.
+    
     private boolean alive;                              //Tracks if the character is alive or dead.
     
     /**
@@ -40,8 +42,14 @@ public class Character extends Sprite{
      * @param name          Name of the character.
      * @param maxHealth     The max health points the character starts with.
      * @param resourceName  Resource the character uses.
+     * @param maxResource   The maximum amount of resource a character can have.
+     * @param armor         The amount of damage reduction.
+     * @param ability1      Should always be a single target attack that costs 0. (This is for the stupid AI)
+     * @param ability2      Can be anything.
+     * @param ability3      Can be anything.
+     * @param initiative    Determines when the character gets to go
      */
-    public Character(int x, int y, int width, int height, Image image, String name, int maxHealth, String resourceName, int maxResource, double armor, Ability ability1, Ability ability2, Ability ability3){
+    public Character(int x, int y, int width, int height, Image image, String name, int maxHealth, String resourceName, int maxResource, double armor, Ability ability1, Ability ability2, Ability ability3, int initiative){
         super(x, y, width, height, image);
         this.name = name;
         this.maxHealth = maxHealth;
@@ -53,6 +61,7 @@ public class Character extends Sprite{
         this.ability1 = ability1;
         this.ability2 = ability2;
         this.ability3 = ability3;
+        this.initiative = initiative;
         this.alive = true;
     }
 
@@ -201,5 +210,9 @@ public class Character extends Sprite{
      */
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+    
+    public int getInitiative(){
+        return initiative;
     }
 }
