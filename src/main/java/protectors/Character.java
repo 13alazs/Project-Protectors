@@ -1,6 +1,6 @@
 package protectors;
 
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.util.ArrayList;
 
 /*
@@ -41,7 +41,7 @@ public class Character extends Sprite{
      * @param maxHealth     The max health points the character starts with.
      * @param resourceName  Resource the character uses.
      */
-    public Character(int x, int y, int width, int height, BufferedImage image, String name, int maxHealth, String resourceName, int maxResource, double armor, Ability ability1, Ability ability2, Ability ability3){
+    public Character(int x, int y, int width, int height, Image image, String name, int maxHealth, String resourceName, int maxResource, double armor, Ability ability1, Ability ability2, Ability ability3){
         super(x, y, width, height, image);
         this.name = name;
         this.maxHealth = maxHealth;

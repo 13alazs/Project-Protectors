@@ -1,6 +1,6 @@
 package protectors;
 
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.awt.Graphics;
 
 /*
@@ -14,7 +14,7 @@ public class Sprite{
     protected int y;
     protected int width;
     protected int height;
-    protected BufferedImage image;
+    protected Image image;
     
     /**
      * Constructor for the Sprite class.
@@ -24,7 +24,7 @@ public class Sprite{
      * @param height    The height of the image.
      * @param image     The sprite for the image.
      */
-    public Sprite(int x, int y, int width, int height, BufferedImage image){
+    public Sprite(int x, int y, int width, int height, Image image){
         this.x = x;
         this.y = y;
         this.width = width;
