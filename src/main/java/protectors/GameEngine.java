@@ -2,6 +2,7 @@ package protectors;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -28,6 +29,10 @@ public class GameEngine extends JPanel{
     private JButton menuButtonM;
     private JButton menuButtonR;
     private JButton menuButtonC;
+    
+    private GameManager Script;
+    private Timer timer;
+    private final int FPS=60;
     
     public GameEngine(){
         super();
@@ -66,6 +71,9 @@ public class GameEngine extends JPanel{
         resultPanel.setVisible(false);
         this.add(resultPanel);
         
+        timer=new Timer(1000 / FPS, new NewFrameListener());
+        Script=new GameManager(this);
+        
         startButton=new JButton("Start mission");
         startButton.setBackground(Color.ORANGE);
         startButton.setBorder(new LineBorder(Color.BLACK));
@@ -75,6 +83,22 @@ public class GameEngine extends JPanel{
             @Override
             public void actionPerformed(ActionEvent ae){
                 state=gameState.FIGHT;
+                timer.start();
+                
+                Script.basicSetup();
+                
+                /*
+                ArrayList<Character> playerTeam = new ArrayList();
+                Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack");
+                Ability Heal = new Ability("Heal", 10, 2, -45, "none", "ally", 1, "heal");
+                Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "none", "ally", 1, "resurrect");
+                Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
+                Character Knight = new Character(150, 150, 50, 50, tmpSprite, "Knight", 120, "mana", 20, 10, Slash, Heal, Resurrect, 6);
+                playerTeam.add(Knight);
+                Training m = new Training();
+                Script.Setup(m, playerTeam);
+                */
+                
                 fightPanel.setVisible(true);
                 menuPanel.setVisible(false);
             }
@@ -163,5 +187,28 @@ public class GameEngine extends JPanel{
         }); //Exits to desktop
         
         this.setLayout(null);
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g){
+        super.paintComponent(g);
+        //g.drawImage(background, 0, 0, 1000, 800, null);
+        if(state==gameState.FIGHT){
+            ArrayList<Character> PlayerTeam = Script.getPlayerTeam();
+            ArrayList<Character> EnemyTeam = Script.getEnemyTeam();
+            for(Character c : PlayerTeam){
+                c.draw(g);
+            }
+            for(Character c : EnemyTeam){
+                c.draw(g);
+            }
+        }
+    }
+    
+    class NewFrameListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent ae){
+            repaint();
+        }
     }
 }
