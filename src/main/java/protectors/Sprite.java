@@ -1,7 +1,7 @@
 package protectors;
 
-import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+import java.awt.Image;
 
 /*
     Project Name: Project Protectors
@@ -14,7 +14,7 @@ public class Sprite{
     protected int y;
     protected int width;
     protected int height;
-    protected BufferedImage image;
+    protected Image image;
     
     /**
      * Constructor for the Sprite class.
@@ -24,7 +24,7 @@ public class Sprite{
      * @param height    The height of the image.
      * @param image     The sprite for the image.
      */
-    public Sprite(int x, int y, int width, int height, BufferedImage image){
+    public Sprite(int x, int y, int width, int height, Image image){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -72,7 +72,7 @@ public class Sprite{
      * Returns the sprite of the image.
      * @return          Sprite of the image.
      */
-    public BufferedImage getImage() {
+    public Image getImage() {
         return image;
     }
 
@@ -108,7 +108,7 @@ public class Sprite{
      * Sets the sprite for the image.
      * @param image     Sprite of the image.
      */
-    public void setImage(BufferedImage image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 }
