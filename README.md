@@ -99,3 +99,10 @@ Build, run:
 mvn package
 java -cp target/app-1.0-SNAPSHOT.jar protectors.RPG
 ```
+
+#  Javadoc plugin használata
+```
+mvn javadoc:javadoc
+
+```
+You can find the generated documentation in ("traget/site/apidocs")
