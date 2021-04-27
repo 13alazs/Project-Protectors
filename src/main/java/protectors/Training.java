@@ -20,7 +20,7 @@ public class Training extends Mission{
         Enemies=new ArrayList();
         Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack");
         Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
-        Character Goblin = new Character(150, 660, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash, 3);
+        Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash, 3);
         Enemies.add(Goblin);
         return true;
     }
@@ -30,9 +30,9 @@ public class Training extends Mission{
         Enemies=new ArrayList();
         Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack");
         Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
-        Character Goblin = new Character(150, 660, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash, 3);
+        Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash, 3);
         Enemies.add(Goblin);
-        Character Boglin = new Character(300, 660, 30, 30, tmpSprite, "Boglin", 55, "focus", 15, 5, Slash, Slash, Slash, 2);
+        Character Boglin = new Character(860, 300, 20, 20, tmpSprite, "Boglin", 55, "focus", 15, 5, Slash, Slash, Slash, 2);
         Enemies.add(Boglin);
         return true;
     }
@@ -43,12 +43,12 @@ public class Training extends Mission{
         Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack");
         Ability Bash = new Ability("Bash", 0, 0, 40, "smashing", "enemy", 1, "attack");
         Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
-        Character Goblin = new Character(150, 660, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash, 3);
+        Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash, 3);
         Enemies.add(Goblin);
-        Character Boglin = new Character(300, 660, 30, 30, tmpSprite, "Boglin", 55, "focus", 15, 7, Slash, Slash, Slash, 2);
-        Enemies.add(Goblin);
-        Character Hobgoblin = new Character(450, 660, 30, 30, tmpSprite, "Hobgoblin", 110, "rage", 30, 5, Bash, Bash, Bash, 8);
-        Enemies.add(Goblin);
+        Character Boglin = new Character(860, 300, 20, 20, tmpSprite, "Boglin", 55, "focus", 15, 7, Slash, Slash, Slash, 2);
+        Enemies.add(Boglin);
+        Character Hobgoblin = new Character(860, 450, 60, 60, tmpSprite, "Hobgoblin", 110, "rage", 30, 5, Bash, Bash, Bash, 8);
+        Enemies.add(Hobgoblin);
         return true;
     }
     
