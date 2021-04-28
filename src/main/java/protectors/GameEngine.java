@@ -31,6 +31,11 @@ public class GameEngine extends JPanel{
     
     private JLabel resultLabel;
     
+    private Ability tmpAbility;
+    private String tmpType;
+    private boolean casting;
+    ArrayList<Character> targets;
+    
     private JButton ability1Button;
     private JButton ability2Button;
     private JButton ability3Button;
@@ -79,7 +84,12 @@ public class GameEngine extends JPanel{
         ability1Button.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae){
-                System.out.println("Ability 1 has been cast");
+                if(state=="FIGHT"){
+                    //System.out.println("Ability 1 has been cast");
+                    tmpAbility = Script.getCurrentCharacter().getAbility1();
+                    tmpType = tmpAbility.getAbilityType();
+                    casting = true;
+                }
             }
         });
         
@@ -109,6 +119,33 @@ public class GameEngine extends JPanel{
         
         fightPanel.setVisible(false);
         this.add(fightPanel);
+        
+        this.addMouseListener(new MouseAdapter() 
+        {
+            @Override
+            public void mousePressed(MouseEvent e) 
+            {
+                if(e.getButton() == MouseEvent.BUTTON1 && casting)
+                {
+                    int x=e.getX();
+                    int y=e.getY();
+                    targets=new ArrayList();
+                    if(tmpType=="attack" && tmpAbility.getTargetCount()==1 && tmpAbility.getTargetType()=="enemy"){
+                        for(Character c : Script.getEnemyTeam()){
+                            if(x>=c.getX() && x<=(c.getX()+c.getWidth()) && y>=c.getY() && y<=(c.getY()+c.getHeight())){
+                                targets.add(c);
+                            }
+                        }
+                        Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+                    }
+                    tmpAbility=null;
+                    tmpType=null;
+                    casting=false;
+                    targets=null;
+                    Script.manage();
+                }
+            }
+        });
         
         resultPanel=new JPanel();
         resultLabel=new JLabel("Result");
@@ -312,6 +349,28 @@ public class GameEngine extends JPanel{
     public void setResultPanel(JPanel resultPanel) {
         this.resultPanel = resultPanel;
     }
-    
-    
+
+    public JButton getAbility1Button() {
+        return ability1Button;
+    }
+
+    public void setAbility1Button(JButton ability1Button) {
+        this.ability1Button = ability1Button;
+    }
+
+    public JButton getAbility2Button() {
+        return ability2Button;
+    }
+
+    public void setAbility2Button(JButton ability2Button) {
+        this.ability2Button = ability2Button;
+    }
+
+    public JButton getAbility3Button() {
+        return ability3Button;
+    }
+
+    public void setAbility3Button(JButton ability3Button) {
+        this.ability3Button = ability3Button;
+    }
 }

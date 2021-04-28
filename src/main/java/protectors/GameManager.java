@@ -17,9 +17,10 @@ public class GameManager {
     private ArrayList<Character> initiativeTeam;    //The player's and the AI's team combined, used to determine initiative.
     private ArrayList<Ability> abilities;           //Might not be needed.
     private boolean playerTurn=false;
-    private boolean casting=false;
     private Character currentCharacter;
     private int currentID=-1;
+    private int encounterNumber=1;
+    private Mission mission;
     
     public GameManager(GameEngine UI){
         this.UI = UI;
@@ -40,77 +41,80 @@ public class GameManager {
         enemyTeam.add(Goblin);
     }//Ez csak minta a karakterlétrehozásra, a jövőben inkább úgy kellene majd csinálni, hogy a Setup()-nak átadunk egy küldetést (ami egy encounterekkel ellátott leszármazottja lesz egy Mission ősosztálynak, valamint átadunk neki egy Character listát)
 
-    public void Setup(Mission mission, ArrayList<Character> characters){
+    public void Setup(Mission m, ArrayList<Character> characters){
+        encounterNumber=1;
+        playerTeam = new ArrayList();
+        mission=m;
         playerTeam = characters;
         if(mission.Encounter1()){
+            enemyTeam = new ArrayList();
             enemyTeam = mission.getEnemies();
+            createInitiative();
             manage();
-            if(bothTeamsAlive()==1){ //Ha legyőzte a játékos az ellenfelet, akkor mehetünk tovább
-                if(mission.Encounter2()){
-                    enemyTeam = mission.getEnemies();
-                    manage();
-                    
-                    if(bothTeamsAlive()==1){
-                        if(mission.Encounter3()){
-                            enemyTeam = mission.getEnemies();
-                            manage();
-                            
-                            if(bothTeamsAlive()==1){
-                                if(mission.Encounter4()){
-                                    enemyTeam = mission.getEnemies();
-                                    manage();
-                                    
-                                    if(bothTeamsAlive()==1){
-                                        if(mission.Encounter5()){
-                                            enemyTeam = mission.getEnemies();
-                                            manage();
-                                            
-                                            if(bothTeamsAlive()==1){
-                                                if(mission.Encounter6()){
-                                                    enemyTeam = mission.getEnemies();
-                                                    manage();
-                                                }
-                                                else{
-                                                    showResult(true);
-                                                }
-                                            }
-                                            else{
-                                                showResult(false);
-                                            }
-                                        }
-                                        else{
-                                            showResult(true);
-                                        }
-                                    }
-                                    else{
-                                        showResult(false);
-                                    }
-                                }
-                                else{
-                                    showResult(true);
-                                }
-                            }
-                            else{
-                                showResult(false);
-                            }
-                        }
-                        else{
-                            showResult(true);
-                        }
-                    }
-                    else{
-                        showResult(false);
-                    }
-                }
-                else{
-                    showResult(true);
-                }
-            }
-            else{
-                showResult(false);
-            }
         }
         else{
+            showResult(true);
+        }
+    }
+    
+    public void nextEncounter(){
+        encounterNumber++;
+        if(encounterNumber==2){
+            if(mission.Encounter2()){
+                enemyTeam = new ArrayList();
+                enemyTeam = mission.getEnemies();
+                createInitiative();
+                manage();
+            }
+            else{
+                showResult(true);
+            }
+        }
+        if(encounterNumber==3){
+            if(mission.Encounter3()){
+                enemyTeam = new ArrayList();
+                enemyTeam = mission.getEnemies();
+                createInitiative();
+                manage();
+            }
+            else{
+                showResult(true);
+            }
+        }
+        if(encounterNumber==4){
+            if(mission.Encounter4()){
+                enemyTeam = new ArrayList();
+                enemyTeam = mission.getEnemies();
+                createInitiative();
+                manage();
+            }
+            else{
+                showResult(true);
+            }
+        }
+        if(encounterNumber==5){
+            if(mission.Encounter5()){
+                enemyTeam = new ArrayList();
+                enemyTeam = mission.getEnemies();
+                createInitiative();
+                manage();
+            }
+            else{
+                showResult(true);
+            }
+        }
+        if(encounterNumber==6){
+            if(mission.Encounter6()){
+                enemyTeam = new ArrayList();
+                enemyTeam = mission.getEnemies();
+                createInitiative();
+                manage();
+            }
+            else{
+                showResult(true);
+            }
+        }
+        if(encounterNumber>6){
             showResult(true);
         }
     }
@@ -121,38 +125,31 @@ public class GameManager {
         UI.getFightPanel().setVisible(false);
     }
     
-    private void manage(){
-        createInitiative();
+    public void manage(){
         if(bothTeamsAlive()==0){
             currentSelect();
             if(!playerTurn){
+                UI.getFightPanel().setVisible(false);
                 int target=selectTarget();
                 ArrayList<Character> Targets=new ArrayList();
                 Targets.add(playerTeam.get(target));
                 currentCharacter.castAbility(currentCharacter.getAbility1(), Targets);
                 System.out.println(currentCharacter.getName() + " used " + currentCharacter.getAbility1().getName());
+                manage();
             }
             else{
-                System.out.println(currentCharacter.getName() + " had their turn");
+                UI.getFightPanel().setVisible(true);
+                UI.getAbility1Button().setText(currentCharacter.getAbility1().getName());
+                UI.getAbility2Button().setText(currentCharacter.getAbility2().getName());
+                UI.getAbility3Button().setText(currentCharacter.getAbility3().getName());
+                //System.out.println(currentCharacter.getName() + " had their turn");
             }
-            Manage();
         }
-    }
-    
-    private void Manage(){
-        if(bothTeamsAlive()==0){
-            currentSelect();
-            if(!playerTurn){
-                int target=selectTarget();
-                ArrayList<Character> Targets=new ArrayList();
-                Targets.add(playerTeam.get(target));
-                currentCharacter.castAbility(currentCharacter.getAbility1(), Targets);
-                System.out.println(currentCharacter.getName() + " used " + currentCharacter.getAbility1().getName());
-            }
-            else{
-                System.out.println(currentCharacter.getName() + " had their turn");
-            }
-            Manage();
+        else if(bothTeamsAlive()==-1){
+            showResult(false);
+        }
+        else if(bothTeamsAlive()==1){
+            nextEncounter();
         }
     }
     
@@ -212,6 +209,7 @@ public class GameManager {
     }
     
     private void createInitiative(){
+        currentID=-1;
         initiativeTeam=new ArrayList();
         initiativeTeam.addAll(playerTeam);
         initiativeTeam.addAll(enemyTeam);
@@ -259,5 +257,13 @@ public class GameManager {
 
     public void setAbilities(ArrayList<Ability> abilities) {
         this.abilities = abilities;
+    }
+
+    public Character getCurrentCharacter() {
+        return currentCharacter;
+    }
+
+    public void setCurrentCharacter(Character currentCharacter) {
+        this.currentCharacter = currentCharacter;
     }
 }
