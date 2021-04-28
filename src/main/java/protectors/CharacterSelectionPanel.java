@@ -57,7 +57,7 @@ public class CharacterSelectionPanel extends JPanel{
         
         for(int i = 0; i < allTheCharacters.size(); i++){
             c.gridx = (i % 3) * 50;
-            JPanel tmpPanel = new JPanel(new BorderLayout());
+            final JPanel tmpPanel = new JPanel(new BorderLayout());
             characterHolderPanel.add(tmpPanel, c);
             tmpPanel.setBackground(Color.GRAY);
             tmpPanel.add(new JLabel(allTheCharacters.get(i).getName()), BorderLayout.SOUTH);
