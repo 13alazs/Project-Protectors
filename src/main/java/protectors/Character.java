@@ -83,7 +83,7 @@ public class Character extends Sprite{
                 }
                 else if(ab.getAbilityType()=="resurrect"){
                     target.resurrect();
-                } //TODO: buffs and debuffs (maybe)
+                } //TODO: stuns, buffs and debuffs (maybe)
             }
             return true;
         }
@@ -106,6 +106,7 @@ public class Character extends Sprite{
     private void resurrect(){
         if(!alive){
             alive=true;
+            currHealth=1;
         }
         else{
             currHealth=maxHealth;
