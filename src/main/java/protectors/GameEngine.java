@@ -17,7 +17,7 @@ public class GameEngine extends JPanel{
     private JPanel menuPanel; //Main menu
     private JPanel buttonPanel; //Extra panel for main menu, helps with button placement
     private JPanel missionsPanel; //Will be for mission selection
-    private JPanel charactersPanel; //Will be for character selection
+    private CharacterSelectionPanel charactersPanel; //Will be for character selection
     private JPanel fightPanel; //Will be for the battle screen
     private JPanel resultPanel; //After the mission is finished either way, this will redirect to main menu
     
@@ -28,6 +28,7 @@ public class GameEngine extends JPanel{
     private JButton menuButtonM;
     private JButton menuButtonR;
     private JButton menuButtonC;
+    private JButton saveCharactersButton;
     
     private JLabel resultLabel;
     
@@ -65,11 +66,12 @@ public class GameEngine extends JPanel{
         missionsPanel.setVisible(false);
         this.add(missionsPanel);
         
-        charactersPanel=new JPanel();
+        charactersPanel=new CharacterSelectionPanel();
         charactersPanel.setBackground(Color.GRAY);
-        charactersPanel.setBounds(375, 200, 180, 350);
+        charactersPanel.setBounds(265, 200, 400, 350);
         charactersPanel.setVisible(false);
         this.add(charactersPanel);
+        charactersPanel.setLayout(new BoxLayout(charactersPanel, BoxLayout.PAGE_AXIS));
            
         fightPanel=new JPanel();
         fightPanel.setBackground(Color.GRAY);
@@ -213,7 +215,7 @@ public class GameEngine extends JPanel{
                 charactersPanel.setVisible(true);
                 menuPanel.setVisible(false);
             }
-        }); //Menu -> haracter select
+        }); //Menu -> Character select
         
         menuButtonR=new JButton("Menu");
         menuButtonR.setBackground(Color.ORANGE);
@@ -257,6 +259,20 @@ public class GameEngine extends JPanel{
                 menuPanel.setVisible(true);
             }
         }); //Character select -> Menu
+        saveCharactersButton = new JButton("Chose Selected Characters");
+        saveCharactersButton.setBackground(Color.ORANGE);
+        saveCharactersButton.setBorder(new LineBorder(Color.BLACK));
+        saveCharactersButton.setPreferredSize(new Dimension(90, 30));
+        charactersPanel.add(saveCharactersButton);
+        saveCharactersButton.addActionListener(new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent ae){
+                Script.setPlayerTeam(charactersPanel.getChosenCharacters());
+                state="MENU";
+                charactersPanel.setVisible(false);
+                menuPanel.setVisible(true);
+            }
+        });
         
         exitButton=new JButton("Exit");
         exitButton.setBackground(Color.ORANGE);
@@ -330,7 +346,7 @@ public class GameEngine extends JPanel{
         return charactersPanel;
     }
 
-    public void setCharactersPanel(JPanel charactersPanel) {
+    public void setCharactersPanel(CharacterSelectionPanel charactersPanel) {
         this.charactersPanel = charactersPanel;
     }
 
