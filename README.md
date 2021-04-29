@@ -106,3 +106,15 @@ mvn javadoc:javadoc
 
 ```
 You can find the generated documentation in ("traget/site/apidocs")
+
+# CodeFormatter használata
+Automatikusan le fog futni compile fázisban az összes fájlra.  
+Meg tudod nézni, hogy minden helyesen formázott-e:
+```
+mvn formatter:validate
+```
+Ha compile nélkül akarod a fájlokat előre formázni, azt ezzel a paranccsal teheted meg:
+```
+mvn formatter:format
+```
+Bővebb információt a pluginról itt találsz: https://code.revelc.net/formatter-maven-plugin/usage.html
