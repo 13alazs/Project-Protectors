@@ -2,7 +2,7 @@
 Members: Zászlós Dorottya Beáta, Árvai Balázs, Bíró Benjámin, Fodor Ádám
 
 # Meetings
-Minden héten kedd 18:00-tól, illetve szobmat 12:00-től egy pár perces beszélgetésre kerül sor discord-on, mely során mindenki beszámol
+Minden héten kedd 18:00-tól, illetve szombat 12:00-től egy pár perces beszélgetésre kerül sor discord-on, mely során mindenki beszámol
 arról min dolgozott az elmúlt időszakban. Ha valaki nem tud részt venni valamelyik alkalmon Teams chat-en illik előre pár mondatban leírni amit mondana.
 
 # Workflow
@@ -105,7 +105,7 @@ java -cp target/app-1.0-SNAPSHOT.jar protectors.RPG
 mvn javadoc:javadoc
 
 ```
-You can find the generated documentation in ("traget/site/apidocs")
+You can find the generated documentation in ("target/site/apidocs")
 
 # CodeFormatter használata
 Automatikusan le fog futni compile fázisban az összes fájlra.  
