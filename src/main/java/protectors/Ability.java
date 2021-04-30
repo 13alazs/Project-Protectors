@@ -39,8 +39,6 @@ public class Ability {
      * @param abilityType
      *            What type of ability is it
      */
-	 
-	 
 
     public Ability(String name, int cost, int cooldown, double attackDamage, String attackType, String targetType,
             int targetCount, String abilityType) {
