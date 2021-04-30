@@ -8,20 +8,20 @@ package protectors;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
-public class GameFrame{
-    
+public class GameFrame {
+
     private JFrame frame;
     private GameEngine panel;
-    
-    public GameFrame(){
-        frame=new JFrame("Project Protectors");
+
+    public GameFrame() {
+        frame = new JFrame("Project Protectors");
         frame.setPreferredSize(new Dimension(1010, 840));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-        panel=new GameEngine();
+
+        panel = new GameEngine();
         frame.getContentPane().add(panel);
-        
+
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

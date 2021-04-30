@@ -6,7 +6,7 @@ package protectors;
 */
 
 public class RPG {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         GameFrame frame = new GameFrame();
     }
 }
