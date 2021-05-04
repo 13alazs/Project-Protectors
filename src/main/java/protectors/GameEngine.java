@@ -35,7 +35,8 @@ public class GameEngine extends JPanel{
     private Ability tmpAbility;
     private String tmpType;
     private boolean casting;
-    ArrayList<Character> targets;
+    private ArrayList<Character> targets;
+    private ArrayList<Character> playerTeam;
     
     private JButton ability1Button;
     private JButton ability2Button;
@@ -47,6 +48,8 @@ public class GameEngine extends JPanel{
     
     public GameEngine(){
         super();
+        
+        playerTeam = new ArrayList<Character>();
         
         menuPanel=new JPanel();
         this.add(menuPanel);
@@ -68,7 +71,7 @@ public class GameEngine extends JPanel{
         
         charactersPanel=new CharacterSelectionPanel();
         charactersPanel.setBackground(Color.GRAY);
-        charactersPanel.setBounds(265, 200, 400, 350);
+        charactersPanel.setBounds(50, 50, 910, 740);
         charactersPanel.setVisible(false);
         this.add(charactersPanel);
         charactersPanel.setLayout(new BoxLayout(charactersPanel, BoxLayout.PAGE_AXIS));
@@ -254,25 +257,12 @@ public class GameEngine extends JPanel{
         menuButtonC.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent ae){
+                playerTeam = charactersPanel.getChosenCharacters();
                 state="MENU";
                 charactersPanel.setVisible(false);
                 menuPanel.setVisible(true);
             }
         }); //Character select -> Menu
-        saveCharactersButton = new JButton("Chose Selected Characters");
-        saveCharactersButton.setBackground(Color.ORANGE);
-        saveCharactersButton.setBorder(new LineBorder(Color.BLACK));
-        saveCharactersButton.setPreferredSize(new Dimension(90, 30));
-        charactersPanel.add(saveCharactersButton);
-        saveCharactersButton.addActionListener(new AbstractAction(){
-            @Override
-            public void actionPerformed(ActionEvent ae){
-                Script.setPlayerTeam(charactersPanel.getChosenCharacters());
-                state="MENU";
-                charactersPanel.setVisible(false);
-                menuPanel.setVisible(true);
-            }
-        });
         
         exitButton=new JButton("Exit");
         exitButton.setBackground(Color.ORANGE);
