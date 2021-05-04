@@ -18,7 +18,7 @@ public class GameEngine extends JPanel {
     private JPanel menuPanel; // Main menu
     private JPanel buttonPanel; // Extra panel for main menu, helps with button placement
     private JPanel missionsPanel; // Will be for mission selection
-    private JPanel charactersPanel; // Will be for character selection
+    private CharacterSelectionPanel charactersPanel; // Will be for character selection
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
 
@@ -69,8 +69,7 @@ public class GameEngine extends JPanel {
         missionsPanel.setBackground(Color.GRAY);
         missionsPanel.setBounds(375, 200, 180, 350);
         missionsPanel.setVisible(false);
-        this.add(missionsPanel);
-        
+        this.add(missionsPanel);    
         charactersPanel=new CharacterSelectionPanel();
 
         charactersPanel.setBackground(Color.GRAY);
