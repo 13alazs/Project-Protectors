@@ -14,10 +14,11 @@ import javax.swing.border.*;
 public class GameEngine extends JPanel {
     private String state = "MENU";
 
+
     private JPanel menuPanel; // Main menu
     private JPanel buttonPanel; // Extra panel for main menu, helps with button placement
+    private CharacterSelectionPanel charactersPanel; // Will be for character selection
     private MissionSelectionPanel missionsPanel; // Will be for mission selection
-    private JPanel charactersPanel; // Will be for character selection
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
 
@@ -34,9 +35,12 @@ public class GameEngine extends JPanel {
     private Ability tmpAbility;
     private String tmpType;
     private boolean casting;
-    ArrayList<Character> targets;
+
+    private ArrayList<Character> targets;
+    private ArrayList<Character> playerTeam;
 
     private Mission currentMission;
+
     
     private JButton ability1Button;
     private JButton ability2Button;
@@ -48,8 +52,11 @@ public class GameEngine extends JPanel {
 
     public GameEngine() {
         super();
+        
+        playerTeam = new ArrayList<Character>();
+        
+        menuPanel=new JPanel();
 
-        menuPanel = new JPanel();
         this.add(menuPanel);
         menuPanel.setBackground(Color.GRAY);
         menuPanel.setBounds(375, 200, 180, 350);
@@ -65,16 +72,18 @@ public class GameEngine extends JPanel {
         missionsPanel.setBackground(Color.GRAY);
         missionsPanel.setBounds(50, 50, 910, 740);
         missionsPanel.setVisible(false);
-        this.add(missionsPanel);
+        this.add(missionsPanel);    
         missionsPanel.setLayout(new BoxLayout(missionsPanel, BoxLayout.PAGE_AXIS));
 
-        charactersPanel = new JPanel();
+        charactersPanel=new CharacterSelectionPanel();
         charactersPanel.setBackground(Color.GRAY);
-        charactersPanel.setBounds(375, 200, 180, 350);
+        charactersPanel.setBounds(50, 50, 910, 740);
         charactersPanel.setVisible(false);
         this.add(charactersPanel);
+        charactersPanel.setLayout(new BoxLayout(charactersPanel, BoxLayout.PAGE_AXIS));
+           
+        fightPanel=new JPanel();
 
-        fightPanel = new JPanel();
         fightPanel.setBackground(Color.GRAY);
         fightPanel.setBounds(375, 700, 270, 30);
         fightPanel.setVisible(false);
@@ -216,9 +225,10 @@ public class GameEngine extends JPanel {
                 charactersPanel.setVisible(true);
                 menuPanel.setVisible(false);
             }
-        }); // Menu -> haracter select
+        }); //Menu -> Character select
+        
+        menuButtonR=new JButton("Menu");
 
-        menuButtonR = new JButton("Menu");
         menuButtonR.setBackground(Color.ORANGE);
         menuButtonR.setBorder(new LineBorder(Color.BLACK));
         menuButtonR.setPreferredSize(new Dimension(90, 30));
@@ -255,8 +265,9 @@ public class GameEngine extends JPanel {
         charactersPanel.add(menuButtonC);
         menuButtonC.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae) {
-                state = "MENU";
+            public void actionPerformed(ActionEvent ae){
+                playerTeam = charactersPanel.getChosenCharacters();
+                state="MENU";
                 charactersPanel.setVisible(false);
                 menuPanel.setVisible(true);
             }
@@ -333,7 +344,7 @@ public class GameEngine extends JPanel {
         return charactersPanel;
     }
 
-    public void setCharactersPanel(JPanel charactersPanel) {
+    public void setCharactersPanel(CharacterSelectionPanel charactersPanel) {
         this.charactersPanel = charactersPanel;
     }
 
