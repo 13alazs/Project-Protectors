@@ -16,7 +16,7 @@ public class GameEngine extends JPanel {
 
     private JPanel menuPanel; // Main menu
     private JPanel buttonPanel; // Extra panel for main menu, helps with button placement
-    private JPanel missionsPanel; // Will be for mission selection
+    private MissionSelectionPanel missionsPanel; // Will be for mission selection
     private JPanel charactersPanel; // Will be for character selection
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
@@ -36,6 +36,8 @@ public class GameEngine extends JPanel {
     private boolean casting;
     ArrayList<Character> targets;
 
+    private Mission currentMission;
+    
     private JButton ability1Button;
     private JButton ability2Button;
     private JButton ability3Button;
@@ -59,11 +61,12 @@ public class GameEngine extends JPanel {
         buttonPanel.setLayout(new GridLayout(4, 1));
         menuPanel.add(buttonPanel);
 
-        missionsPanel = new JPanel();
+        missionsPanel = new MissionSelectionPanel();
         missionsPanel.setBackground(Color.GRAY);
-        missionsPanel.setBounds(375, 200, 180, 350);
+        missionsPanel.setBounds(50, 50, 910, 740);
         missionsPanel.setVisible(false);
         this.add(missionsPanel);
+        missionsPanel.setLayout(new BoxLayout(missionsPanel, BoxLayout.PAGE_AXIS));
 
         charactersPanel = new JPanel();
         charactersPanel.setBackground(Color.GRAY);
@@ -238,6 +241,7 @@ public class GameEngine extends JPanel {
         menuButtonM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                currentMission = missionsPanel.getChosenMission();
                 state = "MENU";
                 missionsPanel.setVisible(false);
                 menuPanel.setVisible(true);
