@@ -17,11 +17,11 @@ public class CharacterTest {
     Character testChar = new Character(0, 0, 0, 0, null, "testChar", 10, "", 10, 10.0, null, null, null, 10);
 
     // General ability
-    Ability ab = new Ability("testAb", 3, 0, 0.0, null, null, 0, null);
+    Ability ab = new Ability("testAb", 3, 0, 0.0, "", "", 0, "", "");
 
     @Test
     public void shouldNotBeCasted() {
-        Ability ab = new Ability("testAb", 11, 0, 0.0, null, null, 0, null);
+        Ability ab = new Ability("testAb", 11, 0, 0.0, "", "", 0, "", "");
         assertFalse(testChar.castAbility(ab, null));
     }
 
@@ -30,10 +30,10 @@ public class CharacterTest {
         ArrayList<Character> target = new ArrayList();
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 10.0, null, null, null, 10));
 
-        Ability abMax = new Ability("testAbMax", testChar.getCurrResource(), 0, 0.0, null, null, 0, "attack");
+        Ability abMax = new Ability("testAbMax", testChar.getCurrResource(), 0, 0.0, "", "", 0, "attack", "");
         assertTrue(testChar.castAbility(abMax, target));
 
-        Ability abZero = new Ability("testAb", 0, 0, 0.0, null, null, 0, "attack");
+        Ability abZero = new Ability("testAb", 0, 0, 0.0, "", "", 0, "attack", "");
         assertTrue(testChar.castAbility(abZero, target));
     }
 
@@ -51,7 +51,7 @@ public class CharacterTest {
         ArrayList<Character> target = new ArrayList();
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 2.0, null, null, null, 10));
 
-        Ability attack = new Ability("attackAb", 3, 0, 3.0, null, null, 0, "attack");
+        Ability attack = new Ability("attackAb", 3, 0, 3.0, "", "", 0, "attack", "");
 
         testChar.castAbility(attack, target);
         assertTrue(target.get(0).getCurrHealth() == 9);
@@ -62,7 +62,7 @@ public class CharacterTest {
         ArrayList<Character> target = new ArrayList();
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 2.0, null, null, null, 10));
 
-        Ability heal = new Ability("healAb", 3, 0, -3.0, null, null, 0, "heal");
+        Ability heal = new Ability("healAb", 3, 0, -3.0, "", "", 0, "heal", "");
 
         testChar.castAbility(heal, target);
         assertTrue(target.get(0).getCurrHealth() == 13);
@@ -73,8 +73,8 @@ public class CharacterTest {
         ArrayList<Character> target = new ArrayList();
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 0.0, null, null, null, 10));
 
-        Ability res = new Ability("resAb", 0, 0, 0, null, null, 0, "resurrect");
-        Ability attack = new Ability("attackAb", 3, 0, 11.0, null, null, 0, "attack");
+        Ability res = new Ability("resAb", 0, 0, 0, "", "", 0, "resurrect", "");
+        Ability attack = new Ability("attackAb", 3, 0, 11.0, "", "", 0, "attack", "");
 
         testChar.castAbility(attack, target);
         assertFalse(target.get(0).isAlive());
