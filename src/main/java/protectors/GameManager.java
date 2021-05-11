@@ -22,35 +22,19 @@ public class GameManager {
     private int currentID = -1;
     private int encounterNumber = 1;
     private Mission mission;
+    private int turn;
 
     public GameManager(GameEngine UI) {
         this.UI = UI;
     }
 
-    public void basicSetup() {
-        playerTeam = new ArrayList();
-        enemyTeam = new ArrayList();
-        // initiativeTeam = new ArrayList();
-        abilities = new ArrayList();
-        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack");
-        Ability Heal = new Ability("Heal", 10, 2, -45, "none", "ally", 1, "heal");
-        Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "none", "ally", 1, "resurrect");
-        Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
-        Character Knight = new Character(150, 150, 50, 50, tmpSprite, "Knight", 120, "mana", 20, 10, Slash, Heal,
-                Resurrect, 6);
-        playerTeam.add(Knight);
-        Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash,
-                3);
-        enemyTeam.add(Goblin);
-    }// Ez csak minta a karakterlétrehozásra, a jövőben inkább úgy kellene majd csinálni, hogy a Setup()-nak átadunk egy
-     // küldetést (ami egy encounterekkel ellátott leszármazottja lesz egy Mission ősosztálynak, valamint átadunk neki
-     // egy Character listát)
-
     public void Setup(Mission m, ArrayList<Character> characters) {
+        turn = 0;
         encounterNumber = 1;
         playerTeam = new ArrayList();
         mission = m;
         playerTeam = characters;
+        arrangeTeamMembers();
         if (mission.Encounter1()) {
             enemyTeam = new ArrayList();
             enemyTeam = mission.getEnemies();
@@ -58,6 +42,13 @@ public class GameManager {
             manage();
         } else {
             showResult(true);
+        }
+    }
+
+    public void arrangeTeamMembers() {
+        for (int i = 0; i < playerTeam.size(); i++) {
+            playerTeam.get(i).setX(150);
+            playerTeam.get(i).setY(100 + i * 100);
         }
     }
 
@@ -158,13 +149,29 @@ public class GameManager {
         return target;
     }
 
+    private void newTurn() {
+        turn++;
+        for (Character c : initiativeTeam) {
+            if (c.getCurrResource() + 3 <= c.getMaxResource()) {
+                c.setCurrResource(c.getCurrResource() + 3);
+            } else {
+                c.setCurrResource(c.getMaxResource());
+            }
+        }
+    }
+
     private void currentSelect() {
         if (currentID == -1 || (currentID + 1) >= initiativeTeam.size()) {
             currentID = 0;
+            newTurn();
         } else {
             currentID++;
         }
         if (!initiativeTeam.get(currentID).isAlive()) {
+            currentSelect();
+        }
+        if (initiativeTeam.get(currentID).isStunned()) {
+            initiativeTeam.get(currentID).setStunned(false);
             currentSelect();
         }
         currentCharacter = initiativeTeam.get(currentID);
