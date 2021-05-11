@@ -54,7 +54,7 @@ public class Mission {
     public ArrayList<Character> getEnemies() {
         return Enemies;
     }
-    
+
     public Image getBackground() {
         return background;
     }

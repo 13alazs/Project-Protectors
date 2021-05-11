@@ -3,6 +3,7 @@ package protectors;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -13,7 +14,6 @@ import javax.swing.border.*;
 
 public class GameEngine extends JPanel {
     private String state = "MENU";
-
 
     private JPanel menuPanel; // Main menu
     private JPanel buttonPanel; // Extra panel for main menu, helps with button placement
@@ -38,10 +38,10 @@ public class GameEngine extends JPanel {
 
     private ArrayList<Character> targets;
     private ArrayList<Character> playerTeam;
+    private ArrayList<Sprite> targetArrows;
 
     private Mission currentMission;
 
-    
     private JButton ability1Button;
     private JButton ability2Button;
     private JButton ability3Button;
@@ -52,10 +52,11 @@ public class GameEngine extends JPanel {
 
     public GameEngine() {
         super();
-        
+
         playerTeam = new ArrayList<Character>();
-        
-        menuPanel=new JPanel();
+        targetArrows = new ArrayList<Sprite>();
+
+        menuPanel = new JPanel();
 
         this.add(menuPanel);
         //menuPanel.setBackground(new Color(0, 0, 0, 128));
@@ -69,20 +70,20 @@ public class GameEngine extends JPanel {
         menuPanel.add(new AlphaContainer(buttonPanel));
 
         missionsPanel = new MissionSelectionPanel();
-        //missionsPanel.setBackground(Color.GRAY);
+        // missionsPanel.setBackground(Color.GRAY);
         missionsPanel.setBounds(50, 50, 910, 740);
         missionsPanel.setVisible(false);
-        this.add(missionsPanel);    
+        this.add(missionsPanel);
         missionsPanel.setLayout(new BoxLayout(missionsPanel, BoxLayout.PAGE_AXIS));
 
-        charactersPanel=new CharacterSelectionPanel();
-        //charactersPanel.setBackground(Color.GRAY);
+        charactersPanel = new CharacterSelectionPanel();
+        // charactersPanel.setBackground(Color.GRAY);
         charactersPanel.setBounds(50, 50, 910, 740);
         charactersPanel.setVisible(false);
         this.add(charactersPanel);
         charactersPanel.setLayout(new BoxLayout(charactersPanel, BoxLayout.PAGE_AXIS));
-           
-        fightPanel=new JPanel();
+
+        fightPanel = new JPanel();
 
         fightPanel.setBackground(Color.GRAY);
         fightPanel.setBounds(375, 700, 270, 30);
@@ -99,8 +100,7 @@ public class GameEngine extends JPanel {
                 if (state == "FIGHT") {
                     // System.out.println("Ability 1 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
-                    tmpType = tmpAbility.getAbilityType();
-                    casting = true;
+                    cast();
                 }
             }
         });
@@ -113,7 +113,11 @@ public class GameEngine extends JPanel {
         ability2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                System.out.println("Ability 2 has been cast");
+                if (state == "FIGHT") {
+                    // System.out.println("Ability 2 has been cast");
+                    tmpAbility = Script.getCurrentCharacter().getAbility2();
+                    cast();
+                }
             }
         });
 
@@ -125,7 +129,11 @@ public class GameEngine extends JPanel {
         ability3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                System.out.println("Ability 3 has been cast");
+                if (state == "FIGHT") {
+                    // System.out.println("Ability 3 has been cast");
+                    tmpAbility = Script.getCurrentCharacter().getAbility3();
+                    cast();
+                }
             }
         });
 
@@ -139,21 +147,41 @@ public class GameEngine extends JPanel {
                     int x = e.getX();
                     int y = e.getY();
                     targets = new ArrayList();
-                    if (tmpType == "attack" && tmpAbility.getTargetCount() == 1
-                            && tmpAbility.getTargetType() == "enemy") {
-                        for (Character c : Script.getEnemyTeam()) {
-                            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY()
-                                    && y <= (c.getY() + c.getHeight())) {
-                                targets.add(c);
-                            }
-                        }
-                        Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+                    if ("attack".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "enemy".equals(tmpAbility.getTargetType())
+                            && "normal".equals(tmpAbility.getAbilityModifier())) {
+                        singletargetNormalAttack(x, y);
                     }
-                    tmpAbility = null;
-                    tmpType = null;
-                    casting = false;
-                    targets = null;
-                    Script.manage();
+                    if ("attack".equals(tmpType) && tmpAbility.getTargetCount() != 1
+                            && "enemy".equals(tmpAbility.getTargetType())
+                            && "normal".equals(tmpAbility.getAbilityModifier())) {
+                        multitargetNormalAttack(x, y);
+                    }
+                    if ("attack".equals(tmpType) && tmpAbility.getTargetCount() != 1
+                            && "enemy".equals(tmpAbility.getTargetType())
+                            && "random".equals(tmpAbility.getAbilityModifier())) {
+                        multitargetRandomAttack();
+                    }
+                    if ("attack".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "enemy".equals(tmpAbility.getTargetType())
+                            && "random".equals(tmpAbility.getAbilityModifier())) {
+                        singletargetRandomAttack();
+                    }
+                    if ("heal".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "ally".equals(tmpAbility.getTargetType())
+                            && Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
+                        singletargetNormalHeal(x, y);
+                    }
+                    if ("resurrect".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "ally".equals(tmpAbility.getTargetType())
+                            && Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
+                        singletargetResurrect(x, y);
+                    }
+                    if ("stun".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "enemy".equals(tmpAbility.getTargetType())
+                            && Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
+                        singletargetStun(x, y);
+                    }
                 }
             }
         });
@@ -183,19 +211,19 @@ public class GameEngine extends JPanel {
                 fightPanel.setVisible(true);
                 menuPanel.setVisible(false);
                 timer.start();
-
-                // Script.basicSetup();
-
-                ArrayList<Character> playerTeam = new ArrayList();
-                Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack");
-                Ability Heal = new Ability("Heal", 10, 2, -45, "none", "ally", 1, "heal");
-                Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "none", "ally", 1, "resurrect");
-                Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
-                Character Knight = new Character(150, 150, 50, 50, tmpSprite, "Knight", 120, "mana", 20, 10, Slash,
-                        Heal, Resurrect, 6);
-                playerTeam.add(Knight);
-                Training m = new Training();
-                Script.Setup(m, playerTeam);
+                if (playerTeam.isEmpty()) {
+                    Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal");
+                    Ability Heal = new Ability("Heal", 10, 2, -45, "none", "ally", 1, "heal", "normal");
+                    Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "none", "ally", 1, "resurrect", "normal");
+                    Image tmpSprite = new ImageIcon("data/images/characters/playable/knight.png").getImage();
+                    Character Knight = new Character(150, 150, 50, 50, tmpSprite, "BasicKnight", 120, "mana", 20, 10,
+                            Slash, Heal, Resurrect, 6);
+                    playerTeam.add(Knight);
+                }
+                if (currentMission == null) {
+                    currentMission = new Training();
+                }
+                Script.Setup(currentMission, playerTeam);
             }
         }); // Menu -> Battle
 
@@ -225,6 +253,7 @@ public class GameEngine extends JPanel {
                 charactersPanel.setVisible(true);
                 menuPanel.setVisible(false);
             }
+
         }); //Menu -> Character select
         
         menuButtonR = new UIButton("data/images/ui/menuButton.png", 0, 0, 150, 50);
@@ -232,6 +261,7 @@ public class GameEngine extends JPanel {
         //menuButtonR.setBorder(new LineBorder(Color.BLACK));
         //menuButtonR.setPreferredSize(new Dimension(90, 30));
         resultPanel.add(new AlphaContainer(menuButtonR));
+
         menuButtonR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -264,9 +294,9 @@ public class GameEngine extends JPanel {
         charactersPanel.add(new AlphaContainer(menuButtonC));
         menuButtonC.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae){
+            public void actionPerformed(ActionEvent ae) {
                 playerTeam = charactersPanel.getChosenCharacters();
-                state="MENU";
+                state = "MENU";
                 charactersPanel.setVisible(false);
                 menuPanel.setVisible(true);
             }
@@ -290,8 +320,8 @@ public class GameEngine extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // g.drawImage(background, 0, 0, 1000, 800, null);
         if (state == "FIGHT") {
+            g.drawImage(currentMission.getBackground(), 0, 0, 1000, 800, null);
             ArrayList<Character> PlayerTeam = Script.getPlayerTeam();
             ArrayList<Character> EnemyTeam = Script.getEnemyTeam();
             for (Character c : PlayerTeam) {
@@ -299,6 +329,61 @@ public class GameEngine extends JPanel {
             }
             for (Character c : EnemyTeam) {
                 c.draw(g);
+            }
+            if (casting) {
+                for (Sprite s : targetArrows) {
+                    s.draw(g);
+                }
+            }
+        }
+    }
+
+    private void cast() {
+        if (Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
+            tmpType = tmpAbility.getAbilityType();
+            casting = true;
+            targetArrowsSetup();
+        } else {
+            System.out.println("Not enough " + Script.getCurrentCharacter().getResourceName() + " ("
+                    + Script.getCurrentCharacter().getCurrResource() + "/" + tmpAbility.getCost() + ")");
+        }
+    }
+
+    private void targetArrowsSetup() {
+        Image arrowSprite = new ImageIcon("data/images/ui/arrow.png").getImage();
+        targetArrows = new ArrayList();
+        if ("self".equals(tmpAbility.getTargetType())) {
+            Sprite arrow = new Sprite(
+                    Script.getCurrentCharacter().getX() + Script.getCurrentCharacter().getWidth() / 2 - 5,
+                    Script.getCurrentCharacter().getY() - 15, 10, 10, arrowSprite);
+            targetArrows.add(arrow);
+        } else if ("ally".equals(tmpAbility.getTargetType())) {
+            for (Character c : Script.getPlayerTeam()) {
+                if ("resurrect".equals(tmpType)) {
+                    if (!c.isAlive()) {
+                        Sprite arrow = new Sprite(c.getX() + c.getWidth() / 2 - 5, c.getY() - 15, 10, 10, arrowSprite);
+                        targetArrows.add(arrow);
+                    }
+                } else {
+                    if (c.isAlive()) {
+                        Sprite arrow = new Sprite(c.getX() + c.getWidth() / 2 - 5, c.getY() - 15, 10, 10, arrowSprite);
+                        targetArrows.add(arrow);
+                    }
+                }
+            }
+        } else if ("enemy".equals(tmpAbility.getTargetType())) {
+            for (Character c : Script.getEnemyTeam()) {
+                if (c.isAlive()) {
+                    Sprite arrow = new Sprite(c.getX() + c.getWidth() / 2 - 5, c.getY() - 15, 10, 10, arrowSprite);
+                    targetArrows.add(arrow);
+                }
+            }
+        } else if ("all".equals(tmpAbility.getTargetType())) {
+            for (Character c : Script.getInitiativeTeam()) {
+                if (c.isAlive()) {
+                    Sprite arrow = new Sprite(c.getX() + c.getWidth() / 2 - 5, c.getY() - 15, 10, 10, arrowSprite);
+                    targetArrows.add(arrow);
+                }
             }
         }
     }
@@ -320,6 +405,161 @@ public class GameEngine extends JPanel {
             resultLabel.setText("Mission complete");
         } else {
             resultLabel.setText("Mission failed");
+        }
+    }
+
+    public void singletargetNormalAttack(int x, int y) {
+        for (Character c : Script.getEnemyTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())) {
+                targets.add(c);
+            }
+        }
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
+        }
+    }
+
+    public void multitargetNormalAttack(int x, int y) {
+        for (int i = 0; i < Script.getEnemyTeam().size(); i++) {
+            Character c = Script.getEnemyTeam().get(i);
+            if (tmpAbility.getTargetCount() >= Script.getEnemyTeam().size()) {
+                targets.addAll(Script.getEnemyTeam());
+            } else {
+                if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY()
+                        && y <= (c.getY() + c.getHeight())) {
+                    targets.add(c);
+                    if (tmpAbility.getTargetCount() == 2) {
+                        if (i != 0) {
+                            targets.add(Script.getEnemyTeam().get(i - 1));
+                        } else {
+                            targets.add(Script.getEnemyTeam().get(i + 1));
+                        }
+                    }
+                    if (tmpAbility.getTargetCount() == 3) {
+                        if (i != 0 && i != Script.getEnemyTeam().size() - 1) {
+                            targets.add(Script.getEnemyTeam().get(i - 1));
+                            targets.add(Script.getEnemyTeam().get(i + 1));
+                        } else if (i == 0) {
+                            targets.add(Script.getEnemyTeam().get(i + 1));
+                            targets.add(Script.getEnemyTeam().get(i + 2));
+                        } else if (i == Script.getEnemyTeam().size() - 1) {
+                            targets.add(Script.getEnemyTeam().get(i - 1));
+                            targets.add(Script.getEnemyTeam().get(i - 2));
+                        }
+                    }
+                    if (tmpAbility.getTargetCount() == 4) {
+                        if (i != 0 && i != 1 && i != Script.getEnemyTeam().size() - 1) {
+                            targets.add(Script.getEnemyTeam().get(i - 2));
+                            targets.add(Script.getEnemyTeam().get(i - 1));
+                            targets.add(Script.getEnemyTeam().get(i + 1));
+                        } else if (i == 0) {
+                            targets.add(Script.getEnemyTeam().get(i + 1));
+                            targets.add(Script.getEnemyTeam().get(i + 2));
+                            targets.add(Script.getEnemyTeam().get(i + 3));
+                        } else if (i == 1) {
+                            targets.add(Script.getEnemyTeam().get(i - 1));
+                            targets.add(Script.getEnemyTeam().get(i + 2));
+                            targets.add(Script.getEnemyTeam().get(i + 1));
+                        } else if (i == Script.getEnemyTeam().size() - 1) {
+                            targets.add(Script.getEnemyTeam().get(i - 1));
+                            targets.add(Script.getEnemyTeam().get(i - 2));
+                            targets.add(Script.getEnemyTeam().get(i - 3));
+                        }
+                    }
+                }
+            }
+        }
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
+        }
+    }
+
+    public void multitargetRandomAttack() {
+        for (int i = 0; i < tmpAbility.getTargetCount(); i++) {
+            Random rand = new Random();
+            int randomTarget = rand.nextInt(tmpAbility.getTargetCount());
+            targets.add(Script.getEnemyTeam().get(randomTarget));
+        }
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
+        }
+    }
+
+    public void singletargetRandomAttack() {
+        Random rand = new Random();
+        int randomTarget = rand.nextInt(tmpAbility.getTargetCount());
+        targets.add(Script.getEnemyTeam().get(randomTarget));
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
+        }
+    }
+
+    public void singletargetNormalHeal(int x, int y) {
+        for (Character c : Script.getPlayerTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())) {
+                targets.add(c);
+            }
+        }
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
+        }
+    }
+
+    public void singletargetResurrect(int x, int y) {
+        for (Character c : Script.getPlayerTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                    && !c.isAlive()) {
+                targets.add(c);
+            }
+        }
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
+        }
+    }
+
+    public void singletargetStun(int x, int y) {
+        for (Character c : Script.getEnemyTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())) {
+                targets.add(c);
+            }
+        }
+        if (targets.size() > 0) {
+            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            tmpAbility = null;
+            tmpType = null;
+            casting = false;
+            targets = null;
+            Script.manage();
         }
     }
 
