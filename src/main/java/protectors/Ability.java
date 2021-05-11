@@ -5,6 +5,7 @@ package protectors;
     Members: Árvai Balázs, Bíró Benjámin, Fodor Ádám, Zászlós Dorottya Beáta
     @author Bíró Benjámin and Fodor Ádám
 */
+
 public class Ability {
     private final String name;
 
@@ -18,6 +19,7 @@ public class Ability {
     private final String targetType; // Whom does this target (self / enemy / ally)
     private final int targetCount; // How many units does it effect (1-10)
     private final String abilityType; // What type of ability is it (attack / heal / buff / debuff / resurrect)
+    private final String abilityModifier; // How the attack should go (random targets, adjascent...)
 
     /**
      * Constructor for the Ability class.
@@ -41,7 +43,7 @@ public class Ability {
      */
 
     public Ability(String name, int cost, int cooldown, double attackDamage, String attackType, String targetType,
-            int targetCount, String abilityType) {
+            int targetCount, String abilityType, String abilityModifier) {
         this.name = name;
         this.cost = cost;
         this.cooldown = cooldown;
@@ -50,6 +52,7 @@ public class Ability {
         this.targetType = targetType;
         this.targetCount = targetCount;
         this.abilityType = abilityType;
+        this.abilityModifier = abilityModifier;
     }
 
     /**
@@ -106,14 +109,29 @@ public class Ability {
         return attackType;
     }
 
+    /**
+     * Returns the targeting method.
+     * 
+     * @return Target type.
+     */
     public String getTargetType() {
         return targetType;
     }
 
+    /**
+     * Returns the amount of people targeted.
+     * 
+     * @return Target type.
+     */
     public int getTargetCount() {
         return targetCount;
     }
 
+    /**
+     * Returns the type of the ability.
+     * 
+     * @return Ability type.
+     */
     public String getAbilityType() {
         return abilityType;
     }
@@ -126,5 +144,9 @@ public class Ability {
      */
     public void setCooldownRem(int cooldownRem) {
         this.cooldownRem = cooldownRem;
+    }
+
+    public String getAbilityModifier() {
+        return abilityModifier;
     }
 }

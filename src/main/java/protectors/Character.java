@@ -31,6 +31,7 @@ public class Character extends Sprite {
     private final int initiative; // Determines when the character gets to go.
 
     private boolean alive; // Tracks if the character is alive or dead.
+    private boolean stunned; // Tracks if the character is stunned or not.
 
     /**
      * Constructor that calls the Sprite parent class' constructor.
@@ -79,6 +80,7 @@ public class Character extends Sprite {
         this.ability3 = ability3;
         this.initiative = initiative;
         this.alive = true;
+        this.stunned = false;
     }
 
     /**
@@ -96,13 +98,15 @@ public class Character extends Sprite {
         if (currResource >= ab.getCost()) {
             setCurrResource(getCurrResource() - ab.getCost());
             for (Character target : targets) {
-                if (ab.getAbilityType() == "attack") {
+                if ("attack".equals(ab.getAbilityType())) {
                     target.healthChange(ab.getAttackDamage() - target.getArmor());
-                } else if (ab.getAbilityType() == "heal") {
+                } else if ("heal".equals(ab.getAbilityType())) {
                     target.healthChange(ab.getAttackDamage());
-                } else if (ab.getAbilityType() == "resurrect") {
+                } else if ("resurrect".equals(ab.getAbilityType())) {
                     target.resurrect();
-                } // TODO: stuns, buffs and debuffs (maybe)
+                } else if ("stun".equals(ab.getAbilityType())) {
+                    target.stun();
+                } // TODO: DoTs, HoTs, buffs and debuffs (maybe)
             }
             return true;
         }
@@ -128,6 +132,12 @@ public class Character extends Sprite {
             currHealth = maxHealth;
         }
     } // Used resurrecting characters, but if they are already alive, this works as a full heal instead
+
+    private void stun() {
+        if (alive) {
+            stunned = true;
+        }
+    }
 
     public Ability getAbility1() {
         return ability1;
@@ -244,5 +254,13 @@ public class Character extends Sprite {
 
     public int getInitiative() {
         return initiative;
+    }
+
+    public boolean isStunned() {
+        return stunned;
+    }
+
+    public void setStunned(boolean stunned) {
+        this.stunned = stunned;
     }
 }
