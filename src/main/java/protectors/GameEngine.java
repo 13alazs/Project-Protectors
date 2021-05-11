@@ -69,14 +69,14 @@ public class GameEngine extends JPanel {
         menuPanel.add(buttonPanel);
 
         missionsPanel = new MissionSelectionPanel();
-        missionsPanel.setBackground(Color.GRAY);
+        //missionsPanel.setBackground(Color.GRAY);
         missionsPanel.setBounds(50, 50, 910, 740);
         missionsPanel.setVisible(false);
         this.add(missionsPanel);    
         missionsPanel.setLayout(new BoxLayout(missionsPanel, BoxLayout.PAGE_AXIS));
 
         charactersPanel=new CharacterSelectionPanel();
-        charactersPanel.setBackground(Color.GRAY);
+        //charactersPanel.setBackground(Color.GRAY);
         charactersPanel.setBounds(50, 50, 910, 740);
         charactersPanel.setVisible(false);
         this.add(charactersPanel);

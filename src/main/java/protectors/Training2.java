@@ -9,10 +9,10 @@ import javax.swing.ImageIcon;
     Members: Árvai Balázs, Bíró Benjámin, Fodor Ádám, Zászlós Dorottya Beáta
 */
 
-public class Training extends Mission {
-    public Training() {
-        name = "Training";
-        background = new ImageIcon("data/images/backgrounds/forest.jpg").getImage();
+public class Training2 extends Mission {
+    public Training2() {
+        name = "Training2";
+        background = new ImageIcon("data/images/backgrounds/caveIce.jpg").getImage();
     }
 
     @Override
