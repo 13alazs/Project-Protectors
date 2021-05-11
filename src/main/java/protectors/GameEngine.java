@@ -13,6 +13,8 @@ import javax.swing.border.*;
 */
 
 public class GameEngine extends JPanel {
+    private JPanel thisPanel = this;
+    
     private String state = "MENU";
 
     private JPanel menuPanel; // Main menu
@@ -43,8 +45,11 @@ public class GameEngine extends JPanel {
     private Mission currentMission;
 
     private JButton ability1Button;
+    private UITooltip tooltipOne;
     private JButton ability2Button;
+    private UITooltip tooltipTwo;
     private JButton ability3Button;
+    private UITooltip tooltipThree;
 
     private GameManager Script;
     private Timer timer;
@@ -89,6 +94,7 @@ public class GameEngine extends JPanel {
         fightPanel.setBounds(375, 700, 270, 30);
         fightPanel.setVisible(false);
         fightPanel.setLayout(new GridLayout(1, 3));
+        
         ability1Button = new JButton("Ability1");
         ability1Button.setBackground(Color.ORANGE);
         ability1Button.setBorder(new LineBorder(Color.BLACK));
@@ -102,6 +108,16 @@ public class GameEngine extends JPanel {
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
                     cast();
                 }
+            }
+        }); 
+        ability1Button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent event){
+                thisPanel.add(tooltipOne);
+            }
+            @Override
+            public void mouseExited(MouseEvent event){
+                thisPanel.remove(tooltipOne);
             }
         });
 
@@ -120,6 +136,16 @@ public class GameEngine extends JPanel {
                 }
             }
         });
+        ability2Button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent event){
+                thisPanel.add(tooltipTwo);
+            }
+            @Override
+            public void mouseExited(MouseEvent event){
+                thisPanel.remove(tooltipTwo);
+            }
+        });
 
         ability3Button = new JButton("Ability3");
         ability3Button.setBackground(Color.ORANGE);
@@ -134,6 +160,16 @@ public class GameEngine extends JPanel {
                     tmpAbility = Script.getCurrentCharacter().getAbility3();
                     cast();
                 }
+            }
+        });
+        ability3Button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent event){
+                thisPanel.add(tooltipThree);
+            }
+            @Override
+            public void mouseExited(MouseEvent event){
+                thisPanel.remove(tooltipThree);
             }
         });
 
@@ -224,6 +260,9 @@ public class GameEngine extends JPanel {
                     currentMission = new Training();
                 }
                 Script.Setup(currentMission, playerTeam);
+                tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500, ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(), Script.getCurrentCharacter().getResourceName());
+                tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500, ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(), Script.getCurrentCharacter().getResourceName());
+                tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500, ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(), Script.getCurrentCharacter().getResourceName());
             }
         }); // Menu -> Battle
 
@@ -321,7 +360,7 @@ public class GameEngine extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (state == "FIGHT") {
-            g.drawImage(currentMission.getBackground(), 0, 0, 1000, 800, null);
+            g.drawImage(currentMission.getBackground(), 0, 0, 1000, 800, fightPanel);
             ArrayList<Character> PlayerTeam = Script.getPlayerTeam();
             ArrayList<Character> EnemyTeam = Script.getEnemyTeam();
             for (Character c : PlayerTeam) {
@@ -421,6 +460,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -481,6 +521,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -497,6 +538,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -511,6 +553,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -527,6 +570,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -544,6 +588,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -560,7 +605,17 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
+    }
+    
+    public void updateTooltips(){
+        try{
+            tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500, ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(), Script.getCurrentCharacter().getResourceName());
+            tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500, ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(), Script.getCurrentCharacter().getResourceName());
+            tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500, ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(), Script.getCurrentCharacter().getResourceName());
+        }catch(IllegalComponentStateException e){}
+        
     }
 
     public JPanel getMenuPanel() {
