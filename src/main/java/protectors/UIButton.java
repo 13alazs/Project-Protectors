@@ -33,7 +33,7 @@ public class UIButton extends JButton {
         btn.setBorder(null);
 
         btn.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 2));
-        
+
         btn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
