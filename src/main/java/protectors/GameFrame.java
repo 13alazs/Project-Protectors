@@ -15,7 +15,7 @@ public class GameFrame {
 
     public GameFrame() {
         frame = new JFrame("Project Protectors");
-        frame.setPreferredSize(new Dimension(1010, 840));
+        frame.setPreferredSize(new Dimension(1450, 850));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

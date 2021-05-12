@@ -8,16 +8,18 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class CharacterSelectionPanel extends JPanel {
     // private final Image image;
 
-    private ImagePanel characterHolderPanel;
+    private JPanel characterHolderPanel;
 
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
     private ArrayList<Boolean> isChosen = new ArrayList<Boolean>();
@@ -75,17 +77,18 @@ public class CharacterSelectionPanel extends JPanel {
 
         GridBagLayout gridLayoutForCharacters = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
-        c.gridwidth = 4;
+        c.gridwidth = 3;
         c.ipady = 70;
         c.ipadx = 60;
         c.insets = new Insets(0, 0, 5, 5);
 
-        characterHolderPanel = new ImagePanel(new ImageIcon("data/images/ui/uiBackground.png").getImage());
+        characterHolderPanel = new JPanel();
+        characterHolderPanel.setOpaque(false);
         characterHolderPanel.setLayout(gridLayoutForCharacters);
         this.add(characterHolderPanel);
 
         for (int i = 0; i < allTheCharacters.size(); i++) {
-            c.gridx = (i % 4) * 50;
+            c.gridx = (i % 3) * 50;
             final JPanel tmpPanel = new JPanel(new BorderLayout());
             characterHolderPanel.add(new AlphaContainer(tmpPanel), c);
             final ImagePanel characterImage = new ImagePanel(allTheCharacters.get(i).getImage());
@@ -93,8 +96,9 @@ public class CharacterSelectionPanel extends JPanel {
             tmpPanel.add(characterImage, BorderLayout.NORTH);
             isChosen.add(false);
             tmpPanel.setBackground(new Color(0, 0, 0, 128));
-            final JLabel tmpLabel = new JLabel((allTheCharacters.get(i).getName()));
-            tmpLabel.setForeground(Color.BLACK);
+            final JLabel tmpLabel = new JLabel(allTheCharacters.get(i).getName(), SwingConstants.CENTER);
+            tmpLabel.setForeground(Color.WHITE);
+            tmpLabel.setFont(new Font("Arial", Font.BOLD, 12));
             tmpPanel.add(tmpLabel, BorderLayout.SOUTH);
             tmpPanel.setPreferredSize(new Dimension(50, 50));
             final int num = i;
@@ -103,20 +107,20 @@ public class CharacterSelectionPanel extends JPanel {
                 public void mousePressed(MouseEvent event) {
                     if (isChosen.get(num) == false && chosenCharacters.size() < 5) {
                         chosenCharacters.add(allTheCharacters.get(num));
-                        // System.out.println(chosenCharacters.size());
-                        tmpPanel.setBackground(new Color(128, 255, 0, 128));
+                        tmpPanel.setBackground(Color.WHITE);
+                        tmpLabel.setForeground(Color.BLACK);
                         isChosen.set(num, true);
                     } else {
                         chosenCharacters.remove(allTheCharacters.get(num));
-                        // System.out.println(chosenCharacters.size());
                         tmpPanel.setBackground(new Color(0, 0, 0, 128));
+                        tmpLabel.setForeground(Color.WHITE);
                         isChosen.set(num, false);
                     }
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent event) {
-                    tmpPanel.setBorder(new LineBorder(Color.DARK_GRAY));
+                    tmpPanel.setBorder(new LineBorder(Color.WHITE, 2));
                 }
 
                 @Override
