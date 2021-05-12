@@ -13,6 +13,8 @@ import javax.swing.border.*;
 */
 
 public class GameEngine extends JPanel {
+    private JPanel thisPanel = this;
+    
     private String state = "MENU";
 
     private JPanel menuPanel; // Main menu
@@ -22,7 +24,7 @@ public class GameEngine extends JPanel {
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
 
-    private JButton missionsButton;
+    private UIButton missionsButton;
     private JButton exitButton;
     private JButton charactersButton;
     private JButton startButton;
@@ -43,8 +45,11 @@ public class GameEngine extends JPanel {
     private Mission currentMission;
 
     private JButton ability1Button;
+    private UITooltip tooltipOne;
     private JButton ability2Button;
+    private UITooltip tooltipTwo;
     private JButton ability3Button;
+    private UITooltip tooltipThree;
 
     private GameManager Script;
     private Timer timer;
@@ -59,15 +64,15 @@ public class GameEngine extends JPanel {
         menuPanel = new JPanel();
 
         this.add(menuPanel);
-        menuPanel.setBackground(Color.GRAY);
+        //menuPanel.setBackground(new Color(0, 0, 0, 128));
         menuPanel.setBounds(375, 200, 180, 350);
         menuPanel.setVisible(true);
 
         buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.GRAY);
+        //buttonPanel.setBackground(Color.GRAY);
         buttonPanel.setBounds(375, 200, 180, 350);
         buttonPanel.setLayout(new GridLayout(4, 1));
-        menuPanel.add(buttonPanel);
+        menuPanel.add(new AlphaContainer(buttonPanel));
 
         missionsPanel = new MissionSelectionPanel();
         // missionsPanel.setBackground(Color.GRAY);
@@ -89,6 +94,7 @@ public class GameEngine extends JPanel {
         fightPanel.setBounds(375, 700, 270, 30);
         fightPanel.setVisible(false);
         fightPanel.setLayout(new GridLayout(1, 3));
+        
         ability1Button = new JButton("Ability1");
         ability1Button.setBackground(Color.ORANGE);
         ability1Button.setBorder(new LineBorder(Color.BLACK));
@@ -102,6 +108,16 @@ public class GameEngine extends JPanel {
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
                     cast();
                 }
+            }
+        }); 
+        ability1Button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent event){
+                thisPanel.add(tooltipOne);
+            }
+            @Override
+            public void mouseExited(MouseEvent event){
+                thisPanel.remove(tooltipOne);
             }
         });
 
@@ -120,6 +136,16 @@ public class GameEngine extends JPanel {
                 }
             }
         });
+        ability2Button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent event){
+                thisPanel.add(tooltipTwo);
+            }
+            @Override
+            public void mouseExited(MouseEvent event){
+                thisPanel.remove(tooltipTwo);
+            }
+        });
 
         ability3Button = new JButton("Ability3");
         ability3Button.setBackground(Color.ORANGE);
@@ -134,6 +160,16 @@ public class GameEngine extends JPanel {
                     tmpAbility = Script.getCurrentCharacter().getAbility3();
                     cast();
                 }
+            }
+        });
+        ability3Button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent event){
+                thisPanel.add(tooltipThree);
+            }
+            @Override
+            public void mouseExited(MouseEvent event){
+                thisPanel.remove(tooltipThree);
             }
         });
 
@@ -199,11 +235,11 @@ public class GameEngine extends JPanel {
         timer = new Timer(2000 / FPS, new NewFrameListener());
         Script = new GameManager(this);
 
-        startButton = new JButton("Start mission");
-        startButton.setBackground(Color.ORANGE);
-        startButton.setBorder(new LineBorder(Color.BLACK));
-        startButton.setPreferredSize(new Dimension(90, 30));
-        buttonPanel.add(startButton);
+        startButton = new UIButton("data/images/ui/startButton.png", 0, 0, 150, 50);
+        //startButton.setBackground(Color.ORANGE);
+        //startButton.setBorder(new LineBorder(Color.BLACK));
+        //startButton.setPreferredSize(new Dimension(90, 30));
+        buttonPanel.add(new AlphaContainer(startButton));
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -224,14 +260,17 @@ public class GameEngine extends JPanel {
                     currentMission = new Training();
                 }
                 Script.Setup(currentMission, playerTeam);
+                tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500, ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(), Script.getCurrentCharacter().getResourceName());
+                tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500, ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(), Script.getCurrentCharacter().getResourceName());
+                tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500, ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(), Script.getCurrentCharacter().getResourceName());
             }
         }); // Menu -> Battle
 
-        missionsButton = new JButton("Mission select");
-        missionsButton.setBackground(Color.ORANGE);
-        missionsButton.setBorder(new LineBorder(Color.BLACK));
-        missionsButton.setPreferredSize(new Dimension(90, 30));
-        buttonPanel.add(missionsButton);
+        missionsButton = new UIButton("data/images/ui/missionsButton.png", 0, 0, 150, 50);
+        //missionsButton.setBackground(Color.ORANGE);
+        //missionsButton.setBorder(new LineBorder(Color.BLACK));
+        //missionsButton.setPreferredSize(new Dimension(90, 30));
+        buttonPanel.add(new AlphaContainer(missionsButton));
         missionsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -241,11 +280,11 @@ public class GameEngine extends JPanel {
             }
         }); // Menu -> Mission Select
 
-        charactersButton = new JButton("Character select");
-        charactersButton.setBackground(Color.ORANGE);
-        charactersButton.setBorder(new LineBorder(Color.BLACK));
-        charactersButton.setPreferredSize(new Dimension(90, 30));
-        buttonPanel.add(charactersButton);
+        charactersButton = new UIButton("data/images/ui/charactersButton.png", 0, 0, 150, 50);
+        //charactersButton.setBackground(Color.ORANGE);
+        //charactersButton.setBorder(new LineBorder(Color.BLACK));
+        //charactersButton.setPreferredSize(new Dimension(90, 30));
+        buttonPanel.add(new AlphaContainer(charactersButton));
         charactersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -253,14 +292,15 @@ public class GameEngine extends JPanel {
                 charactersPanel.setVisible(true);
                 menuPanel.setVisible(false);
             }
-        }); // Menu -> Character select
 
-        menuButtonR = new JButton("Menu");
+        }); //Menu -> Character select
+        
+        menuButtonR = new UIButton("data/images/ui/menuButton.png", 0, 0, 150, 50);
+        //menuButtonR.setBackground(Color.ORANGE);
+        //menuButtonR.setBorder(new LineBorder(Color.BLACK));
+        //menuButtonR.setPreferredSize(new Dimension(90, 30));
+        resultPanel.add(new AlphaContainer(menuButtonR));
 
-        menuButtonR.setBackground(Color.ORANGE);
-        menuButtonR.setBorder(new LineBorder(Color.BLACK));
-        menuButtonR.setPreferredSize(new Dimension(90, 30));
-        resultPanel.add(menuButtonR);
         menuButtonR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -271,11 +311,11 @@ public class GameEngine extends JPanel {
             }
         }); // Result screen -> Menu
 
-        menuButtonM = new JButton("Menu");
-        menuButtonM.setBackground(Color.ORANGE);
-        menuButtonM.setBorder(new LineBorder(Color.BLACK));
-        menuButtonM.setPreferredSize(new Dimension(90, 30));
-        missionsPanel.add(menuButtonM);
+        menuButtonM = new UIButton("data/images/ui/menuButton.png", 0, 0, 150, 50);
+        //menuButtonM.setBackground(Color.ORANGE);
+        //menuButtonM.setBorder(new LineBorder(Color.BLACK));
+        //menuButtonM.setPreferredSize(new Dimension(90, 30));
+        missionsPanel.add(new AlphaContainer(menuButtonM));
         menuButtonM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -286,11 +326,11 @@ public class GameEngine extends JPanel {
             }
         }); // Mission select -> Menu
 
-        menuButtonC = new JButton("Menu");
-        menuButtonC.setBackground(Color.ORANGE);
-        menuButtonC.setBorder(new LineBorder(Color.BLACK));
-        menuButtonC.setPreferredSize(new Dimension(90, 30));
-        charactersPanel.add(menuButtonC);
+        menuButtonC = new UIButton("data/images/ui/menuButton.png", 0, 0, 150, 50);
+        //menuButtonC.setBackground(Color.ORANGE);
+        //menuButtonC.setBorder(new LineBorder(Color.BLACK));
+        //menuButtonC.setPreferredSize(new Dimension(90, 30));
+        charactersPanel.add(new AlphaContainer(menuButtonC));
         menuButtonC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -301,11 +341,11 @@ public class GameEngine extends JPanel {
             }
         }); // Character select -> Menu
 
-        exitButton = new JButton("Exit");
-        exitButton.setBackground(Color.ORANGE);
-        exitButton.setBorder(new LineBorder(Color.BLACK));
-        exitButton.setPreferredSize(new Dimension(90, 30));
-        buttonPanel.add(exitButton);
+        exitButton = new UIButton("data/images/ui/exitButton.png", 0, 0, 150, 50);
+        //exitButton.setBackground(Color.ORANGE);
+        //exitButton.setBorder(new LineBorder(Color.BLACK));
+        //exitButton.setPreferredSize(new Dimension(90, 30));
+        buttonPanel.add(new AlphaContainer(exitButton));
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -320,7 +360,7 @@ public class GameEngine extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (state == "FIGHT") {
-            g.drawImage(currentMission.getBackground(), 0, 0, 1000, 800, null);
+            g.drawImage(currentMission.getBackground(), 0, 0, 1000, 800, fightPanel);
             ArrayList<Character> PlayerTeam = Script.getPlayerTeam();
             ArrayList<Character> EnemyTeam = Script.getEnemyTeam();
             for (Character c : PlayerTeam) {
@@ -420,6 +460,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -480,6 +521,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -496,6 +538,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -510,6 +553,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -526,6 +570,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -543,6 +588,7 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
     }
 
@@ -559,7 +605,17 @@ public class GameEngine extends JPanel {
             casting = false;
             targets = null;
             Script.manage();
+            updateTooltips();
         }
+    }
+    
+    public void updateTooltips(){
+        try{
+            tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500, ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(), Script.getCurrentCharacter().getResourceName());
+            tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500, ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(), Script.getCurrentCharacter().getResourceName());
+            tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500, ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(), Script.getCurrentCharacter().getResourceName());
+        }catch(IllegalComponentStateException e){}
+        
     }
 
     public JPanel getMenuPanel() {
