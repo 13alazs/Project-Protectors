@@ -14,7 +14,7 @@ import javax.swing.border.*;
 
 public class GameEngine extends JPanel {
     private JPanel thisPanel = this;
-    
+
     private String state = "MENU";
 
     private JPanel menuPanel; // Main menu
@@ -24,7 +24,7 @@ public class GameEngine extends JPanel {
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
 
-    private UIButton missionsButton;
+    private JButton missionsButton;
     private JButton exitButton;
     private JButton charactersButton;
     private JButton startButton;
@@ -70,7 +70,7 @@ public class GameEngine extends JPanel {
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4, 1));
-        menuPanel.add(new AlphaContainer(buttonPanel));
+        menuPanel.add(buttonPanel);
 
         missionsPanel = new MissionSelectionPanel();
         missionsPanel.setBackground(Color.BLACK);
@@ -106,14 +106,15 @@ public class GameEngine extends JPanel {
                     cast();
                 }
             }
-        }); 
-        ability1Button.addMouseListener(new MouseAdapter(){
+        });
+        ability1Button.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent event){
+            public void mouseEntered(MouseEvent event) {
                 thisPanel.add(tooltipOne);
             }
+
             @Override
-            public void mouseExited(MouseEvent event){
+            public void mouseExited(MouseEvent event) {
                 thisPanel.remove(tooltipOne);
             }
         });
@@ -133,13 +134,14 @@ public class GameEngine extends JPanel {
                 }
             }
         });
-        ability2Button.addMouseListener(new MouseAdapter(){
+        ability2Button.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent event){
+            public void mouseEntered(MouseEvent event) {
                 thisPanel.add(tooltipTwo);
             }
+
             @Override
-            public void mouseExited(MouseEvent event){
+            public void mouseExited(MouseEvent event) {
                 thisPanel.remove(tooltipTwo);
             }
         });
@@ -159,13 +161,14 @@ public class GameEngine extends JPanel {
                 }
             }
         });
-        ability3Button.addMouseListener(new MouseAdapter(){
+        ability3Button.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent event){
+            public void mouseEntered(MouseEvent event) {
                 thisPanel.add(tooltipThree);
             }
+
             @Override
-            public void mouseExited(MouseEvent event){
+            public void mouseExited(MouseEvent event) {
                 thisPanel.remove(tooltipThree);
             }
         });
@@ -259,9 +262,15 @@ public class GameEngine extends JPanel {
                     currentMission = new Training();
                 }
                 Script.Setup(currentMission, playerTeam);
-                tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500, ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(), Script.getCurrentCharacter().getResourceName());
-                tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500, ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(), Script.getCurrentCharacter().getResourceName());
-                tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500, ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(), Script.getCurrentCharacter().getResourceName());
+                tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500,
+                        ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(),
+                        Script.getCurrentCharacter().getResourceName());
+                tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500,
+                        ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(),
+                        Script.getCurrentCharacter().getResourceName());
+                tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500,
+                        ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(),
+                        Script.getCurrentCharacter().getResourceName());
             }
         }); // Menu -> Battle
 
@@ -279,7 +288,7 @@ public class GameEngine extends JPanel {
                 missionsPanel.setVisible(true);
                 menuPanel.setVisible(false);
             }
-        }); // Menu -> Select Mission
+        }); // Menu -> Mission Select
 
         charactersButton = new JButton("SELECT CHARACTERS");
         charactersButton.setBackground(Color.BLACK);
@@ -297,6 +306,7 @@ public class GameEngine extends JPanel {
             }
         }); // Menu -> Select Character
 
+        menuButtonR = new JButton("Back");
         menuButtonR.setBackground(Color.BLACK);
         menuButtonR.setFont(new Font("Arial", Font.BOLD, 20));
         menuButtonR.setBorder(new LineBorder(Color.WHITE));
@@ -618,14 +628,21 @@ public class GameEngine extends JPanel {
             updateTooltips();
         }
     }
-    
-    public void updateTooltips(){
-        try{
-            tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500, ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(), Script.getCurrentCharacter().getResourceName());
-            tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500, ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(), Script.getCurrentCharacter().getResourceName());
-            tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500, ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(), Script.getCurrentCharacter().getResourceName());
-        }catch(IllegalComponentStateException e){}
-        
+
+    public void updateTooltips() {
+        try {
+            tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500,
+                    ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(),
+                    Script.getCurrentCharacter().getResourceName());
+            tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500,
+                    ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(),
+                    Script.getCurrentCharacter().getResourceName());
+            tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500,
+                    ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(),
+                    Script.getCurrentCharacter().getResourceName());
+        } catch (IllegalComponentStateException e) {
+        }
+
     }
 
     public JPanel getMenuPanel() {
