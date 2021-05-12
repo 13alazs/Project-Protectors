@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class CharacterSelectionPanel extends JPanel {
@@ -95,7 +96,7 @@ public class CharacterSelectionPanel extends JPanel {
             tmpPanel.add(characterImage, BorderLayout.NORTH);
             isChosen.add(false);
             tmpPanel.setBackground(new Color(0, 0, 0, 128));
-            final JLabel tmpLabel = new JLabel((allTheCharacters.get(i).getName()));
+            final JLabel tmpLabel = new JLabel(allTheCharacters.get(i).getName(), SwingConstants.CENTER);
             tmpLabel.setForeground(Color.WHITE);
             tmpLabel.setFont(new Font("Arial", Font.BOLD, 12));
             tmpPanel.add(tmpLabel, BorderLayout.SOUTH);

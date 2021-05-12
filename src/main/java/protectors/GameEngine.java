@@ -223,11 +223,14 @@ public class GameEngine extends JPanel {
         });
 
         resultPanel = new JPanel();
-        resultLabel = new JLabel("Result");
-        resultLabel.setBounds(425, 360, 100, 30);
+        resultLabel = new JLabel("Result", SwingConstants.CENTER);
+        resultLabel.setBounds(625, 250, 200, 100);
+        resultLabel.setFont(new Font("Arial", Font.BOLD, 35));
+        resultLabel.setBackground(Color.BLACK);
+        resultLabel.setForeground(Color.WHITE);
         resultPanel.add(resultLabel);
-        resultPanel.setBackground(Color.GRAY);
-        resultPanel.setBounds(375, 200, 180, 100);
+        resultPanel.setBackground(Color.BLACK);
+        resultPanel.setBounds(625, 250, 200, 120);
         resultPanel.setVisible(false);
         resultPanel.setLayout(new GridLayout(2, 1));
         this.add(resultPanel);
@@ -348,8 +351,9 @@ public class GameEngine extends JPanel {
         menuButtonR = new JButton("Back");
         menuButtonR.setBackground(Color.BLACK);
         menuButtonR.setFont(new Font("Arial", Font.BOLD, 20));
+        menuButtonR.setForeground(Color.WHITE);
         menuButtonR.setBorder(new LineBorder(Color.WHITE));
-        menuButtonR.setPreferredSize(new Dimension(90, 30));
+        menuButtonR.setPreferredSize(new Dimension(50, 20));
         resultPanel.add(menuButtonR);
         menuButtonR.addMouseListener(new MouseAdapter() {
             @Override
@@ -467,8 +471,7 @@ public class GameEngine extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println(state);
-        if (state == "MENU" || state == "MISSIONS" || state == "CHARACTERS") {
+        if (state == "MENU" || state == "MISSIONS" || state == "CHARACTERS" || state == "RESULT") {
             g.drawImage(new ImageIcon("data/images/backgrounds/menu_wide.jpg").getImage(), 0, 0, 1440, 810, null);
         }
         if (state == "FIGHT") {
@@ -553,9 +556,9 @@ public class GameEngine extends JPanel {
     public void setState(String state, boolean hasWon) {
         this.state = state;
         if (hasWon) {
-            resultLabel.setText("Mission complete");
+            resultLabel.setText("VICTORY");
         } else {
-            resultLabel.setText("Mission failed");
+            resultLabel.setText("DEFEAT");
         }
     }
 

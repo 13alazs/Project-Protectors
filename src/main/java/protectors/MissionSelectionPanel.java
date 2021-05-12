@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class MissionSelectionPanel extends JPanel {
@@ -48,7 +49,7 @@ public class MissionSelectionPanel extends JPanel {
             missionImage.setPreferredSize(new Dimension(100, 100));
             tmpPanel.add(missionImage, BorderLayout.NORTH);
             tmpPanel.setBackground(new Color(0, 0, 0, 1));
-            final JLabel tmpLabel = new JLabel(allTheMissions.get(i).getName());
+            final JLabel tmpLabel = new JLabel(allTheMissions.get(i).getName(), SwingConstants.CENTER);
             tmpLabel.setForeground(Color.WHITE);
             tmpLabel.setFont(new Font("Arial", Font.BOLD, 15));
             tmpPanel.add(tmpLabel, BorderLayout.SOUTH);
