@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -34,10 +35,10 @@ public class MissionSelectionPanel extends JPanel {
         c.ipadx = 350;
         c.insets = new Insets(0, 0, 5, 5);
 
-        missionHolderPanel = new ImagePanel(new ImageIcon("data/images/ui/uiBackground.png").getImage());
+        missionHolderPanel = new JPanel();
+        missionHolderPanel.setOpaque(false);
         missionHolderPanel.setLayout(gridLayoutForMissions);
         this.add(missionHolderPanel);
-        // missionHolderPanel.setBackground(Color.red);
 
         for (int i = 0; i < allTheMissions.size(); i++) {
             isChosen.add(false);
@@ -47,30 +48,31 @@ public class MissionSelectionPanel extends JPanel {
             missionImage.setPreferredSize(new Dimension(100, 100));
             tmpPanel.add(missionImage, BorderLayout.NORTH);
             tmpPanel.setBackground(new Color(0, 0, 0, 1));
-            JLabel tmpLabel = new JLabel(allTheMissions.get(i).getName());
+            final JLabel tmpLabel = new JLabel(allTheMissions.get(i).getName());
             tmpLabel.setForeground(Color.WHITE);
+            tmpLabel.setFont(new Font("Arial", Font.BOLD, 15));
             tmpPanel.add(tmpLabel, BorderLayout.SOUTH);
-            tmpPanel.setPreferredSize(new Dimension(40, 40));
+            tmpPanel.setPreferredSize(new Dimension(40, 50));
             final int num = i;
             tmpPanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent event) {
                     if (isChosen.get(num) == false && chosenMission.size() < 1) {
                         chosenMission.add(allTheMissions.get(num));
-                        // System.out.println(chosenMission.get(num).getName());
-                        tmpPanel.setBackground(Color.GREEN);
+                        tmpPanel.setBackground(Color.WHITE);
+                        tmpLabel.setForeground(Color.BLACK);
                         isChosen.set(num, true);
                     } else {
-                        // System.out.println(chosenMission.get(num).getName());
                         chosenMission.remove(allTheMissions.get(num));
                         tmpPanel.setBackground(new Color(0, 0, 0, 1));
+                        tmpLabel.setForeground(Color.WHITE);
                         isChosen.set(num, false);
                     }
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent event) {
-                    tmpPanel.setBorder(new LineBorder(Color.RED));
+                    tmpPanel.setBorder(new LineBorder(Color.WHITE, 2, true));
                 }
 
                 @Override
