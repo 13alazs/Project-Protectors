@@ -76,14 +76,14 @@ public class GameEngine extends JPanel {
 
         missionsPanel = new MissionSelectionPanel();
         missionsPanel.setBackground(Color.BLACK);
-        missionsPanel.setBounds(520, 210, 405, 460);
+        missionsPanel.setBounds(517, 210, 405, 460);
         missionsPanel.setVisible(false);
         this.add(missionsPanel);
         missionsPanel.setLayout(new BoxLayout(missionsPanel, BoxLayout.PAGE_AXIS));
 
         charactersPanel = new CharacterSelectionPanel();
         charactersPanel.setBackground(Color.BLACK);
-        charactersPanel.setBounds(520, 220, 405, 550);
+        charactersPanel.setBounds(517, 220, 405, 550);
         charactersPanel.setVisible(false);
         this.add(charactersPanel);
         charactersPanel.setLayout(new BoxLayout(charactersPanel, BoxLayout.PAGE_AXIS));
@@ -420,7 +420,7 @@ public class GameEngine extends JPanel {
         menuButtonM.setForeground(Color.WHITE);
         menuButtonM.setBorder(new LineBorder(Color.WHITE));
         menuButtonM.setPreferredSize(new Dimension(100, 40));
-        missionsPanel.add(menuButtonM);
+        missionsPanel.add(new AlphaContainer(menuButtonM));
         menuButtonM.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent event) {
@@ -451,7 +451,7 @@ public class GameEngine extends JPanel {
         menuButtonC.setForeground(Color.WHITE);
         menuButtonC.setBorder(new LineBorder(Color.WHITE));
         menuButtonC.setPreferredSize(new Dimension(100, 40));
-        charactersPanel.add(menuButtonC);
+        charactersPanel.add(new AlphaContainer(menuButtonC));
         menuButtonC.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent event) {
