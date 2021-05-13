@@ -174,7 +174,7 @@ public class GameManager {
             initiativeTeam.get(currentID).setStunned(false);
             currentSelect();
         }
-        currentCharacter = initiativeTeam.get(currentID);
+        setCurrentCharacter(initiativeTeam.get(currentID));
         playerTurn = false;
         for (Character P : playerTeam) {
             // System.out.println("Player's turn: " + playerTurn);
@@ -265,5 +265,10 @@ public class GameManager {
 
     public void setCurrentCharacter(Character currentCharacter) {
         this.currentCharacter = currentCharacter;
+        for (int i = 0; i < playerTeam.size(); i++) {
+            playerTeam.get(i).setActive(false);
+        }
+        currentCharacter.setActive(true);
+        this.currentCharacter.setActive(true);
     }
 }
