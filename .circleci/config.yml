@@ -8,8 +8,6 @@ workflows:
   maven_test:
     jobs:
       - maven/test
-
-workflows:
   deploy_application:
     jobs:
       - aws-code-deploy/deploy:
