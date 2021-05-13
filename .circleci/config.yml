@@ -9,7 +9,7 @@ jobs:
     - image: circleci/golang:latest
     steps:
       - checkout
-      - run: -mvn/package -DskipTests
+      - run: -maven/package
       - store_artifacts:
           path: /bin/final_build
 
