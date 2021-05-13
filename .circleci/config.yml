@@ -3,21 +3,20 @@ version: 2.1
 orbs:
   maven: circleci/maven@1.1
 
-jobs:
-  build_and_save:
-    docker:
-    - image: circleci/golang:latest
-    steps:
-      - checkout
-      - run: -maven/package
-      - store_artifacts:
-          path: /bin/final_build
-
 workflows:
   maven_test:
     jobs:
       - maven/test
-  version: 2.1
-  main:
+
+orbs:
+  aws-code-deploy: circleci/aws-code-deploy@0.0.11
+
+workflows:
+  deploy_application:
     jobs:
-      - build_and_save
+      - aws-code-deploy/deploy:
+          application-name: myApplication
+          deployment-group: myDeploymentGroup
+          service-role-arn: myDeploymentGroupRoleARN
+          bundle-bucket: myApplicationS3Bucket
+          bundle-key: myS3BucketKey
