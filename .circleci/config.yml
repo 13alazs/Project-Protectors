@@ -9,7 +9,7 @@ jobs:
     - image: circleci/golang:latest
     steps:
       - checkout
-      - run: mvn install -DskipTests
+      - run: -mvn install -DskipTests
       - store_artifacts:
           path: /bin/final_build
 
