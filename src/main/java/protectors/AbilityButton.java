@@ -69,10 +69,11 @@ public class AbilityButton extends JButton {
             icon = new ImageIcon(newimg);
             btn.setIcon(icon);
         } else {
-            ImageFilter filter = new GrayFilter(true, 25);
+            ImageFilter filter = new GrayFilter(true, 10);
             ImageProducer producer = new FilteredImageSource(image.getSource(), filter);
             Image img = Toolkit.getDefaultToolkit().createImage(producer);
-            icon = new ImageIcon(img);
+            Image newimg = img.getScaledInstance(width + 15, height + 15, java.awt.Image.SCALE_SMOOTH);
+            icon = new ImageIcon(newimg);
             btn.setIcon(icon);
         }
     }

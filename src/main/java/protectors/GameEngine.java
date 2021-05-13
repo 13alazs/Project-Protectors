@@ -90,7 +90,7 @@ public class GameEngine extends JPanel {
 
         fightPanel = new JPanel();
 
-        fightPanel.setBackground(new Color(0, 0, 0, 100));
+        fightPanel.setBackground(new Color(0, 0, 0, 255));
         fightPanel.setBounds(630, 700, 170, 60);
         fightPanel.setVisible(false);
 
