@@ -50,7 +50,7 @@ public class CharacterSelectionPanel extends JPanel {
     private Ability ShieldBash = new Ability("Shield Bash", 10, 2, 0, "blunt", "enemy", 1, "stun", "normal",
             new ImageIcon("data/images/spells/Knight2.jpg").getImage());
     private Ability PiercingHowl = new Ability("Piercing Howl", 10, 3, 20, "none", "enemy", 5, "attack", "normal",
-            new ImageIcon("data/images/spells/Knigh3.jpg").getImage());
+            new ImageIcon("data/images/spells/Knight3.jpg").getImage());
     // Mage
     private Ability Fireball = new Ability("Fireball", 0, 0, 30, "fire", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Mage1.jpg").getImage());

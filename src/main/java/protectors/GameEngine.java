@@ -89,7 +89,7 @@ public class GameEngine extends JPanel {
         fightPanel = new JPanel();
 
         fightPanel.setBackground(new Color(0, 0, 0, 100));
-        fightPanel.setBounds(640, 700, 170, 60);
+        fightPanel.setBounds(630, 700, 170, 60);
         fightPanel.setVisible(false);
         fightPanel.setLayout(null);
 
@@ -105,6 +105,12 @@ public class GameEngine extends JPanel {
                     // System.out.println("Ability 1 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
                     cast();
+                    ability1Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility1().getCost());
+                    ability2Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility2().getCost());
+                    ability3Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility3().getCost());
                 }
             }
         });
@@ -132,6 +138,15 @@ public class GameEngine extends JPanel {
                     // System.out.println("Ability 2 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility2();
                     cast();
+                    ability2Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility2().getCost());
+                    if (Script.getCurrentCharacter().getCurrResource() >= Script.getCurrentCharacter().getAbility2()
+                            .getCost()) {
+                        ability1Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility1().getCost());
+                        ability3Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility3().getCost());
+                    }
                 }
             }
         });
@@ -159,6 +174,15 @@ public class GameEngine extends JPanel {
                     // System.out.println("Ability 3 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility3();
                     cast();
+                    ability3Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility3().getCost());
+                    if (Script.getCurrentCharacter().getCurrResource() >= Script.getCurrentCharacter().getAbility3()
+                            .getCost()) {
+                        ability2Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility2().getCost());
+                        ability1Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility1().getCost());
+                    }
                 }
             }
         });
@@ -746,9 +770,18 @@ public class GameEngine extends JPanel {
     }
 
     public void updateButtons() {
-        ability1Button.setImage(Script.getCurrentCharacter().getAbility1().getImageIcon(), 50, 50);
-        ability2Button.setImage(Script.getCurrentCharacter().getAbility2().getImageIcon(), 50, 50);
-        ability3Button.setImage(Script.getCurrentCharacter().getAbility3().getImageIcon(), 50, 50);
+        ability1Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                Script.getCurrentCharacter().getAbility1().getCost());
+        ability2Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                Script.getCurrentCharacter().getAbility2().getCost());
+        ability3Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                Script.getCurrentCharacter().getAbility3().getCost());
+        ability1Button.setImage(Script.getCurrentCharacter().getAbility1().getImageIcon(), 50, 50,
+                Script.getCurrentCharacter().getCurrResource(), Script.getCurrentCharacter().getAbility1().getCost());
+        ability2Button.setImage(Script.getCurrentCharacter().getAbility2().getImageIcon(), 50, 50,
+                Script.getCurrentCharacter().getCurrResource(), Script.getCurrentCharacter().getAbility2().getCost());
+        ability3Button.setImage(Script.getCurrentCharacter().getAbility3().getImageIcon(), 50, 50,
+                Script.getCurrentCharacter().getCurrResource(), Script.getCurrentCharacter().getAbility3().getCost());
     }
 
     public JPanel getMenuPanel() {
