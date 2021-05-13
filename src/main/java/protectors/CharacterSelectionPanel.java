@@ -17,10 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class CharacterSelectionPanel extends JPanel {
-    // private final Image image;
-
     private JPanel characterHolderPanel;
-
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
     private ArrayList<Boolean> isChosen = new ArrayList<Boolean>();
     private ArrayList<Character> chosenCharacters = new ArrayList<Character>();
@@ -103,8 +100,6 @@ public class CharacterSelectionPanel extends JPanel {
 
     public CharacterSelectionPanel() {
         super();
-
-        // this.image = new ImageIcon("data/images/ui/uiBackground.png").getImage();
 
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/archer.png").getImage(),

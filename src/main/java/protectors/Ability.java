@@ -10,11 +10,9 @@ import java.awt.Image;
 
 public class Ability {
     private final String name;
-
     private final int cost; // The resource it requires to fire the spell.
     private final int cooldown; // The turns it takes untill it can be used again.
     private int cooldownRem; // The remaining cooldown on the ability.
-
     private final double attackDamage; // How much damage it deals (or heals) (use positive numbers for damage, negative
                                        // for healing)
     private final String attackType; // eg.:Fire, Ice, Dull, Piercing...
@@ -45,7 +43,6 @@ public class Ability {
      * @param abilityType
      *            What type of ability is it
      */
-
     public Ability(String name, int cost, int cooldown, double attackDamage, String attackType, String targetType,
             int targetCount, String abilityType, String abilityModifier, Image image) {
         this.name = name;

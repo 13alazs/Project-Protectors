@@ -124,14 +124,12 @@ public class GameManager {
                 ArrayList<Character> Targets = new ArrayList();
                 Targets.add(playerTeam.get(target));
                 currentCharacter.castAbility(currentCharacter.getAbility1(), Targets);
-                System.out.println(currentCharacter.getName() + " used " + currentCharacter.getAbility1().getName());
                 manage();
             } else {
                 UI.getFightPanel().setVisible(true);
                 UI.getAbility1Button().setText(currentCharacter.getAbility1().getName());
                 UI.getAbility2Button().setText(currentCharacter.getAbility2().getName());
                 UI.getAbility3Button().setText(currentCharacter.getAbility3().getName());
-                // System.out.println(currentCharacter.getName() + " had their turn");
             }
         } else if (bothTeamsAlive() == -1) {
             showResult(false);
@@ -177,8 +175,6 @@ public class GameManager {
         setCurrentCharacter(initiativeTeam.get(currentID));
         playerTurn = false;
         for (Character P : playerTeam) {
-            // System.out.println("Player's turn: " + playerTurn);
-            // System.out.println(P.getName() + " = " + currentCharacter.getName() + " ?");
             if (P.getName().equals(currentCharacter.getName())) {
                 playerTurn = true;
             }
@@ -223,8 +219,6 @@ public class GameManager {
                 }
             }
         }
-        System.out.println("Team initiatives have been set");
-        // System.out.println(initiativeTeam.size() + " characters are in the initiative team");
     }
 
     public ArrayList<Character> getPlayerTeam() {

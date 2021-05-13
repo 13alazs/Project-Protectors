@@ -44,12 +44,6 @@ public class GameEngine extends JPanel {
 
     private Mission currentMission;
 
-    private AbilityButton ability1Button;
-    private AbilityTooltip tooltipOne;
-    private AbilityButton ability2Button;
-    private AbilityTooltip tooltipTwo;
-    private AbilityButton ability3Button;
-    private AbilityTooltip tooltipThree;
 
     private GameManager Script;
     private Timer timer;
@@ -106,7 +100,6 @@ public class GameEngine extends JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (state == "FIGHT") {
-                    // System.out.println("Ability 1 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
                     cast();
                     ability1Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
@@ -139,7 +132,6 @@ public class GameEngine extends JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (state == "FIGHT") {
-                    // System.out.println("Ability 2 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility2();
                     cast();
                     ability2Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
@@ -175,7 +167,6 @@ public class GameEngine extends JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (state == "FIGHT") {
-                    // System.out.println("Ability 3 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility3();
                     cast();
                     ability3Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
@@ -537,8 +528,7 @@ public class GameEngine extends JPanel {
             casting = true;
             targetArrowsSetup();
         } else {
-            System.out.println("Not enough " + Script.getCurrentCharacter().getResourceName() + " ("
-                    + Script.getCurrentCharacter().getCurrResource() + "/" + tmpAbility.getCost() + ")");
+            // TODO: Should give some visual feedback to the player that the unit does not have enough mana
             Script.getCurrentCharacter().notEnoughResource();
         }
     }

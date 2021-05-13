@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 public class GameFrame {
-
     private JFrame frame;
     private GameEngine panel;
 
