@@ -20,7 +20,6 @@ public class Ability {
     private final int targetCount; // How many units does it effect (1-10)
     private final String abilityType; // What type of ability is it (attack / heal / buff / debuff / resurrect)
     private final String abilityModifier; // How the attack should go (random targets, adjascent...)
-
     private final Image imageIcon;
 
     /**

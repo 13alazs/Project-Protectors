@@ -27,7 +27,6 @@ public class Character extends Sprite {
     private final int initiative; // Determines when the character gets to go.
     private boolean alive; // Tracks if the character is alive or dead.
     private boolean stunned; // Tracks if the character is stunned or not.
-
     private Graphics graphics; // Using character's graphics to show health and mana changes.
     private boolean active; // True if the character has the next turn
     private int notEnoughRes = 0; // If higher than 0 the resource bar will appear in magenta.
@@ -306,6 +305,5 @@ public class Character extends Sprite {
                 graphics.fillRect(x, y + height + 7, (int) resHeight, 5);
             }
         }
-
     }
 }

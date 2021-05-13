@@ -14,16 +14,13 @@ import javax.swing.border.*;
 
 public class GameEngine extends JPanel {
     private JPanel thisPanel = this;
-
     private String state = "MENU";
-
     private JPanel menuPanel; // Main menu
     private JPanel buttonPanel; // Extra panel for main menu, helps with button placement
     private CharacterSelectionPanel charactersPanel; // Will be for character selection
     private MissionSelectionPanel missionsPanel; // Will be for mission selection
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
-
     private JButton missionsButton;
     private JButton exitButton;
     private JButton charactersButton;
@@ -31,20 +28,20 @@ public class GameEngine extends JPanel {
     private JButton menuButtonM;
     private JButton menuButtonR;
     private JButton menuButtonC;
-
     private JLabel resultLabel;
-
     private Ability tmpAbility;
     private String tmpType;
     private boolean casting;
-
     private ArrayList<Character> targets;
     private ArrayList<Character> playerTeam;
     private ArrayList<Sprite> targetArrows;
-
     private Mission currentMission;
-
-
+    private AbilityButton ability1Button;
+    private AbilityTooltip tooltipOne;
+    private AbilityButton ability2Button;
+    private AbilityTooltip tooltipTwo;
+    private AbilityButton ability3Button;
+    private AbilityTooltip tooltipThree;
     private GameManager Script;
     private Timer timer;
     private final int FPS = 60;
@@ -91,9 +88,6 @@ public class GameEngine extends JPanel {
         fightPanel.setLayout(null);
 
         ability1Button = new AbilityButton("data/images/spells/Archer1.jpg", 5, 5, 50, 50);
-        // ability1Button.setBackground(Color.ORANGE);
-        // ability1Button.setBorder(new LineBorder(Color.BLACK));
-        // ability1Button.setPreferredSize(new Dimension(90, 30));
 
         fightPanel.add(ability1Button);
         ability1Button.addActionListener(new ActionListener() {
@@ -124,9 +118,6 @@ public class GameEngine extends JPanel {
         });
 
         ability2Button = new AbilityButton("data/images/spells/Archer1.jpg", 60, 5, 50, 50);
-        // ability2Button.setBackground(Color.ORANGE);
-        // ability2Button.setBorder(new LineBorder(Color.BLACK));
-        // ability2Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability2Button);
         ability2Button.addActionListener(new ActionListener() {
             @Override
@@ -159,9 +150,6 @@ public class GameEngine extends JPanel {
         });
 
         ability3Button = new AbilityButton("data/images/spells/Archer1.jpg", 115, 5, 50, 50);
-        // ability3Button.setBackground(Color.ORANGE);
-        // ability3Button.setBorder(new LineBorder(Color.BLACK));
-        // ability3Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability3Button);
         ability3Button.addActionListener(new ActionListener() {
             @Override
@@ -528,7 +516,6 @@ public class GameEngine extends JPanel {
             casting = true;
             targetArrowsSetup();
         } else {
-            // TODO: Should give some visual feedback to the player that the unit does not have enough mana
             Script.getCurrentCharacter().notEnoughResource();
         }
     }

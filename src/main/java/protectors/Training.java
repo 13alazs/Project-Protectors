@@ -64,7 +64,6 @@ public class Training extends Mission {
         Enemies.add(Hobgoblin);
         return true;
     }
-
     // If the mission is missing an encounter, just don't override it, in this case, encounters 4, 5, 6 will retuurn
     // false and will not be used
 }
