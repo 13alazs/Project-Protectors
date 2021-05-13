@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: make build
       - store_artifacts:
-        path: /bin/final_build
+          path: /bin/final_build
 
 workflows:
   maven_test:
