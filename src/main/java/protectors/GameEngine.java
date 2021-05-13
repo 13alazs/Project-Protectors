@@ -94,7 +94,7 @@ public class GameEngine extends JPanel {
         fightPanel.setBounds(375, 700, 270, 30);
         fightPanel.setVisible(false);
         fightPanel.setLayout(new GridLayout(1, 3));
-      
+
         ability1Button = new JButton("Ability1");
         ability1Button.setBackground(Color.ORANGE);
         ability1Button.setBorder(new LineBorder(Color.BLACK));
@@ -367,7 +367,6 @@ public class GameEngine extends JPanel {
                 menuButtonR.setForeground(Color.BLACK);
             }
 
-
             @Override
             public void mouseExited(MouseEvent event) {
                 menuButtonR.setBackground(Color.BLACK);
@@ -384,7 +383,6 @@ public class GameEngine extends JPanel {
                 timer.stop();
             }
         }); // Result screen -> Menu
-
 
         menuButtonM = new JButton("BACK");
         menuButtonM.setBackground(Color.BLACK);
@@ -417,7 +415,6 @@ public class GameEngine extends JPanel {
             }
         }); // Mission select -> Menu
 
-
         menuButtonC = new JButton("BACK");
         menuButtonC.setBackground(Color.BLACK);
         menuButtonC.setFont(new Font("Arial", Font.BOLD, 20));
@@ -448,7 +445,6 @@ public class GameEngine extends JPanel {
                 menuPanel.setVisible(true);
             }
         }); // Character select -> Menu
-
 
         exitButton = new JButton("EXIT");
         exitButton.setBackground(Color.BLACK);
