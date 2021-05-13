@@ -44,6 +44,8 @@ public class Ability {
      *            How many units does it effect
      * @param abilityType
      *            What type of ability is it
+     * @param abilityModifier
+     *            How this ability selects targets
      */
 
     public Ability(String name, int cost, int cooldown, double attackDamage, String attackType, String targetType,

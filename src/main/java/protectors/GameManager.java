@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import java.util.Random;
+import java.lang.Math;
 
 /*
     Project Name: Project Protectors
@@ -34,72 +35,69 @@ public class GameManager {
         playerTeam = new ArrayList();
         mission = m;
         playerTeam = characters;
-        arrangeTeamMembers();
+        arrangeTeamMembers(playerTeam, "player");
         if (mission.Encounter1()) {
-            enemyTeam = new ArrayList();
-            enemyTeam = mission.getEnemies();
-            createInitiative();
-            manage();
+            encounterSetup();
         } else {
             showResult(true);
         }
     }
 
-    public void arrangeTeamMembers() {
-        for (int i = 0; i < playerTeam.size(); i++) {
-            playerTeam.get(i).setX(150);
-            playerTeam.get(i).setY(100 + i * 100);
+    public void arrangeTeamMembers(ArrayList<Character> team, String side) {
+        if ("player".equals(side)) {
+            for (int i = 0; i < team.size(); i++) {
+                team.get(i).setX((int) (190 + Math.pow(-1, i) * 40));
+                team.get(i).setY(200 + i * 70);
+            }
+        } else {
+            for (int i = 0; i < team.size(); i++) {
+                team.get(i).setX((int) (900 + Math.pow(-1, i) * (-1) * 40));
+                team.get(i).setY(200 + i * 70);
+            }
         }
+    }
+
+    public void encounterSetup() {
+        enemyTeam = new ArrayList();
+        enemyTeam = mission.getEnemies();
+        arrangeTeamMembers(enemyTeam, "enemy");
+        createInitiative();
+        manage();
     }
 
     public void nextEncounter() {
         encounterNumber++;
         if (encounterNumber == 2) {
             if (mission.Encounter2()) {
-                enemyTeam = new ArrayList();
-                enemyTeam = mission.getEnemies();
-                createInitiative();
-                manage();
+                encounterSetup();
             } else {
                 showResult(true);
             }
         }
         if (encounterNumber == 3) {
             if (mission.Encounter3()) {
-                enemyTeam = new ArrayList();
-                enemyTeam = mission.getEnemies();
-                createInitiative();
-                manage();
+                encounterSetup();
             } else {
                 showResult(true);
             }
         }
         if (encounterNumber == 4) {
             if (mission.Encounter4()) {
-                enemyTeam = new ArrayList();
-                enemyTeam = mission.getEnemies();
-                createInitiative();
-                manage();
+                encounterSetup();
             } else {
                 showResult(true);
             }
         }
         if (encounterNumber == 5) {
             if (mission.Encounter5()) {
-                enemyTeam = new ArrayList();
-                enemyTeam = mission.getEnemies();
-                createInitiative();
-                manage();
+                encounterSetup();
             } else {
                 showResult(true);
             }
         }
         if (encounterNumber == 6) {
             if (mission.Encounter6()) {
-                enemyTeam = new ArrayList();
-                enemyTeam = mission.getEnemies();
-                createInitiative();
-                manage();
+                encounterSetup();
             } else {
                 showResult(true);
             }
@@ -113,6 +111,12 @@ public class GameManager {
         UI.setState("RESULT", res);
         UI.getResultPanel().setVisible(true);
         UI.getFightPanel().setVisible(false);
+        for (Character c : playerTeam) {
+            c.setCurrHealth(c.getMaxHealth());
+            c.setAlive(true);
+            c.setStunned(false);
+            c.setCurrResource(0);
+        }
     }
 
     public void manage() {
@@ -120,18 +124,25 @@ public class GameManager {
             currentSelect();
             if (!playerTurn) {
                 UI.getFightPanel().setVisible(false);
-                int target = selectTarget();
                 ArrayList<Character> Targets = new ArrayList();
-                Targets.add(playerTeam.get(target));
-                currentCharacter.castAbility(currentCharacter.getAbility1(), Targets);
-                System.out.println(currentCharacter.getName() + " used " + currentCharacter.getAbility1().getName());
+                if ("heal".equals(currentCharacter.getAbility2().getAbilityType())
+                        && currentCharacter.getCurrHealth() <= currentCharacter.getMaxHealth() * 0.5
+                        && currentCharacter.getCurrResource() >= currentCharacter.getAbility2().getCost()) {
+                    Targets.add(currentCharacter);
+                    currentCharacter.castAbility(currentCharacter.getAbility2(), Targets);
+                } else {
+                    for (int i = 0; i < currentCharacter.getAbility1().getTargetCount(); i++) {
+                        int target = selectTarget();
+                        Targets.add(playerTeam.get(target));
+                    }
+                    currentCharacter.castAbility(currentCharacter.getAbility1(), Targets);
+                }
                 manage();
             } else {
                 UI.getFightPanel().setVisible(true);
                 UI.getAbility1Button().setText(currentCharacter.getAbility1().getName());
                 UI.getAbility2Button().setText(currentCharacter.getAbility2().getName());
                 UI.getAbility3Button().setText(currentCharacter.getAbility3().getName());
-                // System.out.println(currentCharacter.getName() + " had their turn");
             }
         } else if (bothTeamsAlive() == -1) {
             showResult(false);
@@ -152,11 +163,53 @@ public class GameManager {
     private void newTurn() {
         turn++;
         for (Character c : initiativeTeam) {
-            if (c.getCurrResource() + 3 <= c.getMaxResource()) {
-                c.setCurrResource(c.getCurrResource() + 3);
+            if (c.isAlive()) {
+                c.setCurrHealth(c.getCurrHealth() - c.getDamageOverTime());
+                c.setOverTimeDurRem(c.getOverTimeDurRem() - 1);
+                if (c.getOverTimeDurRem() <= 0) {
+                    c.setDamageOverTime(0);
+                }
+                if (c.getCurrHealth() <= 0) {
+                    c.setAlive(false);
+                    c.setOverTimeDurRem(0);
+                    c.setDamageOverTime(0);
+                }
+                if (c.getCurrHealth() > c.getMaxHealth()) {
+                    c.setCurrHealth(c.getMaxHealth());
+                }
             } else {
-                c.setCurrResource(c.getMaxResource());
+                c.setOverTimeDurRem(0);
+                c.setDamageOverTime(0);
             }
+            resourceGain(c);
+        }
+    }
+
+    private void resourceGain(Character c) {
+        int gain = 3;
+        if ("mana".equals(c.getResourceName())) {
+            gain = 4;
+        } else if ("rage".equals(c.getResourceName())) {
+            if (c.getCurrHealth() < c.getMaxHealth() * 0.3) {
+                gain = 8;
+            } else if (c.getCurrHealth() < c.getMaxHealth() * 0.7) {
+                gain = 4;
+            } else {
+                gain = 2;
+            }
+        } else if ("focus".equals(c.getResourceName())) {
+            int remainingEnemies = 0;
+            for (int i = 0; i < enemyTeam.size(); i++) {
+                if (enemyTeam.get(i).isAlive()) {
+                    remainingEnemies++;
+                }
+            }
+            gain = 2 + remainingEnemies;
+        }
+        if (c.getCurrResource() + gain <= c.getMaxResource()) {
+            c.setCurrResource(c.getCurrResource() + gain);
+        } else {
+            c.setCurrResource(c.getMaxResource());
         }
     }
 
@@ -177,8 +230,6 @@ public class GameManager {
         setCurrentCharacter(initiativeTeam.get(currentID));
         playerTurn = false;
         for (Character P : playerTeam) {
-            // System.out.println("Player's turn: " + playerTurn);
-            // System.out.println(P.getName() + " = " + currentCharacter.getName() + " ?");
             if (P.getName().equals(currentCharacter.getName())) {
                 playerTurn = true;
             }
@@ -223,8 +274,6 @@ public class GameManager {
                 }
             }
         }
-        System.out.println("Team initiatives have been set");
-        // System.out.println(initiativeTeam.size() + " characters are in the initiative team");
     }
 
     public ArrayList<Character> getPlayerTeam() {

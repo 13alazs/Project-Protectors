@@ -26,7 +26,7 @@ public class MissionSelectionPanel extends JPanel {
         super();
 
         allTheMissions.add(new Training());
-        allTheMissions.add(new Training2());
+        allTheMissions.add(new UndeadMarch());
         allTheMissions.add(new Training3());
 
         GridBagLayout gridLayoutForMissions = new GridBagLayout();

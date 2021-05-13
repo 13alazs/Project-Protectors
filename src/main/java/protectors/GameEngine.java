@@ -97,16 +97,12 @@ public class GameEngine extends JPanel {
         fightPanel.setLayout(null);
 
         ability1Button = new AbilityButton("data/images/spells/Archer1.jpg", 5, 5, 50, 50);
-        // ability1Button.setBackground(Color.ORANGE);
-        // ability1Button.setBorder(new LineBorder(Color.BLACK));
-        // ability1Button.setPreferredSize(new Dimension(90, 30));
 
         fightPanel.add(ability1Button);
         ability1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (state == "FIGHT") {
-                    // System.out.println("Ability 1 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
                     cast();
                     ability1Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
@@ -131,15 +127,11 @@ public class GameEngine extends JPanel {
         });
 
         ability2Button = new AbilityButton("data/images/spells/Archer1.jpg", 60, 5, 50, 50);
-        // ability2Button.setBackground(Color.ORANGE);
-        // ability2Button.setBorder(new LineBorder(Color.BLACK));
-        // ability2Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability2Button);
         ability2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (state == "FIGHT") {
-                    // System.out.println("Ability 2 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility2();
                     cast();
                     ability2Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
@@ -167,15 +159,11 @@ public class GameEngine extends JPanel {
         });
 
         ability3Button = new AbilityButton("data/images/spells/Archer1.jpg", 115, 5, 50, 50);
-        // ability3Button.setBackground(Color.ORANGE);
-        // ability3Button.setBorder(new LineBorder(Color.BLACK));
-        // ability3Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability3Button);
         ability3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (state == "FIGHT") {
-                    // System.out.println("Ability 3 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility3();
                     cast();
                     ability3Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
@@ -232,10 +220,28 @@ public class GameEngine extends JPanel {
                             && "random".equals(tmpAbility.getAbilityModifier())) {
                         singletargetRandomAttack();
                     }
+                    if ("attack".equals(tmpType) && "all".equals(tmpAbility.getTargetType())) {
+                        attackAll();
+                    }
+                    if ("DoT".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "enemy".equals(tmpAbility.getTargetType())
+                            && "normal".equals(tmpAbility.getAbilityModifier())) {
+                        singletargetNormalDoT(x, y);
+                    }
                     if ("heal".equals(tmpType) && tmpAbility.getTargetCount() == 1
                             && "ally".equals(tmpAbility.getTargetType())
                             && Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
                         singletargetNormalHeal(x, y);
+                    }
+                    if ("heal".equals(tmpType) && tmpAbility.getTargetCount() != 1
+                            && "ally".equals(tmpAbility.getTargetType())
+                            && Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
+                        multitargetNormalHeal();
+                    }
+                    if ("HoT".equals(tmpType) && tmpAbility.getTargetCount() == 1
+                            && "ally".equals(tmpAbility.getTargetType())
+                            && Script.getCurrentCharacter().getCurrResource() >= tmpAbility.getCost()) {
+                        singletargetNormalHoT(x, y);
                     }
                     if ("resurrect".equals(tmpType) && tmpAbility.getTargetCount() == 1
                             && "ally".equals(tmpAbility.getTargetType())
@@ -537,9 +543,7 @@ public class GameEngine extends JPanel {
             casting = true;
             targetArrowsSetup();
         } else {
-            System.out.println("Not enough " + Script.getCurrentCharacter().getResourceName() + " ("
-                    + Script.getCurrentCharacter().getCurrResource() + "/" + tmpAbility.getCost() + ")");
-            Script.getCurrentCharacter().notEnoughResource();
+            targetArrows = new ArrayList();
         }
     }
 
@@ -602,12 +606,7 @@ public class GameEngine extends JPanel {
         }
     }
 
-    public void singletargetNormalAttack(int x, int y) {
-        for (Character c : Script.getEnemyTeam()) {
-            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())) {
-                targets.add(c);
-            }
-        }
+    public void finishCasting() {
         if (targets.size() > 0) {
             Script.getCurrentCharacter().castAbility(tmpAbility, targets);
             tmpAbility = null;
@@ -619,14 +618,24 @@ public class GameEngine extends JPanel {
         }
     }
 
+    public void singletargetNormalAttack(int x, int y) {
+        for (Character c : Script.getEnemyTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                    && c.isAlive()) {
+                targets.add(c);
+            }
+        }
+        finishCasting();
+    }
+
     public void multitargetNormalAttack(int x, int y) {
         for (int i = 0; i < Script.getEnemyTeam().size(); i++) {
             Character c = Script.getEnemyTeam().get(i);
             if (tmpAbility.getTargetCount() >= Script.getEnemyTeam().size()) {
                 targets.addAll(Script.getEnemyTeam());
             } else {
-                if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY()
-                        && y <= (c.getY() + c.getHeight())) {
+                if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                        && c.isAlive()) {
                     targets.add(c);
                     if (tmpAbility.getTargetCount() == 2) {
                         if (i != 0) {
@@ -669,64 +678,74 @@ public class GameEngine extends JPanel {
                 }
             }
         }
-        if (targets.size() > 0) {
-            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            tmpAbility = null;
-            tmpType = null;
-            casting = false;
-            targets = null;
-            Script.manage();
-            updateTooltips();
+        finishCasting();
+    }
+
+    public void attackAll() {
+        targets.addAll(Script.getInitiativeTeam());
+        finishCasting();
+    }
+
+    public void singletargetNormalDoT(int x, int y) {
+        for (Character c : Script.getEnemyTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                    && c.isAlive()) {
+                targets.add(c);
+            }
         }
+        finishCasting();
+    }
+
+    public void multitargetNormalHeal() {
+        for (int i = 0; i < Script.getPlayerTeam().size(); i++) {
+            if (Script.getPlayerTeam().get(i).isAlive()) {
+                targets.add(Script.getPlayerTeam().get(i));
+            }
+        }
+        finishCasting();
+    }
+
+    public void singletargetNormalHoT(int x, int y) {
+        for (Character c : Script.getPlayerTeam()) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                    && c.isAlive()) {
+                targets.add(c);
+            }
+        }
+        finishCasting();
     }
 
     public void multitargetRandomAttack() {
         for (int i = 0; i < tmpAbility.getTargetCount(); i++) {
-            Random rand = new Random();
-            int randomTarget = rand.nextInt(tmpAbility.getTargetCount());
+            int randomTarget = selectRandomEnemy();
             targets.add(Script.getEnemyTeam().get(randomTarget));
         }
-        if (targets.size() > 0) {
-            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            tmpAbility = null;
-            tmpType = null;
-            casting = false;
-            targets = null;
-            Script.manage();
-            updateTooltips();
-        }
+        finishCasting();
     }
 
     public void singletargetRandomAttack() {
-        Random rand = new Random();
-        int randomTarget = rand.nextInt(tmpAbility.getTargetCount());
+        int randomTarget = selectRandomEnemy();
         targets.add(Script.getEnemyTeam().get(randomTarget));
-        if (targets.size() > 0) {
-            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            tmpAbility = null;
-            tmpType = null;
-            casting = false;
-            targets = null;
-            Script.manage();
-            updateTooltips();
+        finishCasting();
+    }
+
+    public int selectRandomEnemy() {
+        Random rand = new Random();
+        int randomTarget = rand.nextInt(Script.getEnemyTeam().size());
+        if (!Script.getEnemyTeam().get(randomTarget).isAlive()) {
+            randomTarget = selectRandomEnemy();
         }
+        return randomTarget;
     }
 
     public void singletargetNormalHeal(int x, int y) {
         for (Character c : Script.getPlayerTeam()) {
-            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                    && c.isAlive()) {
                 targets.add(c);
             }
         }
-        if (targets.size() > 0) {
-            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            tmpAbility = null;
-            tmpType = null;
-            casting = false;
-            targets = null;
-            Script.manage();
-            updateTooltips();
-        }
+        finishCasting();
     }
 
     public void singletargetResurrect(int x, int y) {
@@ -736,32 +755,17 @@ public class GameEngine extends JPanel {
                 targets.add(c);
             }
         }
-        if (targets.size() > 0) {
-            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            tmpAbility = null;
-            tmpType = null;
-            casting = false;
-            targets = null;
-            Script.manage();
-            updateTooltips();
-        }
+        finishCasting();
     }
 
     public void singletargetStun(int x, int y) {
         for (Character c : Script.getEnemyTeam()) {
-            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())) {
+            if (x >= c.getX() && x <= (c.getX() + c.getWidth()) && y >= c.getY() && y <= (c.getY() + c.getHeight())
+                    && c.isAlive()) {
                 targets.add(c);
             }
         }
-        if (targets.size() > 0) {
-            Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            tmpAbility = null;
-            tmpType = null;
-            casting = false;
-            targets = null;
-            Script.manage();
-            updateTooltips();
-        }
+        finishCasting();
     }
 
     public void updateTooltips() {
