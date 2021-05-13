@@ -3,7 +3,20 @@ version: 2.1
 orbs:
   maven: circleci/maven@1.1
 
+jobs:
+  build_and_save:
+    docker:
+    - image: circleci/golang:latest
+    steps:
+      - checkout
+      - run: make build
+      - store_artifacts:
+        path: /bin/final_build
+
 workflows:
   maven_test:
     jobs:
       - maven/test
+  main:
+    jobs:
+      - build_and_save
