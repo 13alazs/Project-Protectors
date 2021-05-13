@@ -17,7 +17,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 public class CharacterSelectionPanel extends JPanel {
-    // private final Image image;
 
     private JPanel characterHolderPanel;
 
@@ -35,13 +34,8 @@ public class CharacterSelectionPanel extends JPanel {
     // Druid
     private Ability SolarBeam = new Ability("Solar Beam", 0, 0, 25, "nature", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Druid1.jpg").getImage());
-    private Ability DeadlySpores = new Ability("Deadly Spores", 10, 2, 20, "nature", "enemy", 4, "attack", "random",
-            new ImageIcon("data/images/spells/Druid2.jpg").getImage()); // This
-    // could
-    // be
-    // DoT
-    // or
-    // HoT
+    private Ability Regrow = new Ability("Regrow", 8, 2, -15, "none", "ally", 1, "HoT", "normal",
+            new ImageIcon("data/images/spells/Druid2.jpg").getImage());
     private Ability Nurture = new Ability("Nurture", 10, 2, -45, "nature", "ally", 1, "heal", "normal",
             new ImageIcon("data/images/spells/Druid3.jpg").getImage());
     // Knight
@@ -75,24 +69,24 @@ public class CharacterSelectionPanel extends JPanel {
     // Priest
     private Ability Smite = new Ability("Smite", 0, 0, 25, "holy", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Priest1.jpg").getImage());
-    private Ability CleansingLight = new Ability("Cleansing Light", 15, 2, -55, "holy", "ally", 1, "heal", "normal",
+    private Ability CleansingLight = new Ability("Cleansing Light", 20, 5, -40, "none", "ally", 5, "heal", "normal",
             new ImageIcon("data/images/spells/Priest2.jpg").getImage());
     private Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "holy", "ally", 1, "resurrect", "normal",
             new ImageIcon("data/images/spells/Priest3.jpg").getImage());
     // Rogue
     private Ability Stab = new Ability("Stab", 0, 0, 35, "piercing", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Rogue1.jpg").getImage());
-    private Ability PoisonousFlask = new Ability("Poisonous Flask", 10, 3, 25, "nature", "enemy", 3, "attack", "normal",
-            new ImageIcon("data/images/spells/Rogue2.jpg").getImage()); // Could be DoT
+    private Ability PoisonousFlask = new Ability("Poisonous Flask", 5, 2, 10, "piercing", "enemy", 1, "DoT", "normal",
+            new ImageIcon("data/images/spells/Rogue2.jpg").getImage());
     private Ability Backstab = new Ability("Backstab", 15, 1, 0, "piercing", "enemy", 1, "stun", "normal",
             new ImageIcon("data/images/spells/Rogue3.jpg").getImage());
     // Warlock
-    private Ability SiphonSoul = new Ability("Siphon Soul", 0, 0, 15, "shadow", "enemy", 2, "attack", "random",
+    private Ability SiphonSoul = new Ability("Siphon Soul", 15, 2, 45, "fire", "enemy", 1, "attack", "random",
             new ImageIcon("data/images/spells/Warlock1.jpg").getImage());
-    private Ability TouchOfDarkness = new Ability("Touch of Darkness", 10, 3, 25, "shadow", "enemy", 1, "attack",
-            "normal", new ImageIcon("data/images/spells/Warlock2.jpg").getImage()); // DoT
-    private Ability Doom = new Ability("Doom", 15, 2, 45, "shadow", "enemy", 3, "attack", "random",
-            new ImageIcon("data/images/spells/Warlock3.jpg").getImage()); // Mass DoT
+    private Ability TouchOfDarkness = new Ability("Touch of Darkness", 0, 3, 25, "shadow", "enemy", 1, "attack",
+            "normal", new ImageIcon("data/images/spells/Warlock2.jpg").getImage());
+    private Ability Doom = new Ability("Doom", 15, 2, 45, "fire", "all", 5, "attack", "normal",
+            new ImageIcon("data/images/spells/Warlock3.jpg").getImage());
     // Warrior
     private Ability Cleave = new Ability("Cleave", 0, 0, 15, "slashing", "enemy", 2, "attack", "normal",
             new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
@@ -104,14 +98,12 @@ public class CharacterSelectionPanel extends JPanel {
     public CharacterSelectionPanel() {
         super();
 
-        // this.image = new ImageIcon("data/images/ui/uiBackground.png").getImage();
-
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/archer.png").getImage(),
                         "Gerrie the Archer", 50, "focus", 10, 5, Shoot, Blindfire, Piercingshot, 2));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/druid.png").getImage(),
-                        "Runetotem", 40, "mana", 40, 0, SolarBeam, DeadlySpores, Nurture, 4));
+                        "Runetotem", 40, "mana", 40, 0, SolarBeam, Regrow, Nurture, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/knight.png").getImage(),
                         "Knight Lautrec", 100, "rage", 20, 10, Slash, ShieldBash, PiercingHowl, 6));
@@ -132,7 +124,7 @@ public class CharacterSelectionPanel extends JPanel {
                         "Shadow", 50, "focus", 10, 0, Stab, PoisonousFlask, Backstab, 1));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/warlock.png").getImage(),
-                        "Ebonlocke", 60, "mana", 15, 10, SiphonSoul, TouchOfDarkness, Doom, 4));
+                        "Ebonlocke", 60, "mana", 15, 10, TouchOfDarkness, SiphonSoul, Doom, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/warrior.png").getImage(),
                         "Lo'Gosh", 80, "rage", 20, 5, Cleave, BlindingRage, Whirlwind, 6));
