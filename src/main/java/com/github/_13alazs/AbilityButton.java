@@ -1,4 +1,4 @@
-package protectors;
+package com.github._13alazs;
 
 import java.awt.Color;
 import java.awt.Image;
