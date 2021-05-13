@@ -17,6 +17,7 @@ workflows:
   maven_test:
     jobs:
       - maven/test
+  version: 2.1
   main:
     jobs:
       - build_and_save
