@@ -18,7 +18,8 @@ public class Training3 extends Mission {
     @Override
     public boolean Encounter1() {
         Enemies = new ArrayList();
-        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal");
+        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal",
+                new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
         Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
         Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash,
                 3);
@@ -29,7 +30,8 @@ public class Training3 extends Mission {
     @Override
     public boolean Encounter2() {
         Enemies = new ArrayList();
-        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal");
+        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal",
+                new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
         Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
         Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash,
                 3);
@@ -43,8 +45,10 @@ public class Training3 extends Mission {
     @Override
     public boolean Encounter3() {
         Enemies = new ArrayList();
-        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal");
-        Ability Bash = new Ability("Bash", 0, 0, 40, "blunt", "enemy", 1, "attack", "normal");
+        Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal",
+                new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
+        Ability Bash = new Ability("Bash", 0, 0, 40, "blunt", "enemy", 1, "attack", "normal",
+                new ImageIcon("data/images/spells/Warrior3.jpg").getImage());
         Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
         Character Goblin = new Character(860, 150, 30, 30, tmpSprite, "Goblin", 60, "focus", 20, 5, Slash, Slash, Slash,
                 3);

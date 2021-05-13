@@ -1,5 +1,7 @@
 package protectors;
 
+import java.awt.Image;
+
 /*
     Project Name: Project Protectors
     Members: Árvai Balázs, Bíró Benjámin, Fodor Ádám, Zászlós Dorottya Beáta
@@ -20,6 +22,8 @@ public class Ability {
     private final int targetCount; // How many units does it effect (1-10)
     private final String abilityType; // What type of ability is it (attack / heal / buff / debuff / resurrect)
     private final String abilityModifier; // How the attack should go (random targets, adjascent...)
+
+    private final Image imageIcon;
 
     /**
      * Constructor for the Ability class.
@@ -43,7 +47,7 @@ public class Ability {
      */
 
     public Ability(String name, int cost, int cooldown, double attackDamage, String attackType, String targetType,
-            int targetCount, String abilityType, String abilityModifier) {
+            int targetCount, String abilityType, String abilityModifier, Image image) {
         this.name = name;
         this.cost = cost;
         this.cooldown = cooldown;
@@ -53,6 +57,7 @@ public class Ability {
         this.targetCount = targetCount;
         this.abilityType = abilityType;
         this.abilityModifier = abilityModifier;
+        this.imageIcon = image;
     }
 
     /**
@@ -148,5 +153,9 @@ public class Ability {
 
     public String getAbilityModifier() {
         return abilityModifier;
+    }
+
+    public Image getImageIcon() {
+        return this.imageIcon;
     }
 }

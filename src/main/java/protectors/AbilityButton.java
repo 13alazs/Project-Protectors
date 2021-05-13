@@ -9,19 +9,19 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class UIButton extends JButton {
+public class AbilityButton extends JButton {
 
-    private UIButton btn = this;
+    private AbilityButton btn = this;
 
     ImageIcon icon;
 
-    public UIButton(String path, int x, int y, int width, int height) {
+    public AbilityButton(String path, int x, int y, int width, int height) {
         super();
 
         btn.setBounds(x, y, width, height);
         icon = new ImageIcon(path);
         Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(width + 15, height + 15, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
 
         btn.setIcon(icon);
@@ -49,10 +49,8 @@ public class UIButton extends JButton {
         });
     }
 
-    public void setImage(String path, int width, int height) {
-        icon = new ImageIcon(path);
-        Image img = icon.getImage();
-        Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+    public void setImage(Image image, int width, int height) {
+        Image newimg = image.getScaledInstance(width + 15, height + 15, java.awt.Image.SCALE_SMOOTH);
         icon = new ImageIcon(newimg);
         btn.setIcon(icon);
     }
