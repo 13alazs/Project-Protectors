@@ -2,14 +2,12 @@ version: 2.1
 
 orbs:
   maven: circleci/maven@1.1
+  aws-code-deploy: circleci/aws-code-deploy@0.0.11
 
 workflows:
   maven_test:
     jobs:
       - maven/test
-
-orbs:
-  aws-code-deploy: circleci/aws-code-deploy@0.0.11
 
 workflows:
   deploy_application:
