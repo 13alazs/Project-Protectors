@@ -24,20 +24,82 @@ public class CharacterSelectionPanel extends JPanel {
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
     private ArrayList<Boolean> isChosen = new ArrayList<Boolean>();
     private ArrayList<Character> chosenCharacters = new ArrayList<Character>();
-    private Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal");
-    private Ability Stab = new Ability("Stab", 0, 0, 25, "piercing", "enemy", 1, "attack", "normal");
-    private Ability Punch = new Ability("Punch", 0, 0, 20, "blunt", "enemy", 1, "attack", "normal");
-    private Ability Shoot = new Ability("Shoot", 0, 0, 35, "piercing", "enemy", 1, "attack", "normal");
-    private Ability Fireball = new Ability("Fireball", 0, 0, 30, "fire", "enemy", 1, "attack", "normal");
-    private Ability Cleave = new Ability("Cleave", 5, 1, 20, "slashing", "enemy", 2, "attack", "normal");
-    private Ability Whirlwind = new Ability("Whirlwind", 10, 3, 15, "slashing", "enemy", 5, "attack", "normal");
-    private Ability Firestorm = new Ability("Firestorm", 10, 3, 20, "fire", "enemy", 3, "attack", "random");
-    private Ability Chaosbolt = new Ability("Chaosbolt", 15, 2, 45, "fire", "enemy", 1, "attack", "random");
-    private Ability Blindfire = new Ability("Blindfire", 10, 3, 45, "piercing", "enemy", 1, "attack", "random");
-    private Ability Piercingshot = new Ability("Piercingshot", 10, 1, 25, "piercing", "enemy", 2, "attack", "normal");
-    private Ability Heal = new Ability("Heal", 10, 2, -45, "none", "ally", 1, "heal", "normal");
-    private Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "none", "ally", 1, "resurrect", "normal");
-    private Ability Stun = new Ability("Stun", 10, 2, 0, "blunt", "enemy", 1, "stun", "normal");
+
+    // Archer
+    private Ability Shoot = new Ability("Shoot", 0, 0, 35, "piercing", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Archer1.jpg").getImage());
+    private Ability Blindfire = new Ability("Blindfire", 10, 3, 45, "piercing", "enemy", 1, "attack", "random",
+            new ImageIcon("data/images/spells/Archer2.jpg").getImage());
+    private Ability Piercingshot = new Ability("Piercingshot", 10, 1, 25, "piercing", "enemy", 2, "attack", "normal",
+            new ImageIcon("data/images/spells/Archer3.jpg").getImage());
+    // Druid
+    private Ability SolarBeam = new Ability("Solar Beam", 0, 0, 25, "nature", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Druid1.jpg").getImage());
+    private Ability DeadlySpores = new Ability("Deadly Spores", 10, 2, 20, "nature", "enemy", 4, "attack", "random",
+            new ImageIcon("data/images/spells/Druid2.jpg").getImage()); // This
+    // could
+    // be
+    // DoT
+    // or
+    // HoT
+    private Ability Nurture = new Ability("Nurture", 10, 2, -45, "nature", "ally", 1, "heal", "normal",
+            new ImageIcon("data/images/spells/Druid3.jpg").getImage());
+    // Knight
+    private Ability Slash = new Ability("Slash", 0, 0, 25, "slashing", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Knight1.jpg").getImage());
+    private Ability ShieldBash = new Ability("Shield Bash", 10, 2, 0, "blunt", "enemy", 1, "stun", "normal",
+            new ImageIcon("data/images/spells/Knight2.jpg").getImage());
+    private Ability PiercingHowl = new Ability("Piercing Howl", 10, 3, 20, "none", "enemy", 5, "attack", "normal",
+            new ImageIcon("data/images/spells/Knight3.jpg").getImage());
+    // Mage
+    private Ability Fireball = new Ability("Fireball", 0, 0, 30, "fire", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Mage1.jpg").getImage());
+    private Ability SnowStorm = new Ability("Snow Storm", 10, 4, 30, "frost", "enemy", 3, "attack", "random",
+            new ImageIcon("data/images/spells/Mage2.jpg").getImage());
+    private Ability DeepFreeze = new Ability("Deep Freeze", 10, 2, 0, "frost", "enemy", 1, "stun", "normal",
+            new ImageIcon("data/images/spells/Mage3.jpg").getImage());
+    // Monk
+    private Ability Punch = new Ability("Punch", 0, 0, 30, "blunt", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Monk1.jpg").getImage());
+    private Ability Kick = new Ability("Kick", 15, 1, 0, "blunt", "enemy", 1, "stun", "normal",
+            new ImageIcon("data/images/spells/Monk2.jpg").getImage());
+    private Ability InnerPeace = new Ability("Inner Peace", 10, 1, -25, "none", "ally", 1, "heal", "normal",
+            new ImageIcon("data/images/spells/Monk3.jpg").getImage());
+    // Paladin
+    private Ability RighteousHammer = new Ability("Righteous Hammer", 0, 0, 25, "holy", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Paladin1.jpg").getImage());
+    private Ability ShieldSlam = new Ability("Shield Slam", 5, 3, 0, "blunt", "enemy", 1, "stun", "normal",
+            new ImageIcon("data/images/spells/Paladin2.jpg").getImage());
+    private Ability HolyLight = new Ability("Holy Light", 10, 1, -30, "holy", "ally", 1, "heal", "normal",
+            new ImageIcon("data/images/spells/Paladin3.jpg").getImage());
+    // Priest
+    private Ability Smite = new Ability("Smite", 0, 0, 25, "holy", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Priest1.jpg").getImage());
+    private Ability CleansingLight = new Ability("Cleansing Light", 15, 2, -55, "holy", "ally", 1, "heal", "normal",
+            new ImageIcon("data/images/spells/Priest2.jpg").getImage());
+    private Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "holy", "ally", 1, "resurrect", "normal",
+            new ImageIcon("data/images/spells/Priest3.jpg").getImage());
+    // Rogue
+    private Ability Stab = new Ability("Stab", 0, 0, 35, "piercing", "enemy", 1, "attack", "normal",
+            new ImageIcon("data/images/spells/Rogue1.jpg").getImage());
+    private Ability PoisonousFlask = new Ability("Poisonous Flask", 10, 3, 25, "nature", "enemy", 3, "attack", "normal",
+            new ImageIcon("data/images/spells/Rogue2.jpg").getImage()); // Could be DoT
+    private Ability Backstab = new Ability("Backstab", 15, 1, 0, "piercing", "enemy", 1, "stun", "normal",
+            new ImageIcon("data/images/spells/Rogue3.jpg").getImage());
+    // Warlock
+    private Ability SiphonSoul = new Ability("Siphon Soul", 0, 0, 15, "shadow", "enemy", 2, "attack", "random",
+            new ImageIcon("data/images/spells/Warlock1.jpg").getImage());
+    private Ability TouchOfDarkness = new Ability("Touch of Darkness", 10, 3, 25, "shadow", "enemy", 1, "attack",
+            "normal", new ImageIcon("data/images/spells/Warlock2.jpg").getImage()); // DoT
+    private Ability Doom = new Ability("Doom", 15, 2, 45, "shadow", "enemy", 3, "attack", "random",
+            new ImageIcon("data/images/spells/Warlock3.jpg").getImage()); // Mass DoT
+    // Warrior
+    private Ability Cleave = new Ability("Cleave", 0, 0, 15, "slashing", "enemy", 2, "attack", "normal",
+            new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
+    private Ability BlindingRage = new Ability("Blinding Rage", 15, 3, 20, "slashing", "enemy", 3, "attack", "random",
+            new ImageIcon("data/images/spells/Warrior2.jpg").getImage());
+    private Ability Whirlwind = new Ability("Whirlwind", 10, 3, 15, "slashing", "enemy", 5, "attack", "normal",
+            new ImageIcon("data/images/spells/Warrior3.jpg").getImage());
 
     public CharacterSelectionPanel() {
         super();
@@ -49,31 +111,31 @@ public class CharacterSelectionPanel extends JPanel {
                         "Gerrie the Archer", 50, "focus", 10, 5, Shoot, Blindfire, Piercingshot, 2));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/druid.png").getImage(),
-                        "Runetotem", 40, "mana", 40, 0, Punch, Stun, Heal, 4));
+                        "Runetotem", 40, "mana", 40, 0, SolarBeam, DeadlySpores, Nurture, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/knight.png").getImage(),
-                        "Knight Lautrec", 100, "rage", 20, 10, Slash, Cleave, Whirlwind, 6));
+                        "Knight Lautrec", 100, "rage", 20, 10, Slash, ShieldBash, PiercingHowl, 6));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/mage.png").getImage(),
-                        "Khadgar", 40, "mana", 40, 0, Fireball, Firestorm, Stun, 4));
+                        "Khadgar", 40, "mana", 40, 0, Fireball, SnowStorm, DeepFreeze, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/monk.png").getImage(),
-                        "Asmon Bald", 60, "focus", 10, 2, Punch, Stun, Fireball, 3));
+                        "Asmon Bald", 60, "focus", 10, 2, Punch, Kick, InnerPeace, 3));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/paladin.png").getImage(),
-                        "The Ashbringer", 90, "mana", 20, 20, Slash, Stun, Heal, 7));
+                        "The Ashbringer", 90, "mana", 20, 20, RighteousHammer, ShieldSlam, HolyLight, 7));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/priest.png").getImage(),
-                        "High Priest", 40, "mana", 30, 0, Stab, Heal, Resurrect, 5));
+                        "High Priest", 40, "mana", 30, 0, Smite, CleansingLight, Resurrect, 5));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/rogue.png").getImage(),
-                        "Shadow", 50, "focus", 10, 0, Stab, Stun, Whirlwind, 1));
+                        "Shadow", 50, "focus", 10, 0, Stab, PoisonousFlask, Backstab, 1));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/warlock.png").getImage(),
-                        "Ebonlocke", 60, "mana", 15, 10, Fireball, Firestorm, Chaosbolt, 4));
+                        "Ebonlocke", 60, "mana", 15, 10, SiphonSoul, TouchOfDarkness, Doom, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/warrior.png").getImage(),
-                        "Lo'Gosh", 80, "rage", 20, 5, Slash, Cleave, Whirlwind, 6));
+                        "Lo'Gosh", 80, "rage", 20, 5, Cleave, BlindingRage, Whirlwind, 6));
 
         GridBagLayout gridLayoutForCharacters = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
