@@ -79,7 +79,7 @@ public class CharacterTest {
         testChar.setCurrResource(5);
 
         Ability res = new Ability("resAb", 0, 0, 0, "", "", 0, "resurrect", "", null);
-        Ability attack = new Ability("attackAb", 3, 0, 11.0, "", "", 0, "attack", "", null);
+        Ability attack = new Ability("attackAb", 0, 0, 10, "", "", 0, "attack", "", null);
 
         testChar.castAbility(attack, target);
         testChar.castAbility(attack, target);
