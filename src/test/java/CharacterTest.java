@@ -62,7 +62,8 @@ public class CharacterTest {
     @Test
     public void healShouldChangeHealth() {
         ArrayList<Character> target = new ArrayList();
-        target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 2.0, null, null, null, 10));
+        target.add(new Character(0, 0, 0, 0, null, "targetChar", 15, "", 10, 2.0, null, null, null, 10));
+        target.get(0).setCurrHealth(10);
 
         Ability heal = new Ability("healAb", 3, 0, -3.0, "", "", 0, "heal", "", null);
         testChar.setCurrResource(5);
@@ -80,6 +81,7 @@ public class CharacterTest {
         Ability res = new Ability("resAb", 0, 0, 0, "", "", 0, "resurrect", "", null);
         Ability attack = new Ability("attackAb", 3, 0, 11.0, "", "", 0, "attack", "", null);
 
+        testChar.castAbility(attack, target);
         testChar.castAbility(attack, target);
         assertFalse(target.get(0).isAlive());
 
