@@ -64,11 +64,13 @@ public class GameEngine extends JPanel {
         menuPanel = new JPanel();
 
         this.add(menuPanel);
+
         menuPanel.setOpaque(false);
         menuPanel.setBounds(570, 250, 300, 250);
         menuPanel.setVisible(true);
 
         buttonPanel = new JPanel();
+
         buttonPanel.setLayout(new GridLayout(4, 1));
         menuPanel.add(buttonPanel);
 
@@ -91,12 +93,14 @@ public class GameEngine extends JPanel {
         fightPanel.setBackground(new Color(0, 0, 0, 255));
         fightPanel.setBounds(630, 700, 170, 60);
         fightPanel.setVisible(false);
+
         fightPanel.setLayout(null);
 
         ability1Button = new AbilityButton("data/images/spells/Archer1.jpg", 5, 5, 50, 50);
         // ability1Button.setBackground(Color.ORANGE);
         // ability1Button.setBorder(new LineBorder(Color.BLACK));
         // ability1Button.setPreferredSize(new Dimension(90, 30));
+
         fightPanel.add(ability1Button);
         ability1Button.addActionListener(new ActionListener() {
             @Override
@@ -339,6 +343,7 @@ public class GameEngine extends JPanel {
                 missionsButton.setForeground(Color.WHITE);
             }
         });
+
         missionsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -368,6 +373,7 @@ public class GameEngine extends JPanel {
                 charactersButton.setForeground(Color.WHITE);
             }
         });
+
         charactersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -397,6 +403,7 @@ public class GameEngine extends JPanel {
                 menuButtonR.setForeground(Color.WHITE);
             }
         });
+
         menuButtonR.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -427,6 +434,7 @@ public class GameEngine extends JPanel {
                 menuButtonM.setForeground(Color.WHITE);
             }
         });
+
         menuButtonM.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -457,6 +465,7 @@ public class GameEngine extends JPanel {
                 menuButtonC.setForeground(Color.WHITE);
             }
         });
+
         menuButtonC.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -487,6 +496,7 @@ public class GameEngine extends JPanel {
                 exitButton.setForeground(Color.WHITE);
             }
         });
+
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -529,6 +539,7 @@ public class GameEngine extends JPanel {
         } else {
             System.out.println("Not enough " + Script.getCurrentCharacter().getResourceName() + " ("
                     + Script.getCurrentCharacter().getCurrResource() + "/" + tmpAbility.getCost() + ")");
+            Script.getCurrentCharacter().notEnoughResource();
         }
     }
 

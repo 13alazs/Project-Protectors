@@ -2,6 +2,10 @@ package protectors;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.awt.Graphics;
+import java.awt.RadialGradientPaint;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
 
 /*
     Project Name: Project Protectors
@@ -32,6 +36,10 @@ public class Character extends Sprite {
 
     private boolean alive; // Tracks if the character is alive or dead.
     private boolean stunned; // Tracks if the character is stunned or not.
+
+    private Graphics graphics; // Using character's graphics to show health and mana changes.
+    private boolean active; // True if the character has the next turn
+    private int notEnoughRes = 0; // If higher than 0 the resource bar will appear in magenta.
 
     /**
      * Constructor that calls the Sprite parent class' constructor.
@@ -81,6 +89,7 @@ public class Character extends Sprite {
         this.initiative = initiative;
         this.alive = true;
         this.stunned = false;
+
     }
 
     /**
@@ -116,20 +125,21 @@ public class Character extends Sprite {
     private void healthChange(double amount) {
         if (alive) {
             if (currHealth - amount <= 0) {
-                currHealth = 0;
+                setCurrHealth(0);
                 alive = false;
             } else {
-                currHealth -= amount;
+                setCurrHealth(currHealth - amount);
             }
         }
+
     } // Used for both taking damage and healing
 
     private void resurrect() {
         if (!alive) {
             alive = true;
-            currHealth = 1;
+            setCurrHealth(1);
         } else {
-            currHealth = maxHealth;
+            setCurrHealth(maxHealth);
         }
     } // Used resurrecting characters, but if they are already alive, this works as a full heal instead
 
@@ -262,5 +272,49 @@ public class Character extends Sprite {
 
     public void setStunned(boolean stunned) {
         this.stunned = stunned;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void notEnoughResource() {
+        this.notEnoughRes = 1;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        super.draw(g);
+        graphics = g;
+
+        double healthHeightMax = 50;
+        double healthHeight = (currHealth / maxHealth) * (healthHeightMax);
+        graphics.setColor(java.awt.Color.red);
+        graphics.fillRect(x, y + height, (int) healthHeight, 5);
+
+        double resHeightMax = 50;
+        double resHeight = ((double) currResource / maxResource) * (resHeightMax);
+        graphics.setColor(java.awt.Color.blue);
+        graphics.fillRect(x, y + height + 7, (int) resHeight, 5);
+
+        if (active) {
+
+            float[] dist = { 0.0f, 0.5f };
+            java.awt.Color[] colors = { java.awt.Color.white, new java.awt.Color(1f, 1f, 1f, 0f) };
+            RadialGradientPaint p = new RadialGradientPaint(x + (width / 2), y + height, 1.5f * width, dist, colors);
+
+            ((Graphics2D) graphics).setPaint(p);
+            graphics.fillRect(x - 100, y, width + 200, height);
+
+            if (notEnoughRes != 0) {
+                graphics.setColor(java.awt.Color.magenta);
+                graphics.fillRect(x, y + height + 7, (int) resHeight, 5);
+                notEnoughRes = (notEnoughRes + 1) % 10;
+            } else {
+                graphics.setColor(java.awt.Color.blue);
+                graphics.fillRect(x, y + height + 7, (int) resHeight, 5);
+            }
+        }
+
     }
 }
