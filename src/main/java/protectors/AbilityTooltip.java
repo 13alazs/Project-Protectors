@@ -5,12 +5,12 @@ import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class UITooltip extends JPanel {
+public class AbilityTooltip extends JPanel {
     private JLabel tooltipText;
 
     private String text;
 
-    public UITooltip(int x, int y, Ability ability, String resource) {
+    public AbilityTooltip(int x, int y, Ability ability, String resource) {
         super();
 
         this.setBackground(new Color(0, 0, 0, 192));

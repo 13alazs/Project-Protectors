@@ -44,12 +44,12 @@ public class GameEngine extends JPanel {
 
     private Mission currentMission;
 
-    private JButton ability1Button;
-    private UITooltip tooltipOne;
-    private JButton ability2Button;
-    private UITooltip tooltipTwo;
-    private JButton ability3Button;
-    private UITooltip tooltipThree;
+    private AbilityButton ability1Button;
+    private AbilityTooltip tooltipOne;
+    private AbilityButton ability2Button;
+    private AbilityTooltip tooltipTwo;
+    private AbilityButton ability3Button;
+    private AbilityTooltip tooltipThree;
 
     private GameManager Script;
     private Timer timer;
@@ -88,14 +88,15 @@ public class GameEngine extends JPanel {
 
         fightPanel = new JPanel();
 
-        fightPanel.setBackground(Color.GRAY);
-        fightPanel.setBounds(375, 700, 270, 30);
+        fightPanel.setBackground(new Color(0, 0, 0, 100));
+        fightPanel.setBounds(630, 700, 170, 60);
         fightPanel.setVisible(false);
-        fightPanel.setLayout(new GridLayout(1, 3));
-        ability1Button = new JButton("Ability1");
-        ability1Button.setBackground(Color.ORANGE);
-        ability1Button.setBorder(new LineBorder(Color.BLACK));
-        ability1Button.setPreferredSize(new Dimension(90, 30));
+        fightPanel.setLayout(null);
+
+        ability1Button = new AbilityButton("data/images/spells/Archer1.jpg", 5, 5, 50, 50);
+        // ability1Button.setBackground(Color.ORANGE);
+        // ability1Button.setBorder(new LineBorder(Color.BLACK));
+        // ability1Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability1Button);
         ability1Button.addActionListener(new ActionListener() {
             @Override
@@ -104,6 +105,12 @@ public class GameEngine extends JPanel {
                     // System.out.println("Ability 1 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility1();
                     cast();
+                    ability1Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility1().getCost());
+                    ability2Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility2().getCost());
+                    ability3Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility3().getCost());
                 }
             }
         });
@@ -119,10 +126,10 @@ public class GameEngine extends JPanel {
             }
         });
 
-        ability2Button = new JButton("Ability2");
-        ability2Button.setBackground(Color.ORANGE);
-        ability2Button.setBorder(new LineBorder(Color.BLACK));
-        ability2Button.setPreferredSize(new Dimension(90, 30));
+        ability2Button = new AbilityButton("data/images/spells/Archer1.jpg", 60, 5, 50, 50);
+        // ability2Button.setBackground(Color.ORANGE);
+        // ability2Button.setBorder(new LineBorder(Color.BLACK));
+        // ability2Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability2Button);
         ability2Button.addActionListener(new ActionListener() {
             @Override
@@ -131,6 +138,15 @@ public class GameEngine extends JPanel {
                     // System.out.println("Ability 2 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility2();
                     cast();
+                    ability2Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility2().getCost());
+                    if (Script.getCurrentCharacter().getCurrResource() >= Script.getCurrentCharacter().getAbility2()
+                            .getCost()) {
+                        ability1Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility1().getCost());
+                        ability3Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility3().getCost());
+                    }
                 }
             }
         });
@@ -146,10 +162,10 @@ public class GameEngine extends JPanel {
             }
         });
 
-        ability3Button = new JButton("Ability3");
-        ability3Button.setBackground(Color.ORANGE);
-        ability3Button.setBorder(new LineBorder(Color.BLACK));
-        ability3Button.setPreferredSize(new Dimension(90, 30));
+        ability3Button = new AbilityButton("data/images/spells/Archer1.jpg", 115, 5, 50, 50);
+        // ability3Button.setBackground(Color.ORANGE);
+        // ability3Button.setBorder(new LineBorder(Color.BLACK));
+        // ability3Button.setPreferredSize(new Dimension(90, 30));
         fightPanel.add(ability3Button);
         ability3Button.addActionListener(new ActionListener() {
             @Override
@@ -158,6 +174,15 @@ public class GameEngine extends JPanel {
                     // System.out.println("Ability 3 has been cast");
                     tmpAbility = Script.getCurrentCharacter().getAbility3();
                     cast();
+                    ability3Button.setBordered(true, Script.getCurrentCharacter().getCurrResource(),
+                            Script.getCurrentCharacter().getAbility3().getCost());
+                    if (Script.getCurrentCharacter().getCurrResource() >= Script.getCurrentCharacter().getAbility3()
+                            .getCost()) {
+                        ability2Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility2().getCost());
+                        ability1Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                                Script.getCurrentCharacter().getAbility1().getCost());
+                    }
                 }
             }
         });
@@ -266,27 +291,31 @@ public class GameEngine extends JPanel {
                 menuPanel.setVisible(false);
                 timer.start();
                 if (playerTeam.isEmpty()) {
-                    Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal");
-                    Ability Heal = new Ability("Heal", 10, 2, -45, "none", "ally", 1, "heal", "normal");
-                    Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "none", "ally", 1, "resurrect", "normal");
-                    Image tmpSprite = new ImageIcon("data/images/characters/playable/knight.png").getImage();
-                    Character Knight = new Character(150, 150, 50, 50, tmpSprite, "BasicKnight", 120, "mana", 20, 10,
-                            Slash, Heal, Resurrect, 6);
-                    playerTeam.add(Knight);
+                    Ability RighteousHammer = new Ability("Righteous Hammer", 0, 0, 25, "holy", "enemy", 1, "attack",
+                            "normal", new ImageIcon("data/images/spells/Paladin1.jpg").getImage());
+                    Ability ShieldSlam = new Ability("Shield Slam", 5, 3, 0, "blunt", "enemy", 1, "stun", "normal",
+                            new ImageIcon("data/images/spells/Paladin2.jpg").getImage());
+                    Ability HolyLight = new Ability("Holy Light", 10, 1, -30, "holy", "ally", 1, "heal", "normal",
+                            new ImageIcon("data/images/spells/Paladin3.jpg").getImage());
+                    Image tmpSprite = new ImageIcon("data/images/characters/playable/paladin.png").getImage();
+                    Character Paladin = new Character(150, 150, 50, 50, tmpSprite, "BasicKnight", 120, "mana", 20, 10,
+                            RighteousHammer, ShieldSlam, HolyLight, 6);
+                    playerTeam.add(Paladin);
                 }
                 if (currentMission == null) {
                     currentMission = new Training();
                 }
                 Script.Setup(currentMission, playerTeam);
-                tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500,
+                tooltipOne = new AbilityTooltip(ability1Button.getLocationOnScreen().x - 500,
                         ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(),
                         Script.getCurrentCharacter().getResourceName());
-                tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500,
+                tooltipTwo = new AbilityTooltip(ability2Button.getLocationOnScreen().x - 500,
                         ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(),
                         Script.getCurrentCharacter().getResourceName());
-                tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500,
+                tooltipThree = new AbilityTooltip(ability3Button.getLocationOnScreen().x - 500,
                         ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(),
                         Script.getCurrentCharacter().getResourceName());
+                updateButtons();
             }
         }); // Menu -> Battle
 
@@ -726,18 +755,33 @@ public class GameEngine extends JPanel {
 
     public void updateTooltips() {
         try {
-            tooltipOne = new UITooltip(ability1Button.getLocationOnScreen().x - 500,
+            tooltipOne = new AbilityTooltip(ability1Button.getLocationOnScreen().x - 500,
                     ability1Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility1(),
                     Script.getCurrentCharacter().getResourceName());
-            tooltipTwo = new UITooltip(ability2Button.getLocationOnScreen().x - 500,
+            tooltipTwo = new AbilityTooltip(ability2Button.getLocationOnScreen().x - 500,
                     ability2Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility2(),
                     Script.getCurrentCharacter().getResourceName());
-            tooltipThree = new UITooltip(ability3Button.getLocationOnScreen().x - 500,
+            tooltipThree = new AbilityTooltip(ability3Button.getLocationOnScreen().x - 500,
                     ability3Button.getLocationOnScreen().y - 300, Script.getCurrentCharacter().getAbility3(),
                     Script.getCurrentCharacter().getResourceName());
         } catch (IllegalComponentStateException e) {
         }
+        updateButtons();
+    }
 
+    public void updateButtons() {
+        ability1Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                Script.getCurrentCharacter().getAbility1().getCost());
+        ability2Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                Script.getCurrentCharacter().getAbility2().getCost());
+        ability3Button.setBordered(false, Script.getCurrentCharacter().getCurrResource(),
+                Script.getCurrentCharacter().getAbility3().getCost());
+        ability1Button.setImage(Script.getCurrentCharacter().getAbility1().getImageIcon(), 50, 50,
+                Script.getCurrentCharacter().getCurrResource(), Script.getCurrentCharacter().getAbility1().getCost());
+        ability2Button.setImage(Script.getCurrentCharacter().getAbility2().getImageIcon(), 50, 50,
+                Script.getCurrentCharacter().getCurrResource(), Script.getCurrentCharacter().getAbility2().getCost());
+        ability3Button.setImage(Script.getCurrentCharacter().getAbility3().getImageIcon(), 50, 50,
+                Script.getCurrentCharacter().getCurrResource(), Script.getCurrentCharacter().getAbility3().getCost());
     }
 
     public JPanel getMenuPanel() {
@@ -784,7 +828,7 @@ public class GameEngine extends JPanel {
         return ability1Button;
     }
 
-    public void setAbility1Button(JButton ability1Button) {
+    public void setAbility1Button(AbilityButton ability1Button) {
         this.ability1Button = ability1Button;
     }
 
@@ -792,7 +836,7 @@ public class GameEngine extends JPanel {
         return ability2Button;
     }
 
-    public void setAbility2Button(JButton ability2Button) {
+    public void setAbility2Button(AbilityButton ability2Button) {
         this.ability2Button = ability2Button;
     }
 
@@ -800,7 +844,7 @@ public class GameEngine extends JPanel {
         return ability3Button;
     }
 
-    public void setAbility3Button(JButton ability3Button) {
+    public void setAbility3Button(AbilityButton ability3Button) {
         this.ability3Button = ability3Button;
     }
 }
