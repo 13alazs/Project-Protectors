@@ -61,7 +61,7 @@ public class CharacterSelectionPanel extends JPanel {
     // Monk
     private Ability Punch = new Ability("Punch", 0, 0, 30, "blunt", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Monk1.jpg").getImage());
-    private Ability Kick = new Ability("Kick", 15, 1, 0, "blunt", "enemy", 1, "stun", "normal",
+    private Ability Kick = new Ability("Kick", 10, 1, 0, "blunt", "enemy", 1, "stun", "normal",
             new ImageIcon("data/images/spells/Monk2.jpg").getImage());
     private Ability InnerPeace = new Ability("Inner Peace", 10, 1, -25, "none", "ally", 1, "heal", "normal",
             new ImageIcon("data/images/spells/Monk3.jpg").getImage());
