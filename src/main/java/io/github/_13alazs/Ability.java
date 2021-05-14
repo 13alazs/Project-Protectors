@@ -1,4 +1,4 @@
-package com.github._13alazs;
+package io.github._13alazs;
 
 import java.awt.Image;
 

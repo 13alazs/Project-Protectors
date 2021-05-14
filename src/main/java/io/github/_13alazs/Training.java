@@ -1,4 +1,4 @@
-package com.github._13alazs;
+package io.github._13alazs;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import javax.swing.ImageIcon;
     Members: Árvai Balázs, Bíró Benjámin, Fodor Ádám, Zászlós Dorottya Beáta
 */
 
-public class Training3 extends Mission {
-    public Training3() {
-        name = "Training3";
-        background = new ImageIcon("data/images/backgrounds/graveyard.jpg").getImage();
+public class Training extends Mission {
+    public Training() {
+        name = "Training";
+        background = new ImageIcon("data/images/backgrounds/forest.jpg").getImage();
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Training3 extends Mission {
         Enemies = new ArrayList();
         Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal",
                 new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
-        Character Goblin = new Character(860, 150, 30, 30,
+        Character Goblin = new Character(860, 150, 40, 50,
                 new ImageIcon("data/images/characters/enemies/goblin.png").getImage(), "Goblin", 60, "focus", 20, 5,
                 Slash, Slash, Slash, 3);
         Enemies.add(Goblin);
@@ -32,14 +32,14 @@ public class Training3 extends Mission {
         Enemies = new ArrayList();
         Ability Slash = new Ability("Slash", 0, 0, 30, "slashing", "enemy", 1, "attack", "normal",
                 new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
-        Character Goblin = new Character(860, 150, 30, 30,
+        Character Goblin = new Character(860, 150, 40, 50,
                 new ImageIcon("data/images/characters/enemies/goblin.png").getImage(), "Goblin", 60, "focus", 20, 5,
                 Slash, Slash, Slash, 3);
         Enemies.add(Goblin);
-        Character Minotaurus = new Character(860, 300, 60, 60,
-                new ImageIcon("data/images/characters/enemies/minotaurus.png").getImage(), "Boglin", 55, "focus", 15, 5,
+        Character Boglin = new Character(860, 300, 30, 40,
+                new ImageIcon("data/images/characters/enemies/goblin.png").getImage(), "Boglin", 55, "focus", 15, 5,
                 Slash, Slash, Slash, 2);
-        Enemies.add(Minotaurus);
+        Enemies.add(Boglin);
         return true;
     }
 
@@ -50,22 +50,20 @@ public class Training3 extends Mission {
                 new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
         Ability Bash = new Ability("Bash", 0, 0, 40, "blunt", "enemy", 1, "attack", "normal",
                 new ImageIcon("data/images/spells/Warrior3.jpg").getImage());
-        Image tmpSprite = new ImageIcon("data/images/tmpSprite.png").getImage();
-        Character Goblin = new Character(860, 150, 30, 30,
+        Character Goblin = new Character(860, 150, 40, 50,
                 new ImageIcon("data/images/characters/enemies/goblin.png").getImage(), "Goblin", 60, "focus", 20, 5,
                 Slash, Slash, Slash, 3);
         Enemies.add(Goblin);
-        Character Minotaurus = new Character(860, 300, 60, 60,
-                new ImageIcon("data/images/characters/enemies/minotaurus.png").getImage(), "Boglin", 55, "focus", 15, 7,
+        Character Boglin = new Character(860, 300, 30, 40,
+                new ImageIcon("data/images/characters/enemies/goblin.png").getImage(), "Boglin", 55, "focus", 15, 7,
                 Slash, Slash, Slash, 2);
-        Enemies.add(Minotaurus);
-        Character CorMinotaurus = new Character(860, 450, 60, 60,
-                new ImageIcon("data/images/characters/enemies/minotaurusCorrupted.png").getImage(), "Hobgoblin", 110,
-                "rage", 30, 5, Bash, Bash, Bash, 8);
-        Enemies.add(CorMinotaurus);
+        Enemies.add(Boglin);
+        Character Hobgoblin = new Character(860, 450, 60, 60,
+                new ImageIcon("data/images/characters/enemies/orc.png").getImage(), "Hobgoblin", 110, "rage", 30, 5,
+                Bash, Bash, Bash, 8);
+        Enemies.add(Hobgoblin);
         return true;
     }
-
-    // If the mission is missing an encounter, just don't override it, in this case, encounters 4, 5, 6 will return
+    // If the mission is missing an encounter, just don't override it, in this case, encounters 4, 5, 6 will retuurn
     // false and will not be used
 }
