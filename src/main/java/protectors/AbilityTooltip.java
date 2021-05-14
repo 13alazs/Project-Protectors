@@ -2,7 +2,6 @@ package protectors;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -90,6 +89,16 @@ public class AbilityTooltip extends JPanel {
             text = "<html>" + name + "Restore " + "<font color='rgb(0, 163, 108)'>" + ability.getAttackDamage() * -1
                     + "</font>" + " health to " + abilityModifier + "ally.<br>" + "Cost: " + cost + " " + resourceName
                     + ".<br>" + resourcePerRound + "</html>";
+            break;
+        case "HoT":
+            text = "<html>" + name + "Restore " + "<font color='rgb(0, 163, 108)'>" + ability.getAttackDamage() * -1
+                    + "</font>" + " health to " + abilityModifier + "ally every turn for 3 turns.<br>" + "Cost: " + cost
+                    + " " + resourceName + ".<br>" + resourcePerRound + "</html>";
+            break;
+        case "DoT":
+            text = "<html>" + name + "Deal " + "<font color='rgb(154, 42, 42)'>" + ability.getAttackDamage()
+                    + "</font> " + attackType + " damage to " + abilityModifier + " enemy every round for 3 rounds.<br>"
+                    + "Cost: " + cost + " " + resourceName + ".<br>" + resourcePerRound + "</html>";
             break;
         default:
             text = "<html>" + name + "Deal " + "<font color='rgb(154, 42, 42)'>" + ability.getAttackDamage()
