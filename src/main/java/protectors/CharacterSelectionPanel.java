@@ -2,6 +2,7 @@ package protectors;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,12 +12,17 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CharacterSelectionPanel extends JPanel {
+    private JLabel characterSelectText;
+    private JScrollPane scrollPane;
     private JPanel characterHolderPanel;
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
     private ArrayList<Boolean> isChosen = new ArrayList<Boolean>();
@@ -32,13 +38,8 @@ public class CharacterSelectionPanel extends JPanel {
     // Druid
     private Ability SolarBeam = new Ability("Solar Beam", 0, 0, 25, "nature", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Druid1.jpg").getImage());
-    private Ability DeadlySpores = new Ability("Deadly Spores", 10, 2, 20, "nature", "enemy", 4, "attack", "random",
-            new ImageIcon("data/images/spells/Druid2.jpg").getImage()); // This
-    // could
-    // be
-    // DoT
-    // or
-    // HoT
+    private Ability Regrow = new Ability("Regrow", 8, 2, -15, "none", "ally", 1, "HoT", "normal",
+            new ImageIcon("data/images/spells/Druid2.jpg").getImage());
     private Ability Nurture = new Ability("Nurture", 10, 2, -45, "nature", "ally", 1, "heal", "normal",
             new ImageIcon("data/images/spells/Druid3.jpg").getImage());
     // Knight
@@ -72,24 +73,24 @@ public class CharacterSelectionPanel extends JPanel {
     // Priest
     private Ability Smite = new Ability("Smite", 0, 0, 25, "holy", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Priest1.jpg").getImage());
-    private Ability CleansingLight = new Ability("Cleansing Light", 15, 2, -55, "holy", "ally", 1, "heal", "normal",
+    private Ability CleansingLight = new Ability("Cleansing Light", 20, 5, -40, "none", "ally", 5, "heal", "normal",
             new ImageIcon("data/images/spells/Priest2.jpg").getImage());
     private Ability Resurrect = new Ability("Resurrect", 20, 4, 0, "holy", "ally", 1, "resurrect", "normal",
             new ImageIcon("data/images/spells/Priest3.jpg").getImage());
     // Rogue
     private Ability Stab = new Ability("Stab", 0, 0, 35, "piercing", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Rogue1.jpg").getImage());
-    private Ability PoisonousFlask = new Ability("Poisonous Flask", 10, 3, 25, "nature", "enemy", 3, "attack", "normal",
-            new ImageIcon("data/images/spells/Rogue2.jpg").getImage()); // Could be DoT
+    private Ability PoisonousFlask = new Ability("Poisonous Flask", 5, 2, 10, "piercing", "enemy", 1, "DoT", "normal",
+            new ImageIcon("data/images/spells/Rogue2.jpg").getImage());
     private Ability Backstab = new Ability("Backstab", 15, 1, 0, "piercing", "enemy", 1, "stun", "normal",
             new ImageIcon("data/images/spells/Rogue3.jpg").getImage());
     // Warlock
-    private Ability SiphonSoul = new Ability("Siphon Soul", 0, 0, 15, "shadow", "enemy", 2, "attack", "random",
+    private Ability SiphonSoul = new Ability("Siphon Soul", 15, 2, 45, "fire", "enemy", 1, "attack", "random",
             new ImageIcon("data/images/spells/Warlock1.jpg").getImage());
-    private Ability TouchOfDarkness = new Ability("Touch of Darkness", 10, 3, 25, "shadow", "enemy", 1, "attack",
-            "normal", new ImageIcon("data/images/spells/Warlock2.jpg").getImage()); // DoT
-    private Ability Doom = new Ability("Doom", 15, 2, 45, "shadow", "enemy", 3, "attack", "random",
-            new ImageIcon("data/images/spells/Warlock3.jpg").getImage()); // Mass DoT
+    private Ability TouchOfDarkness = new Ability("Touch of Darkness", 0, 3, 25, "shadow", "enemy", 1, "attack",
+            "normal", new ImageIcon("data/images/spells/Warlock2.jpg").getImage());
+    private Ability Doom = new Ability("Doom", 15, 2, 45, "fire", "all", 5, "attack", "normal",
+            new ImageIcon("data/images/spells/Warlock3.jpg").getImage());
     // Warrior
     private Ability Cleave = new Ability("Cleave", 0, 0, 15, "slashing", "enemy", 2, "attack", "normal",
             new ImageIcon("data/images/spells/Warrior1.jpg").getImage());
@@ -106,7 +107,7 @@ public class CharacterSelectionPanel extends JPanel {
                         "Gerrie the Archer", 50, "focus", 10, 5, Shoot, Blindfire, Piercingshot, 2));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/druid.png").getImage(),
-                        "Runetotem", 40, "mana", 40, 0, SolarBeam, DeadlySpores, Nurture, 4));
+                        "Runetotem", 40, "mana", 40, 0, SolarBeam, Regrow, Nurture, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/knight.png").getImage(),
                         "Knight Lautrec", 100, "rage", 20, 10, Slash, ShieldBash, PiercingHowl, 6));
@@ -127,7 +128,7 @@ public class CharacterSelectionPanel extends JPanel {
                         "Shadow", 50, "focus", 10, 0, Stab, PoisonousFlask, Backstab, 1));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/warlock.png").getImage(),
-                        "Ebonlocke", 60, "mana", 15, 10, SiphonSoul, TouchOfDarkness, Doom, 4));
+                        "Ebonlocke", 60, "mana", 15, 10, TouchOfDarkness, SiphonSoul, Doom, 4));
         allTheCharacters.add(
                 new Character(860, 150, 50, 50, new ImageIcon("data/images/characters/playable/warrior.png").getImage(),
                         "Lo'Gosh", 80, "rage", 20, 5, Cleave, BlindingRage, Whirlwind, 6));
@@ -137,12 +138,44 @@ public class CharacterSelectionPanel extends JPanel {
         c.gridwidth = 3;
         c.ipady = 70;
         c.ipadx = 60;
-        c.insets = new Insets(0, 0, 5, 5);
+        c.insets = new Insets(0, 5, 30, 0);
+
+        characterSelectText = new JLabel(
+                "<html>Select your characters: <font color='white'>" + chosenCharacters.size() + "/5</font></html>",
+                SwingConstants.CENTER);
+        characterSelectText.setFont(new Font("Arial", Font.BOLD, 20));
+        characterSelectText.setForeground(Color.WHITE);
+        characterSelectText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        characterSelectText.setPreferredSize(new Dimension(405, 80));
+        this.add(characterSelectText);
+
+        scrollPane = new JScrollPane();
+        scrollPane.setBorder(null);
+        scrollPane.getViewport().setBackground(Color.BLACK);
+        this.add(scrollPane);
+        scrollPane.getVerticalScrollBar().setBackground(Color.BLACK);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(15);
+        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.WHITE;
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return createZeroButton();
+            }
+        });
 
         characterHolderPanel = new JPanel();
         characterHolderPanel.setOpaque(false);
         characterHolderPanel.setLayout(gridLayoutForCharacters);
-        this.add(characterHolderPanel);
+        scrollPane.getViewport().add(characterHolderPanel);
 
         for (int i = 0; i < allTheCharacters.size(); i++) {
             c.gridx = (i % 3) * 50;
@@ -167,11 +200,22 @@ public class CharacterSelectionPanel extends JPanel {
                         tmpPanel.setBackground(Color.WHITE);
                         tmpLabel.setForeground(Color.BLACK);
                         isChosen.set(num, true);
+                        if (chosenCharacters.size() == 5) {
+                            characterSelectText.setText("<html>Select your characters: <font color='red'>"
+                                    + chosenCharacters.size() + "/5</font></html>");
+                        } else {
+                            characterSelectText.setText("<html>Select your characters: <font color='white'>"
+                                    + chosenCharacters.size() + "/5</font></html>");
+                        }
                     } else {
                         chosenCharacters.remove(allTheCharacters.get(num));
                         tmpPanel.setBackground(new Color(0, 0, 0, 128));
                         tmpLabel.setForeground(Color.WHITE);
                         isChosen.set(num, false);
+                        if (chosenCharacters.size() < 5) {
+                            characterSelectText.setText("<html>Select your characters: <font color='white'>"
+                                    + chosenCharacters.size() + "/5</font></html>");
+                        }
                     }
                 }
 
@@ -186,6 +230,15 @@ public class CharacterSelectionPanel extends JPanel {
                 }
             });
         }
+    }
+
+    private JButton createZeroButton() {
+        JButton button = new JButton("zero button");
+        Dimension zeroDim = new Dimension(0, 0);
+        button.setPreferredSize(zeroDim);
+        button.setMinimumSize(zeroDim);
+        button.setMaximumSize(zeroDim);
+        return button;
     }
 
     public ArrayList<Character> getAllTheCharacters() {

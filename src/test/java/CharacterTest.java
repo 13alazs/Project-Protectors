@@ -41,6 +41,7 @@ public class CharacterTest {
     public void shouldSubtractResource() {
         ArrayList<Character> target = new ArrayList();
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 10.0, null, null, null, 10));
+        testChar.setCurrResource(5);
 
         testChar.castAbility(ab, target);
         assertTrue(testChar.getCurrResource() == 2);
@@ -52,6 +53,7 @@ public class CharacterTest {
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 2.0, null, null, null, 10));
 
         Ability attack = new Ability("attackAb", 3, 0, 3.0, "", "", 0, "attack", "", null);
+        testChar.setCurrResource(5);
 
         testChar.castAbility(attack, target);
         assertTrue(target.get(0).getCurrHealth() == 9);
@@ -60,9 +62,11 @@ public class CharacterTest {
     @Test
     public void healShouldChangeHealth() {
         ArrayList<Character> target = new ArrayList();
-        target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 2.0, null, null, null, 10));
+        target.add(new Character(0, 0, 0, 0, null, "targetChar", 15, "", 10, 2.0, null, null, null, 10));
+        target.get(0).setCurrHealth(10);
 
         Ability heal = new Ability("healAb", 3, 0, -3.0, "", "", 0, "heal", "", null);
+        testChar.setCurrResource(5);
 
         testChar.castAbility(heal, target);
         assertTrue(target.get(0).getCurrHealth() == 13);
@@ -72,10 +76,12 @@ public class CharacterTest {
     public void resurrectShouldMakeAlive() {
         ArrayList<Character> target = new ArrayList();
         target.add(new Character(0, 0, 0, 0, null, "targetChar", 10, "", 10, 0.0, null, null, null, 10));
+        testChar.setCurrResource(5);
 
         Ability res = new Ability("resAb", 0, 0, 0, "", "", 0, "resurrect", "", null);
-        Ability attack = new Ability("attackAb", 3, 0, 11.0, "", "", 0, "attack", "", null);
+        Ability attack = new Ability("attackAb", 0, 0, 10, "", "", 0, "attack", "", null);
 
+        testChar.castAbility(attack, target);
         testChar.castAbility(attack, target);
         assertFalse(target.get(0).isAlive());
 

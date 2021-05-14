@@ -30,6 +30,8 @@ public class Character extends Sprite {
     private Graphics graphics; // Using character's graphics to show health and mana changes.
     private boolean active; // True if the character has the next turn
     private int notEnoughRes = 0; // If higher than 0 the resource bar will appear in magenta.
+    private double damageOverTime;
+    private int overTimeDurRem;
 
     /**
      * Constructor that calls the Sprite parent class' constructor.
@@ -71,7 +73,7 @@ public class Character extends Sprite {
         this.currHealth = maxHealth;
         this.resourceName = resourceName;
         this.maxResource = maxResource;
-        this.currResource = 5;
+        this.currResource = 0;
         this.armor = armor;
         this.ability1 = ability1;
         this.ability2 = ability2;
@@ -79,7 +81,8 @@ public class Character extends Sprite {
         this.initiative = initiative;
         this.alive = true;
         this.stunned = false;
-
+        this.damageOverTime = 0;
+        this.overTimeDurRem = 0;
     }
 
     /**
@@ -101,41 +104,67 @@ public class Character extends Sprite {
                     target.healthChange(ab.getAttackDamage() - target.getArmor());
                 } else if ("heal".equals(ab.getAbilityType())) {
                     target.healthChange(ab.getAttackDamage());
+                } else if ("DoT".equals(ab.getAbilityType())) {
+                    target.overTime(ab.getAttackDamage());
+                } else if ("HoT".equals(ab.getAbilityType())) {
+                    target.overTime(ab.getAttackDamage());
                 } else if ("resurrect".equals(ab.getAbilityType())) {
                     target.resurrect();
                 } else if ("stun".equals(ab.getAbilityType())) {
-                    target.stun();
-                } // TODO: DoTs, HoTs, buffs and debuffs (maybe)
+                    target.stun(ab.getAttackDamage());
+                } // TODO: buffs and debuffs (maybe)
             }
             return true;
         }
         return false;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void notEnoughResource() {
+        this.notEnoughRes = 1;
+    }
+
+    private void overTime(double amount) {
+        if (alive) {
+            damageOverTime = amount;
+            overTimeDurRem = 3;
+        }
+    }
+
     private void healthChange(double amount) {
         if (alive) {
             if (currHealth - amount <= 0) {
-                setCurrHealth(0);
-                alive = false;
+                if (currHealth >= maxHealth * 0.8) {
+                    currHealth = 1;
+                } else {
+                    currHealth = 0;
+                    alive = false;
+                    stunned = false;
+                }
+            } else if (currHealth - amount > maxHealth) {
+                currHealth = maxHealth;
             } else {
-                setCurrHealth(currHealth - amount);
+                currHealth -= amount;
             }
         }
-
     } // Used for both taking damage and healing
 
     private void resurrect() {
         if (!alive) {
             alive = true;
-            setCurrHealth(1);
+            currHealth = maxHealth * 0.2;
         } else {
-            setCurrHealth(maxHealth);
+            currHealth = maxHealth;
         }
     } // Used resurrecting characters, but if they are already alive, this works as a full heal instead
 
-    private void stun() {
+    private void stun(double amount) {
         if (alive) {
             stunned = true;
+            healthChange(amount);
         }
     }
 
@@ -252,26 +281,6 @@ public class Character extends Sprite {
         this.alive = alive;
     }
 
-    public int getInitiative() {
-        return initiative;
-    }
-
-    public boolean isStunned() {
-        return stunned;
-    }
-
-    public void setStunned(boolean stunned) {
-        this.stunned = stunned;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public void notEnoughResource() {
-        this.notEnoughRes = 1;
-    }
-
     @Override
     public void draw(Graphics g) {
         super.draw(g);
@@ -305,5 +314,31 @@ public class Character extends Sprite {
                 graphics.fillRect(x, y + height + 7, (int) resHeight, 5);
             }
         }
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public boolean isStunned() {
+        return stunned;
+    }
+
+    public void setStunned(boolean stunned) {
+        this.stunned = stunned;
+    }
+
+    public double getDamageOverTime() {
+        return damageOverTime;
+    }
+
+    public void setDamageOverTime(double damageOverTime) {
+        this.damageOverTime = damageOverTime;
+    }
+
+    public int getOverTimeDurRem() {
+        return overTimeDurRem;
+    }
+
+    public void setOverTimeDurRem(int overTimeDurRem) {
+        this.overTimeDurRem = overTimeDurRem;
     }
 }
