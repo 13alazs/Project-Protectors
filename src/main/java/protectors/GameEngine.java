@@ -534,7 +534,6 @@ public class GameEngine extends JPanel {
             casting = true;
             targetArrowsSetup();
         } else {
-            Script.getCurrentCharacter().notEnoughResource();
             targetArrows = new ArrayList();
         }
     }

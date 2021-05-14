@@ -314,6 +314,8 @@ public class Character extends Sprite {
                 graphics.fillRect(x, y + height + 7, (int) resHeight, 5);
             }
         }
+    }
+
     public int getInitiative() {
         return initiative;
     }
