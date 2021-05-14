@@ -598,14 +598,14 @@ public class GameEngine extends JPanel {
     }
 
     public void setState(String state, boolean hasWon) {
-        for (JPanel indicator : floatingIndicators) {
-            thisPanel.remove(indicator);
-        }
         this.state = state;
         if (hasWon) {
             resultLabel.setText("VICTORY");
         } else {
             resultLabel.setText("DEFEAT");
+        }
+        for (JPanel indicator : floatingIndicators) {
+            thisPanel.remove(indicator);
         }
     }
 
@@ -616,7 +616,15 @@ public class GameEngine extends JPanel {
                 floatingDamage = new JLabel("" + damage * -1);
                 floatingDamage.setForeground(Color.green);
                 break;
+            case "HoT":
+                floatingDamage = new JLabel("" + damage * -1);
+                floatingDamage.setForeground(Color.green);
+                break;
             case "attack":
+                floatingDamage = new JLabel("" + damage);
+                floatingDamage.setForeground(Color.red);
+                break;
+            case "DoT":
                 floatingDamage = new JLabel("" + damage);
                 floatingDamage.setForeground(Color.red);
                 break;
@@ -666,7 +674,9 @@ public class GameEngine extends JPanel {
     public void finishCasting() {
         if (targets.size() > 0) {
             Script.getCurrentCharacter().castAbility(tmpAbility, targets);
-            setIndicators(tmpAbility.getAttackDamage(), tmpAbility.getAbilityType(), targets);
+            if (!"DoT".equals(tmpAbility.getAbilityType()) && !"HoT".equals(tmpAbility.getAbilityType())) {
+                setIndicators(tmpAbility.getAttackDamage(), tmpAbility.getAbilityType(), targets);
+            }
             tmpAbility = null;
             tmpType = null;
             casting = false;
