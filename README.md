@@ -118,3 +118,14 @@ Ha compile nélkül akarod a fájlokat előre formázni, azt ezzel a paranccsal 
 mvn formatter:format
 ```
 Bővebb információt a pluginról itt találsz: https://code.revelc.net/formatter-maven-plugin/usage.html
+
+# Artifacts
+Az artifaktok megtalálhatóak itt:  https://s01.oss.sonatype.org/#nexus-search;quick~project-protectors  
+  
+Az alkalmazás lokálisan deployolható:
+1. A pom.xml maven-gpg-plugin goalját ki kell emelni a kommentekből.
+2. futtasd a következő parancsot:
+```
+mvn clean deploy
+```
+3. Az előbbi linken elérhetőek lesznek az adott verzió artifactjai.
