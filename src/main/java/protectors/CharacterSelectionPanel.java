@@ -2,6 +2,7 @@ package protectors;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,13 +12,18 @@ import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CharacterSelectionPanel extends JPanel {
 
+    private JLabel characterSelectText;
+    private JScrollPane scrollPane;
     private JPanel characterHolderPanel;
 
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
@@ -134,12 +140,44 @@ public class CharacterSelectionPanel extends JPanel {
         c.gridwidth = 3;
         c.ipady = 70;
         c.ipadx = 60;
-        c.insets = new Insets(0, 0, 5, 5);
+        c.insets = new Insets(0, 5, 30, 0);
+
+        characterSelectText = new JLabel(
+                "<html>Select your characters: <font color='white'>" + chosenCharacters.size() + "/5</font></html>",
+                SwingConstants.CENTER);
+        characterSelectText.setFont(new Font("Arial", Font.BOLD, 20));
+        characterSelectText.setForeground(Color.WHITE);
+        characterSelectText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        characterSelectText.setPreferredSize(new Dimension(405, 80));
+        this.add(characterSelectText);
+
+        scrollPane = new JScrollPane();
+        scrollPane.setBorder(null);
+        scrollPane.getViewport().setBackground(Color.BLACK);
+        this.add(scrollPane);
+        scrollPane.getVerticalScrollBar().setBackground(Color.BLACK);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(15);
+        scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                this.thumbColor = Color.WHITE;
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return createZeroButton();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return createZeroButton();
+            }
+        });
 
         characterHolderPanel = new JPanel();
         characterHolderPanel.setOpaque(false);
         characterHolderPanel.setLayout(gridLayoutForCharacters);
-        this.add(characterHolderPanel);
+        scrollPane.getViewport().add(characterHolderPanel);
 
         for (int i = 0; i < allTheCharacters.size(); i++) {
             c.gridx = (i % 3) * 50;
@@ -164,11 +202,22 @@ public class CharacterSelectionPanel extends JPanel {
                         tmpPanel.setBackground(Color.WHITE);
                         tmpLabel.setForeground(Color.BLACK);
                         isChosen.set(num, true);
+                        if (chosenCharacters.size() == 5) {
+                            characterSelectText.setText("<html>Select your characters: <font color='red'>"
+                                    + chosenCharacters.size() + "/5</font></html>");
+                        } else {
+                            characterSelectText.setText("<html>Select your characters: <font color='white'>"
+                                    + chosenCharacters.size() + "/5</font></html>");
+                        }
                     } else {
                         chosenCharacters.remove(allTheCharacters.get(num));
                         tmpPanel.setBackground(new Color(0, 0, 0, 128));
                         tmpLabel.setForeground(Color.WHITE);
                         isChosen.set(num, false);
+                        if (chosenCharacters.size() < 5) {
+                            characterSelectText.setText("<html>Select your characters: <font color='white'>"
+                                    + chosenCharacters.size() + "/5</font></html>");
+                        }
                     }
                 }
 
@@ -183,6 +232,15 @@ public class CharacterSelectionPanel extends JPanel {
                 }
             });
         }
+    }
+
+    private JButton createZeroButton() {
+        JButton button = new JButton("zero button");
+        Dimension zeroDim = new Dimension(0, 0);
+        button.setPreferredSize(zeroDim);
+        button.setMinimumSize(zeroDim);
+        button.setMaximumSize(zeroDim);
+        return button;
     }
 
     public ArrayList<Character> getAllTheCharacters() {
