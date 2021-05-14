@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -14,16 +14,13 @@ import javax.swing.border.*;
 
 public class GameEngine extends JPanel {
     private JPanel thisPanel = this;
-
     private String state = "MENU";
-
     private JPanel menuPanel; // Main menu
     private JPanel buttonPanel; // Extra panel for main menu, helps with button placement
     private CharacterSelectionPanel charactersPanel; // Will be for character selection
     private MissionSelectionPanel missionsPanel; // Will be for mission selection
     private JPanel fightPanel; // Will be for the battle screen
     private JPanel resultPanel; // After the mission is finished either way, this will redirect to main menu
-
     private JButton missionsButton;
     private JButton exitButton;
     private JButton charactersButton;
@@ -31,19 +28,14 @@ public class GameEngine extends JPanel {
     private JButton menuButtonM;
     private JButton menuButtonR;
     private JButton menuButtonC;
-
     private JLabel resultLabel;
-
     private Ability tmpAbility;
     private String tmpType;
     private boolean casting;
-
     private ArrayList<Character> targets;
     private ArrayList<Character> playerTeam;
     private ArrayList<Sprite> targetArrows;
-
     private Mission currentMission;
-
     private AbilityButton ability1Button;
     private AbilityTooltip tooltipOne;
     private AbilityButton ability2Button;

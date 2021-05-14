@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,11 +21,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CharacterSelectionPanel extends JPanel {
-
     private JLabel characterSelectText;
     private JScrollPane scrollPane;
     private JPanel characterHolderPanel;
-
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
     private ArrayList<Boolean> isChosen = new ArrayList<Boolean>();
     private ArrayList<Character> chosenCharacters = new ArrayList<Character>();
@@ -61,7 +59,7 @@ public class CharacterSelectionPanel extends JPanel {
     // Monk
     private Ability Punch = new Ability("Punch", 0, 0, 30, "blunt", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Monk1.jpg").getImage());
-    private Ability Kick = new Ability("Kick", 15, 1, 0, "blunt", "enemy", 1, "stun", "normal",
+    private Ability Kick = new Ability("Kick", 10, 1, 0, "blunt", "enemy", 1, "stun", "normal",
             new ImageIcon("data/images/spells/Monk2.jpg").getImage());
     private Ability InnerPeace = new Ability("Inner Peace", 10, 1, -25, "none", "ally", 1, "heal", "normal",
             new ImageIcon("data/images/spells/Monk3.jpg").getImage());
@@ -82,16 +80,16 @@ public class CharacterSelectionPanel extends JPanel {
     // Rogue
     private Ability Stab = new Ability("Stab", 0, 0, 35, "piercing", "enemy", 1, "attack", "normal",
             new ImageIcon("data/images/spells/Rogue1.jpg").getImage());
-    private Ability PoisonousFlask = new Ability("Poisonous Flask", 5, 2, 10, "piercing", "enemy", 1, "DoT", "normal",
+    private Ability PoisonousFlask = new Ability("Poisonous Flask", 5, 2, 10, "nature", "enemy", 1, "DoT", "normal",
             new ImageIcon("data/images/spells/Rogue2.jpg").getImage());
     private Ability Backstab = new Ability("Backstab", 15, 1, 0, "piercing", "enemy", 1, "stun", "normal",
             new ImageIcon("data/images/spells/Rogue3.jpg").getImage());
     // Warlock
-    private Ability SiphonSoul = new Ability("Siphon Soul", 15, 2, 45, "fire", "enemy", 1, "attack", "random",
+    private Ability SiphonSoul = new Ability("Siphon Soul", 15, 2, 45, "shadow", "enemy", 1, "attack", "random",
             new ImageIcon("data/images/spells/Warlock1.jpg").getImage());
     private Ability TouchOfDarkness = new Ability("Touch of Darkness", 0, 3, 25, "shadow", "enemy", 1, "attack",
             "normal", new ImageIcon("data/images/spells/Warlock2.jpg").getImage());
-    private Ability Doom = new Ability("Doom", 15, 2, 45, "fire", "all", 5, "attack", "normal",
+    private Ability Doom = new Ability("Doom", 15, 2, 45, "shadow", "all", 5, "attack", "normal",
             new ImageIcon("data/images/spells/Warlock3.jpg").getImage());
     // Warrior
     private Ability Cleave = new Ability("Cleave", 0, 0, 15, "slashing", "enemy", 2, "attack", "normal",

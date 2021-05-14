@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 /*
     Project Name: Project Protectors
@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 public class GameFrame {
-
     private JFrame frame;
     private GameEngine panel;
 

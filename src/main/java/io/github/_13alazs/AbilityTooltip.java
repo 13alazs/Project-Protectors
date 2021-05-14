@@ -1,15 +1,13 @@
-package protectors;
+package io.github._13alazs;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 public class AbilityTooltip extends JPanel {
     private JLabel tooltipText;
-
     private String name;
     private String resourceName;
     private String cost;
@@ -18,7 +16,6 @@ public class AbilityTooltip extends JPanel {
     private String attackType; // Fire, Ice, Blunt...
     private String abilityModifier; // Random target, Adjacent..
     private String resourcePerRound;
-
     private String text;
 
     public AbilityTooltip(int x, int y, Ability ability, String resource) {
@@ -90,6 +87,16 @@ public class AbilityTooltip extends JPanel {
             text = "<html>" + name + "Restore " + "<font color='rgb(0, 163, 108)'>" + ability.getAttackDamage() * -1
                     + "</font>" + " health to " + abilityModifier + "ally.<br>" + "Cost: " + cost + " " + resourceName
                     + ".<br>" + resourcePerRound + "</html>";
+            break;
+        case "HoT":
+            text = "<html>" + name + "Restore " + "<font color='rgb(0, 163, 108)'>" + ability.getAttackDamage() * -1
+                    + "</font>" + " health to " + abilityModifier + "ally every turn for 3 turns.<br>" + "Cost: " + cost
+                    + " " + resourceName + ".<br>" + resourcePerRound + "</html>";
+            break;
+        case "DoT":
+            text = "<html>" + name + "Deal " + "<font color='rgb(154, 42, 42)'>" + ability.getAttackDamage()
+                    + "</font> " + attackType + " damage to " + abilityModifier + " enemy every round for 3 rounds.<br>"
+                    + "Cost: " + cost + " " + resourceName + ".<br>" + resourcePerRound + "</html>";
             break;
         default:
             text = "<html>" + name + "Deal " + "<font color='rgb(154, 42, 42)'>" + ability.getAttackDamage()

@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -17,7 +17,6 @@ import javax.swing.JButton;
 public class AbilityButton extends JButton {
     private AbilityButton btn = this;
     private ImageIcon icon;
-
     private boolean current = false;
 
     public AbilityButton(String path, int x, int y, int width, int height) {
@@ -37,20 +36,6 @@ public class AbilityButton extends JButton {
         btn.setBorder(null);
 
         btn.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 2));
-
-        btn.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                /*
-                 * if(!current){ setBordered(true); current = true; }else{ setBordered(false); current = false; }
-                 */
-            }
-
-            /*
-             * @Override public void mouseExited(MouseEvent evt) { btn.setBorderPainted(false);
-             * btn.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, 0), 3)); }
-             */
-        });
     }
 
     public void setBordered(boolean border, int currResource, int cost) {
