@@ -8,7 +8,6 @@ import javax.swing.border.LineBorder;
 
 public class AbilityTooltip extends JPanel {
     private JLabel tooltipText;
-
     private String name;
     private String resourceName;
     private String cost;
@@ -17,7 +16,6 @@ public class AbilityTooltip extends JPanel {
     private String attackType; // Fire, Ice, Blunt...
     private String abilityModifier; // Random target, Adjacent..
     private String resourcePerRound;
-
     private String text;
 
     public AbilityTooltip(int x, int y, Ability ability, String resource) {

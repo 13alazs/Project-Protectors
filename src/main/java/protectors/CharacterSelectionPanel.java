@@ -21,11 +21,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class CharacterSelectionPanel extends JPanel {
-
     private JLabel characterSelectText;
     private JScrollPane scrollPane;
     private JPanel characterHolderPanel;
-
     private ArrayList<Character> allTheCharacters = new ArrayList<Character>();
     private ArrayList<Boolean> isChosen = new ArrayList<Boolean>();
     private ArrayList<Character> chosenCharacters = new ArrayList<Character>();

@@ -14,29 +14,19 @@ import java.awt.Graphics2D;
 */
 
 public class Character extends Sprite {
-
     private final String name;
-
     private final double maxHealth; // Maximum health points.
     private double currHealth; // Current health points.
-
     private final String resourceName; // If we plan on using anything other than mana.
     private final int maxResource; // Maximum resource points.
     private int currResource; // Current resource points.
-
     private final double armor; // Reduces damage taken.
-    // private final ArrayList<String> resistances; //Also reduces damage taken, but only from certain abilities.
-    // private final ArrayList<String> vulnerabilities; //Increases damage taken, but only from certain abilities.
-
     private final Ability ability1;
     private final Ability ability2;
     private final Ability ability3;
-
     private final int initiative; // Determines when the character gets to go.
-
     private boolean alive; // Tracks if the character is alive or dead.
     private boolean stunned; // Tracks if the character is stunned or not.
-
     private Graphics graphics; // Using character's graphics to show health and mana changes.
     private boolean active; // True if the character has the next turn
     private int notEnoughRes = 0; // If higher than 0 the resource bar will appear in magenta.
