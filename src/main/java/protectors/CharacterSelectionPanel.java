@@ -145,7 +145,7 @@ public class CharacterSelectionPanel extends JPanel {
         characterSelectText = new JLabel(
                 "<html>Select your characters: <font color='white'>" + chosenCharacters.size() + "/5</font></html>",
                 SwingConstants.CENTER);
-        characterSelectText.setFont(new Font("Arial", Font.BOLD, 25));
+        characterSelectText.setFont(new Font("Arial", Font.BOLD, 20));
         characterSelectText.setForeground(Color.WHITE);
         characterSelectText.setAlignmentX(Component.CENTER_ALIGNMENT);
         characterSelectText.setPreferredSize(new Dimension(405, 80));
@@ -155,7 +155,6 @@ public class CharacterSelectionPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.getViewport().setBackground(Color.BLACK);
         this.add(scrollPane);
-
         scrollPane.getVerticalScrollBar().setBackground(Color.BLACK);
         scrollPane.getVerticalScrollBar().setUnitIncrement(15);
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
