@@ -111,9 +111,9 @@
         <execution>
           <id>sign-artifacts</id>
           <phase>verify</phase>
-          <goals>
+         <!-- <goals>
             <goal>sign</goal>
-          </goals>
+          </goals> -->
         </execution>
       </executions>
     </plugin>
