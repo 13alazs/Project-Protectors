@@ -42,8 +42,13 @@ public class GameEngine extends JPanel {
     private AbilityTooltip tooltipTwo;
     private AbilityButton ability3Button;
     private AbilityTooltip tooltipThree;
+
+    private ArrayList<JPanel> floatingIndicators;
+    private JLabel floatingDamage;
+
     private GameManager Script;
     private Timer timer;
+    private Timer floatingIndicatorTimer;
     private final int FPS = 60;
 
     public GameEngine() {
@@ -51,6 +56,7 @@ public class GameEngine extends JPanel {
 
         playerTeam = new ArrayList<Character>();
         targetArrows = new ArrayList<Sprite>();
+        floatingIndicators = new ArrayList<JPanel>();
 
         menuPanel = new JPanel();
 
@@ -581,6 +587,9 @@ public class GameEngine extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ae) {
             repaint();
+            for (Character player : playerTeam) {
+
+            }
         }
     }
 
@@ -595,11 +604,79 @@ public class GameEngine extends JPanel {
         } else {
             resultLabel.setText("DEFEAT");
         }
+        for (JPanel indicator : floatingIndicators) {
+            thisPanel.remove(indicator);
+        }
+    }
+
+    public void setIndicators(double damage, String type, ArrayList<Character> targets) {
+        for (Character target : targets) {
+            switch (type) {
+            case "heal":
+                floatingDamage = new JLabel("" + damage * -1);
+                floatingDamage.setForeground(Color.green);
+                break;
+            case "HoT":
+                floatingDamage = new JLabel("" + damage * -1);
+                floatingDamage.setForeground(Color.green);
+                break;
+            case "attack":
+                floatingDamage = new JLabel("" + damage);
+                floatingDamage.setForeground(Color.red);
+                break;
+            case "DoT":
+                floatingDamage = new JLabel("" + damage);
+                floatingDamage.setForeground(Color.red);
+                break;
+            case "stun":
+                floatingDamage = new JLabel("Stunned");
+                floatingDamage.setForeground(Color.red);
+                break;
+            case "resurrect":
+                floatingDamage = new JLabel("Resurrected");
+                floatingDamage.setForeground(Color.green);
+                break;
+            }
+
+            JPanel floatingDamageHolder = new JPanel();
+            Random rand = new Random();
+            int randomX = rand.nextInt((target.getX() + target.getWidth()) - (target.getX() - 50))
+                    + (target.getX() - 50);
+            int randomY = rand.nextInt((target.getY() + target.getHeight()) - (target.getY() - 50))
+                    + (target.getY() - 50);
+            floatingDamageHolder.setBounds(randomX, randomY, 70, 25);
+            floatingDamageHolder.setBackground(new Color(0, 0, 0, 100));
+            floatingDamageHolder.add(floatingDamage);
+
+            floatingIndicators.add(floatingDamageHolder);
+            // this.add(floatingDamageHolder);
+        }
+        for (JPanel indicator : floatingIndicators) {
+            this.add(indicator);
+        }
+        removeIndicators();
+    }
+
+    public void removeIndicators() {
+        floatingIndicatorTimer = new Timer(1000, new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                for (JPanel indicator : floatingIndicators) {
+                    thisPanel.remove(indicator);
+                }
+                floatingIndicators.removeAll(floatingIndicators);
+            }
+        });
+        floatingIndicatorTimer.setInitialDelay(1000);
+        floatingIndicatorTimer.setRepeats(false);
+        floatingIndicatorTimer.start();
     }
 
     public void finishCasting() {
         if (targets.size() > 0) {
             Script.getCurrentCharacter().castAbility(tmpAbility, targets);
+            if (!"DoT".equals(tmpAbility.getAbilityType()) && !"HoT".equals(tmpAbility.getAbilityType())) {
+                setIndicators(tmpAbility.getAttackDamage(), tmpAbility.getAbilityType(), targets);
+            }
             tmpAbility = null;
             tmpType = null;
             casting = false;

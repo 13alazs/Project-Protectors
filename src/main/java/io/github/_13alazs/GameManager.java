@@ -136,6 +136,8 @@ public class GameManager {
                         Targets.add(playerTeam.get(target));
                     }
                     currentCharacter.castAbility(currentCharacter.getAbility1(), Targets);
+                    UI.setIndicators(currentCharacter.getAbility1().getAttackDamage(),
+                            currentCharacter.getAbility1().getAbilityType(), Targets);
                 }
                 manage();
             } else {
@@ -165,6 +167,13 @@ public class GameManager {
         for (Character c : initiativeTeam) {
             if (c.isAlive()) {
                 c.setCurrHealth(c.getCurrHealth() - c.getDamageOverTime());
+                ArrayList<Character> tmpList = new ArrayList<Character>();
+                tmpList.add(c);
+                if (c.getDamageOverTime() < 0 && c.getOverTimeDurRem() > 0) {
+                    UI.setIndicators(c.getDamageOverTime(), "heal", tmpList);
+                } else if (c.getDamageOverTime() > 0 && c.getOverTimeDurRem() > 0) {
+                    UI.setIndicators(c.getDamageOverTime(), "attack", tmpList);
+                }
                 c.setOverTimeDurRem(c.getOverTimeDurRem() - 1);
                 if (c.getOverTimeDurRem() <= 0) {
                     c.setDamageOverTime(0);
