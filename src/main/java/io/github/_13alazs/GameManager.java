@@ -51,7 +51,7 @@ public class GameManager {
             }
         } else {
             for (int i = 0; i < team.size(); i++) {
-                team.get(i).setX((int) (900 + Math.pow(-1, i) * (-1) * 40));
+                team.get(i).setX((int) (1240 + Math.pow(-1, i) * (-1) * 40));
                 team.get(i).setY(200 + i * 70);
             }
         }
