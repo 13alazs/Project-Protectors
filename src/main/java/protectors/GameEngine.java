@@ -612,6 +612,13 @@ public class GameEngine extends JPanel {
             tmpAbility = null;
             tmpType = null;
             casting = false;
+            for(Character target : targets){
+                JLabel floatingDamage = new JLabel("asd");
+                floatingDamage.setBounds(target.getX() - 50, target.getY() - 50, 100, 100);
+                floatingDamage.setForeground(Color.red);
+                fightPanel.add(new AlphaContainer(floatingDamage));
+                setComponentZOrder(floatingDamage, 2);
+            }
             targets = null;
             Script.manage();
             updateTooltips();
