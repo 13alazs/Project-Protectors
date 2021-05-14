@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 import java.util.ArrayList;
 import static org.junit.Assert.assertTrue;

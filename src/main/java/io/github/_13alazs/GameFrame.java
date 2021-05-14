@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 /*
     Project Name: Project Protectors

@@ -1,4 +1,4 @@
-package protectors;
+package io.github._13alazs;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
